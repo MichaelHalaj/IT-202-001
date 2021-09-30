@@ -8,20 +8,30 @@
         window.addEventListener("load", () => {
             console.log("loaded via javascript");
             //TODO: add any extra onload processing you may need here
+
         });
         function getCurrentSelection() {
             setTimeout(() => {
                 //added this delay here as some solutions may require it to update properly (i.e., click code may complete before the navigation changes)
                 //TODO: add code for processing the current selection 
-               var x = document.getElementBytyping('#login').onclick
+              // let x = document.getElementByID("#login").onclick;
+               //let y = document.getElementByID("#register").onclick;
+              // let z = document.getElementById("#profile").onclick;
+               // let a = document.getElementById("logout").onclick;
                 //Note: likely you'll want to call updateCurrentPage towards the end
+                let a1 =document.getElementById('login').onclick;
+                    updateCurrentPafe(a1);
+                
+
+                    
+                updateCurrentPage(document.getElementByID("#login")[0].onclick);
             }, 100);
         }
     </script>
     <style>
         /* TODO: make edits here */
        nav > ul > li{
-           display: inline;
+        display: inline;
            display:inline-block;
            padding: 16px;
            text-transform: capitalize;
@@ -39,17 +49,15 @@
         nav{
             background-color: deeppink;
         }
+        
         ul > li > ul > li {
             list-style: none;
-            margin-left: 0;
-            padding-left: 0;
         }
-
-        ul > li > ul > li{
-            padding-left: 1em;
-            text-indent: -1em;
+        
+        ul > li  > ul{
+            background-color: rgb(0, 0, 0);
+            color:gold;
         }
-
         ul > li > ul > li:before {
             content: "✓";
             padding-right: 5px;
