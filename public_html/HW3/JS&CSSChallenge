@@ -35,17 +35,6 @@
                 }
                 //Note: likely you'll want to call updateCurrentPage towards the end
 
-              // let x = document.getElementByID("#login").onclick;
-               //let y = document.getElementByID("#register").onclick;
-              // let z = document.getElementById("#profile").onclick;
-               // let a = document.getElementById("logout").onclick;
-                //Note: likely you'll want to call updateCurrentPage towards the end
-                let a1 =document.getElementById('login').onclick;
-                    updateCurrentPafe(a1);
-                
-
-                    
-                updateCurrentPage(document.getElementByID("#login")[0].onclick);
 
             }, 100);
         }
