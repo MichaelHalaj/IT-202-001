@@ -34,10 +34,6 @@
                     updateCurrentPage("Logout");
                 }
                 //Note: likely you'll want to call updateCurrentPage towards the end
-                
-
-                    
-                updateCurrentPage(document.getElementByID("#login")[0].onclick);
 
             }, 100);
         }
