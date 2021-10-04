@@ -35,6 +35,7 @@
                 }
                 //Note: likely you'll want to call updateCurrentPage towards the end
 
+
             }, 100);
         }
     </script>
