@@ -37,8 +37,8 @@ if (isset($_POST["email"]) && isset($_POST["password"]) && isset($_POST["confirm
     if (empty($email)) {
         array_push($errors, "Email must not be empty");
     }
-    $email = filter_var($email, FILTER_SANITIZE_EMAIL);
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+  //  $email = filter_var($email, FILTER_SANITIZE_EMAIL);
+    if (!is_valid_email($email)) {
         array_push($errors, "Email is invalid");
     }
     if (empty($password)) {
