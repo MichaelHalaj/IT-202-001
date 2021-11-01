@@ -275,6 +275,14 @@
                     ball.w = ball.w * v;
                     ball.h = ball.h * v;
             }
+            if((leftScore - rightScore) > 2){
+                if(visibilityPercent >= 0)
+                    visibilityPercent -= .06;
+            }  
+            else if ((rightScore - leftScore) > 2){
+                    if(visibilityPercent <= 1)
+                        visibilityPercent += .06;
+                }
            
                //canvas.translate(x,y);
                //canvas.rotate(45 * Math.PI / 180);
