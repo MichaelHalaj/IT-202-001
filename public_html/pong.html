@@ -148,15 +148,7 @@
             };
         }
         function doAI() {  
-            /*
-            if((leftScore - rightScore) > 2){
-                if(visibilityPercent >= 0)
-                    visibilityPercent -= .06;
-            }  
-            else if ((rightScore - leftScore) > 2){
-                    if(visibilityPercent <= 1)
-                        visibilityPercent += .06;
-                }*/
+ 
             if (ball.x >= canvas.width * visibilityPercent) {
                 let paddleHalf = paddleHeight / 2;
 
@@ -218,11 +210,13 @@
             //left side of ball passes left side of paddle
             if (ball.x < leftPaddle.x) {
                 rightScore++;
+ 
                 resetBall();
             }
             //right side of ball passes right side of paddle 
             else if (ball.x + ball.w > rightPaddle.x + rightPaddle.w) {
                 leftScore++;
+
                 resetBall();
             }
         }
@@ -252,44 +246,37 @@
             drawScores();
            if(ball.x + ball.w >= rightPaddle.x){
                ball.c = '#0000BC';
-               if(ball.h >= paddleHeight){
+               if(ball.h >= paddleHeight/4){
                    ball.w/=4;
                    ball.h/=4;
        
                 }else{
-                    let g = Math.random() * (1.2 - .9) + .9;
+                    let g = Math.random() * (1.5 - .7) + .7;
                     ball.w = ball.w * g;
                     ball.h = ball.h * g;
                 }
 
-               //ball.rotate(45 * Math.PI / 180);
+              
            }
            if(ball.x <= leftPaddle.x + leftPaddle.w){
                ball.c = '#FF0000';
-               if(ball.h >= paddleHeight){
+               if(ball.h >= paddleHeight/4){
                 ball.w/=4;
                 ball.h/=4;
             
                }else{    
-                   let v = Math.random() * (1.2 - .9) + .9;
+                   let v = Math.random() * (1.5 - .7) + .7;
                     ball.w = ball.w * v;
                     ball.h = ball.h * v;
             }
-            if((leftScore - rightScore) > 2){
-                if(visibilityPercent >= 0)
-                    visibilityPercent -= .06;
+            if(leftScore < rightScore){
+                    visibilityPercent = .6;
             }  
-            else if ((rightScore - leftScore) > 2){
-                    if(visibilityPercent <= 1)
-                        visibilityPercent += .06;
-                }
-           
-               //canvas.translate(x,y);
-               //canvas.rotate(45 * Math.PI / 180);
-           }/*
-           else{
-               ball.w = ball.w * .5;
-           }*/
+            else if (leftScore > rightScore){
+                        visibilityPercent = 0;
+            }
+ 
+           }
             //draw stuff
             for (let i = 0; i < drawables.length; i++) {
                 drawables[i].draw();
