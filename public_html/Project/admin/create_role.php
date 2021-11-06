@@ -31,7 +31,7 @@ if (isset($_POST["name"]) && isset($_POST["description"])) {
 <div class="container-fluid">
     <h1>Create Role</h1>
     <form method="POST">
-        <div class="mb-3">
+        <div class="mb-3 form-group col-md-4">
             <label class="form-label" for="name">Name</label>
             <input class="form-control" id="name" name="name" required />
         </div>

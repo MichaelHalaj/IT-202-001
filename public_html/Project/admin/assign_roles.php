@@ -111,7 +111,7 @@ if (isset($_POST["username"])) {
                 </tr>
             </tbody>
         </table>
-        <input type="submit" class="btn btn-primary" value="Toggle Roles" />
+        <input type="submit" class="btn btn-success" value="Toggle Roles" />
     </form>
 </div>
 <?php
