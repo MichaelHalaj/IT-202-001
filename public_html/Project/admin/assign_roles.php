@@ -80,7 +80,7 @@ if (isset($_POST["username"])) {
         <?php if (isset($username) && !empty($username)) : ?>
             <input type="hidden" name="username" value="<?php se($username, false); ?>" />
         <?php endif; ?>
-        <table class="table text-light">
+        <table class="table text-dark">
             <thead>
                 <th>Users</th>
                 <th>Roles to Assign</th>

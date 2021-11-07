@@ -25,7 +25,7 @@ if (isset($_POST["save"])) {
         try {
             $stmt->execute($params);
         } catch (Exception $e) {
-            users_check_duplicate($e->errorInfo);
+            users_check_duplicate($e->errorInfo);  
         }
     }
     //select fresh data from table

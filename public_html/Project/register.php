@@ -21,7 +21,7 @@ reset_session();
             <label class="form-label" for="confirm">Confirm</label>
             <input class="form-control" type="password" name="confirm" required minlength="8" />
         </div>
-        <input type="submit" class="mt-3 btn btn-primary" value="Register" />
+        <input type="submit" class="mt-3 btn btn-success" value="Register" />
     </form>
 </div>
 <script>
