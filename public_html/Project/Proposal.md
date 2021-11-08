@@ -38,17 +38,26 @@
         * System should let user know if username or email is taken and allow the user to correct the error without wiping/clearing the form
             * The only fields that may be cleared are the password fields
       - Status: Pending (Completed)
-      - Direct Link: (Direct link to the file or files in heroku prod for quick testing (even if it's a protected page))
+      - Direct Link: https://mh45-prod.herokuapp.com/Project/register.php
       - Pull Requests
-        - PR link #1 (repeat as necessary)
+        - https://github.com/MichaelHalaj/IT-202-001/pull/17
       - Screenshots
-        - Screenshot #1 (paste the image so it uploads to github) (repeat as necessary)
-        ![Screenshot (82)](https://user-images.githubusercontent.com/89932319/140626312-4708f6ad-a9be-49d6-8b04-0a9183786915.png)
-
+        ![Screenshot (86)](https://user-images.githubusercontent.com/89932319/140791213-4d8ac5c8-35d1-47dc-9470-5fa4451794e5.png)
           - Screenshot #1 description explaining what you're trying to show
+
+
   - [x] \(11/7/2021 of completion)  User will be able to login to their account (given they enter the correct credentials)
     -  List of Evidence of Feature Completion
-      - Status: Pending (Completed, Partially working, Incomplete, Pending)
+         * Form
+             * User can login with **email **or **username**
+                 * This can be done as a single field or as two separate fields
+             * Password is required
+         * User should see friendly error messages when an account either doesn’t exist or if passwords don’t match
+         * Logging in should fetch the user’s details (and roles) and save them into the session.
+         * User will be directed to a landing page upon login
+             * This is a protected page (non-logged in users shouldn’t have access)
+             * This can be home, profile, a dashboard, etc
+      - Status: Pending (Completed)
       - Direct Link: (Direct link to the file or files in heroku prod for quick testing (even if it's a protected page))
       - Pull Requests
         - PR link #1 (repeat as necessary)
@@ -57,18 +66,11 @@
         ![Screenshot (84)](https://user-images.githubusercontent.com/89932319/140653988-c91204ac-def5-42f1-a057-a51f0ce2e502.png)
           - Screenshot #1 description explaining what you're trying to show
 
-      * Form
-          * User can login with **email **or **username**
-              * This can be done as a single field or as two separate fields
-          * Password is required
-      * User should see friendly error messages when an account either doesn’t exist or if passwords don’t match
-      * Logging in should fetch the user’s details (and roles) and save them into the session.
-      * User will be directed to a landing page upon login
-          * This is a protected page (non-logged in users shouldn’t have access)
-          * This can be home, profile, a dashboard, etc
-
   - [x] \(11/7/2021 of completion) User will be able to logout
     -  List of Evidence of Feature Completion
+         * Logging out will redirect to login page
+         * User should see a message that they’ve successfully logged out
+         * Session should be destroyed (so the back button doesn’t allow them access back in)
       - Status: Pending (Completed, Partially working, Incomplete, Pending)
       - Direct Link: (Direct link to the file or files in heroku prod for quick testing (even if it's a protected page))
       - Pull Requests
@@ -76,9 +78,6 @@
       - Screenshots
         - Screenshot #1 (paste the image so it uploads to github) (repeat as necessary)
           - Screenshot #1 description explaining what you're trying to show
-      * Logging out will redirect to login page
-      * User should see a message that they’ve successfully logged out
-      * Session should be destroyed (so the back button doesn’t allow them access back in)
 
   - [x] \(11/7/2021) of completion) Basic security rules implemented
     -  List of Evidence of Feature Completion
