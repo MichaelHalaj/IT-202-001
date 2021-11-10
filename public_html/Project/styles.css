@@ -1,0 +1,35 @@
+.alert-success {
+    background-color: green
+}
+
+.alert-warning {
+    background-color: yellow;
+    color: rgb(212, 22, 22);
+}
+
+.alert-danger {
+    background-color: red;
+}
+
+.alert-info {
+    background-color: rgb(59, 226, 114);
+}
+h1{
+    color: black;
+}
+h3{
+    color: black;
+}
+
+
+nav li{display: inline; /*background-color: rgb(187, 51, 51);*/}
+nav li a{
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    color: rgb(252, 252, 252)
+}
+/*input{border-radius: 50%;} */
+body{
+    background-color: rgb(112, 109, 109);
+    color: rgb(255, 255, 255);
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
