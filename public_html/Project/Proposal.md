@@ -43,8 +43,10 @@
       - Pull Requests
         - https://github.com/MichaelHalaj/IT-202-001/pull/17
       - Screenshots
-        ![Screenshot (86)](https://user-images.githubusercontent.com/89932319/140791213-4d8ac5c8-35d1-47dc-9470-5fa4451794e5.png)
+        - ![Screenshot (86)](https://user-images.githubusercontent.com/89932319/140791213-4d8ac5c8-35d1-47dc-9470-5fa4451794e5.png)
           - Demonstrates the input needed to register
+        - ![Screenshot (109)](https://user-images.githubusercontent.com/89932319/141167378-3614cd37-5e57-4152-9224-f912a12325ff.png)
+          - Demonstrates users table
 
 
 
@@ -95,6 +97,9 @@
       - Screenshots
         - ![Screenshot (90)](https://user-images.githubusercontent.com/89932319/140847686-8fd57073-cfd5-4827-a3cb-d36bfdcd5fd9.png)
           - Demonstrates the function that checks if a user is logged in
+        - ![Screenshot (110)](https://user-images.githubusercontent.com/89932319/141168041-eebea5ce-3334-456b-9372-8269097b9498.png)
+          - Demonstrates that the user cannot access admin functions
+
 
   - [x] \(11/8/2021) Basic Roles implemented
     -  List of Evidence of Feature Completion
