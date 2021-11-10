@@ -38,7 +38,7 @@
         * Username should be unique
         * System should let user know if username or email is taken and allow the user to correct the error without wiping/clearing the form
             * The only fields that may be cleared are the password fields
-      - Status: Pending (Completed)
+      - Status: Completed
       - Direct Link: https://mh45-prod.herokuapp.com/Project/register.php
       - Pull Requests
         - https://github.com/MichaelHalaj/IT-202-001/pull/17
@@ -60,12 +60,11 @@
          * User will be directed to a landing page upon login
              * This is a protected page (non-logged in users shouldn’t have access)
              * This can be home, profile, a dashboard, etc
-      - Status: Pending (Completed)
-      - Direct Link: (Direct link to the file or files in heroku prod for quick testing (even if it's a protected page))
+      - Status: Completed
+      - Direct Link: https://mh45-prod.herokuapp.com/Project/login.php
       - Pull Requests
-        - PR link #1: https://github.com/MichaelHalaj/IT-202-001/pull/29
+        - https://github.com/MichaelHalaj/IT-202-001/pull/29
       - Screenshots
-        - Screenshot #1 (paste the image so it uploads to github) (repeat as necessary)
         ![Screenshot (84)](https://user-images.githubusercontent.com/89932319/140653988-c91204ac-def5-42f1-a057-a51f0ce2e502.png)
           - Demonstrates the input needed to login to user account
 
@@ -74,12 +73,12 @@
          * Logging out will redirect to login page
          * User should see a message that they’ve successfully logged out
          * Session should be destroyed (so the back button doesn’t allow them access back in)
-      - Status: Pending (Completed)
+      - Status: Completed
       - Direct Link: https://mh45-prod.herokuapp.com/Project/login.php
       - Pull Requests
         - https://github.com/MichaelHalaj/IT-202-001/pull/30
       - Screenshots
-        - Screenshot #1 ![Screenshot (88)](https://user-images.githubusercontent.com/89932319/140805910-084bb811-401d-4a01-8bcc-3829f97ed0d0.png)
+        ![Screenshot (88)](https://user-images.githubusercontent.com/89932319/140805910-084bb811-401d-4a01-8bcc-3829f97ed0d0.png)
           - Demonstrates the successful logout message
 
   - [x] \(11/7/2021) of completion) Basic security rules implemented
@@ -89,7 +88,7 @@
              * Function should be called on appropriate pages that only allow logged in users
          * Roles/Authorization:
              * Have a roles table (see below)
-      - Status: Pending (Completed)
+      - Status: Completed
       - Direct Link: https://mh45-prod.herokuapp.com/Project/home.php
       - Pull Requests
         - https://github.com/MichaelHalaj/IT-202-001/pull/18
@@ -102,7 +101,7 @@
          * Have a <span style="text-decoration:underline;">Roles</span> table	(id, name, description, is_active, modified, created)
          * Have a <span style="text-decoration:underline;">User Roles</span> table (id, user_id, role_id, is_active, created, modified)
          * Include a function to check if a user has a specific role (we won’t use it for this milestone but it should be usable in the future)
-      - Status: Pending (Completed)
+      - Status: Completed
       - Direct Link: https://mh45-prod.herokuapp.com/Project/admin/assign_roles.php
       - Pull Requests
         - https://github.com/MichaelHalaj/IT-202-001/pull/31
@@ -113,7 +112,7 @@
   - [x] \(11/8/2021) Site should have basic styles/theme applied; everything should be styled
     -  List of Evidence of Feature Completion
          * I.e., forms/input, navigation bar, etc
-      - Status: Pending (Completed)
+      - Status: Completed
       - Direct Link: https://mh45-prod.herokuapp.com/Project/home.php
       - Pull Requests
         - https://github.com/MichaelHalaj/IT-202-001/pull/35
@@ -125,19 +124,19 @@
     -  List of Evidence of Feature Completion
          * I.e., forms/input, navigation bar, etc
          * Any technical errors or debug output displayed will result in a loss of points
-      - Status: Pending (Completed)
-      - Direct Link: (Direct link to the file or files in heroku prod for quick testing (even if it's a protected page))
+      - Status: Completed
+      - Direct Link: https://mh45-prod.herokuapp.com/Project/home.php
       - Pull Requests
-        - PR link #1 (repeat as necessary)
+        - https://github.com/MichaelHalaj/IT-202-001/pull/18
       - Screenshots
-        - Screenshot #1 (paste the image so it uploads to github) (repeat as necessary)
-          - Screenshot #1 description explaining what you're trying to show
+        - ![Screenshot (104)](https://user-images.githubusercontent.com/89932319/141034631-b929e72c-6fb7-4164-b58c-e07ba17e3466.png)
+          - Demonstrates a user friendly message where the the user is notified that the passwords do not match
 
   - [x] \(11/8/2021) User will be able to see their profile
     -  List of Evidence of Feature Completion
         * Email, username, etc
       - Status: Pending (Completed)
-      - Direct Link: (Direct link to the file or files in heroku prod for quick testing (even if it's a protected page))
+      - Direct Link: https://mh45-prod.herokuapp.com/Project/profile.php
       - Pull Requests
         - https://github.com/MichaelHalaj/IT-202-001/pull/29
       - Screenshots
@@ -150,13 +149,13 @@
          * Any other fields should be properly validated
          * Allow password reset (only if the existing correct password is provided)
              * Hint: logic for the password check would be similar to login
-      - Status: Pending (Completed, Partially working, Incomplete, Pending)
-      - Direct Link: (Direct link to the file or files in heroku prod for quick testing (even if it's a protected page))
+      - Status: Completed
+      - Direct Link: https://mh45-prod.herokuapp.com/Project/profile.php
       - Pull Requests
         - https://github.com/MichaelHalaj/IT-202-001/pull/29
       - Screenshots
-        - Screenshot #1 (paste the image so it uploads to github) (repeat as necessary)
-          - Screenshot #1 description explaining what you're trying to show
+        - ![Screenshot (93)](https://user-images.githubusercontent.com/89932319/140848060-75314ea4-548d-47a9-90f9-69310c2c56b9.png)
+          - Demonstrates that the user can change their info in the profile section
 
 
 - Milestone 2
