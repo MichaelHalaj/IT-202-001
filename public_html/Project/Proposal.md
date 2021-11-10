@@ -113,6 +113,8 @@
       - Screenshots
         - ![Screenshot (97)](https://user-images.githubusercontent.com/89932319/141029384-21d69541-4c7e-4111-ad21-5bde18dee981.png)
           - Demonstrates the tables created with the roles
+        - ![Screenshot (112)](https://user-images.githubusercontent.com/89932319/141168951-4bd44ee1-6714-4fa5-9630-05f7251c6fe9.png)
+          - Demonstrates the function that checks if a user has a role
 
   - [x] \(11/8/2021) Site should have basic styles/theme applied; everything should be styled
     -  List of Evidence of Feature Completion
