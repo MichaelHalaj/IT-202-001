@@ -1,25 +1,30 @@
 <?php
 require(__DIR__ . "/../../partials/nav.php");
 reset_session();
+$email = se($_POST, "email", "", false);
+$username = se($_POST, "username", "", false);
+$password = se($_POST, "password", "", false);
+$confirm = se($_POST, "confirm", "", false);
 ?>
 <div class="container-fluid">
     <h1>Register</h1>
     <form onsubmit="return validate(this)" method="POST">
         <div class="mb-3 form-group col-md-4">
             <label class="form-label" for="email">Email</label>
-            <input class="form-control" type="email" id="email" name="email" required />
+            <input class="form-control" type="email" id="email" name="email" 
+            required value= "<?php se($email); ?>" />
         </div>
         <div class="mb-3 form-group col-md-4">
             <label class="form-label" for="username">Username</label>
-            <input class="form-control" type="text" name="username" required maxlength="30" />
+            <input class="form-control" type="text" name="username" required maxlength="30" required value = "<?php se($username); ?>"/>
         </div>
         <div class="mb-3 form-group col-md-4">
             <label class="form-label" for="pw">Password</label>
-            <input class="form-control" type="password" id="pw" name="password" required minlength="8" />
+            <input class="form-control" type="password" id="pw" name="password" required minlength="8" required value = "<?php se($password); ?>"/>
         </div>
         <div class="mb-3 form-group col-md-4">
             <label class="form-label" for="confirm">Confirm</label>
-            <input class="form-control" type="password" name="confirm" required minlength="8" />
+            <input class="form-control" type="password" name="confirm" required minlength="8" required value = "<?php se($confirm); ?>"/>
         </div>
         <input type="submit" class="mt-3 btn btn-success" value="Register" />
     </form>
