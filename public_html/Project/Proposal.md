@@ -23,6 +23,7 @@
 ### Proposal Checklist and Evidence
 
 - Milestone 1
+
   - [x] \(11/6/2021) User will be able to register a new account
     -  List of Evidence of Feature Completion
         * Form Fields
@@ -44,6 +45,8 @@
       - Screenshots
         ![Screenshot (86)](https://user-images.githubusercontent.com/89932319/140791213-4d8ac5c8-35d1-47dc-9470-5fa4451794e5.png)
           - Demonstrates the input needed to register
+
+
 
 
   - [x] \(11/7/2021 of completion)  User will be able to login to their account (given they enter the correct credentials)
@@ -153,6 +156,7 @@
       - Screenshots
         - ![Screenshot (93)](https://user-images.githubusercontent.com/89932319/140848060-75314ea4-548d-47a9-90f9-69310c2c56b9.png)
           - Demonstrates that the user can change their info in the profile section
+
 
 - Milestone 2
 - Milestone 3
