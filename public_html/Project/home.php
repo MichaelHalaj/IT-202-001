@@ -9,7 +9,9 @@ if (is_logged_in()) {
 } 
 ?>
 <div class = "container-fluid">
-    <h1>Welcome home, <?php echo get_username(); ?> </h1>
+<?php if (is_logged_in()) : ?>
+        <h1>Welcome home, <?php echo get_username(); ?> </h1>
+        <?php endif; ?>
     <div class = "col">
         <?php if (is_logged_in()) : ?>
             <a class="btn btn-dark" href="#" role="button">Create Account</a>
