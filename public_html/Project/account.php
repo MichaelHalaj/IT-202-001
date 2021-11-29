@@ -8,9 +8,12 @@ if(isset($_POST["save"])){
   //  $db = getDB();
     $accountType = se($_POST, "radio", null, false);
     $depositAmount = se($_POST, "deposit", "", false);
+
+    //echo var_export($_SESSION["user"]["account"]["id"]);
    // echo var_export($depositAmount);
-    transaction($depositAmount, "deposit", -1, 1, "");
+    transaction($depositAmount, "deposit", -1, get_user_account_id(), "");
     get_or_create_account($accountType, $depositAmount);
+    die(header("Location: user_accounts.php"));
   // $y = se($_SESSION["user"], "account", "", false);
    // echo var_export($_SESSION["user"]);
     //var_export($_SESSION["user"]["account"]["account_number"]);
@@ -52,7 +55,7 @@ if(isset($_POST["save"])){
                     <small id="minimumDeposit"  class="form-text text-warning">A minimum deposit of $5.00 must be made.</small>
 
             </div>
-            <input type="submit" class="btn btn-success" value = "Create Account" name = "save" ></input>
+            <input type="submit" class="btn btn-success" value = "Create Account" name = "save"></input>
     </form>
     <?php endif; ?>
 </div>

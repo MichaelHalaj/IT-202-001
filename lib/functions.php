@@ -133,7 +133,7 @@ function get_url($dest)
 }
 function get_user_account_id(){
     if (is_logged_in()) { //we need to check for login first because "user" key may not exist
-        return se($_SESSION["user"], "account", "", false);
+        return se($_SESSION["user"]["account"], "id", "", false);
     }
     return "";
 }
@@ -175,9 +175,9 @@ function transaction($money, $typeTrans, $src = -1, $dest = -1, $memo = "")
             //Only refresh the balance of the user if the logged in user's account is part of the transfer
             //this is needed so future features don't waste time/resources or potentially cause an error when a calculation
             //occurs without a logged in user
-           // if ($src == get_user_account_id() || $dest == get_user_account_id()) {
+            if ($src == get_user_account_id() || $dest == get_user_account_id()) {
                 refresh_account_balance();
-           // }
+            }
         } catch (PDOException $e) {
             flash("Transfer error occurred: " . var_export($e->errorInfo, true), "danger");
         }
