@@ -145,7 +145,7 @@ function refresh_account_balance()
         $stmt = $db->prepare($query);
         try {
             $stmt->execute([":src" => get_user_account_id()]);
-            get_or_create_account(); //refresh session data
+            //get_or_create_account(); //refresh session data
         } catch (PDOException $e) {
             flash("Error refreshing account: " . var_export($e->errorInfo, true), "danger");
         }
@@ -199,8 +199,7 @@ function get_or_create_account()
         $stmt = $db->prepare($query);
         try {
             $stmt->execute([":uid" => get_user_id()]);
-            $result = $stmt->fetch(PDO::FETCH_ASSOC);
-            if (!$result) {
+            //$result = $stmt->fetch(PDO::FETCH_ASSOC);
                 //account doesn't exist, create it
                 $created = false;
                 //we're going to loop here in the off chance that there's a duplicate
@@ -232,12 +231,6 @@ function get_or_create_account()
                 //loop exited, let's assign the new values
                 $account["id"] = $db->lastInsertId();
                 $account["account_number"] = $account_number;
-            } else {
-                //$account = $result; //just copy it over
-                $account["id"] = $result["id"];
-                $account["account_number"] = $result["account"];
-                $account["balance"] = $result["balance"];
-            }
         } catch (PDOException $e) {
             flash("Technical error: " . var_export($e->errorInfo, true), "danger");
         }
