@@ -15,7 +15,7 @@ if (is_logged_in()) {
     <div class = "col">
         <?php if (is_logged_in()) : ?>
             <a class="btn btn-dark" href="<?php echo get_url('account.php'); ?>" role="button">Create Account</a>
-            <a class="btn btn-dark" href="#" role="button">My Accounts</a>
+            <a class="btn btn-dark" href="<?php echo get_url('user_accounts.php'); ?>" role="button">My Accounts</a>
             <a class="btn btn-dark" href="#" role="button">Deposit</a>
             <a class="btn btn-dark" href="#" role="button">Withdraw</a>
             <a class="btn btn-dark" href="#" role="button">Transfer</a>

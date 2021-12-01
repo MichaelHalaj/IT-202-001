@@ -133,18 +133,43 @@ function get_url($dest)
 }
 function get_user_account_id(){
     if (is_logged_in()) { //we need to check for login first because "user" key may not exist
-        return se($_SESSION["user"]["account"], "id", "", false);
+        $query = "SELECT id FROM Bank_Accounts WHERE id=(SELECT max(id) FROM Bank_Accounts) and user_id = :uid LIMIT 1";
+        $db = getDB();
+        $stmt = $db->prepare($query);
+        try{
+            $stmt->execute([":uid" => get_user_id()]);
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            return $result["id"];
+        }catch (PDOException $e){
+            flash("Technical error: " . var_export($e->errorInfo, true), "danger");
+        }
+        //return se($_SESSION["user"]["account"], "id", "", false);
     }
     return "";
 }
-function refresh_account_balance()
+/*
+function refresh_system_balance()
 {
     if (is_logged_in()) {
         $query = "UPDATE Bank_Accounts set balance = (SELECT IFNULL(SUM(diff), 0) from Bank_Account_Transactions WHERE src = :src) where id = :src";
         $db = getDB();
         $stmt = $db->prepare($query);
         try {
-            $stmt->execute([":src" => get_user_account_id()]);
+            $stmt->execute([":src" => -1]);
+            get_account(); //refresh session data
+        } catch (PDOException $e) {
+            flash("Error refreshing account: " . var_export($e->errorInfo, true), "danger");
+        }
+    }
+}*/
+function refresh_account_balance($accountID)
+{
+    if (is_logged_in()) {
+        $query = "UPDATE Bank_Accounts set balance = (SELECT IFNULL(SUM(diff), 0) from Bank_Account_Transactions WHERE src = :src) where id = :src";
+        $db = getDB();
+        $stmt = $db->prepare($query);
+        try {
+            $stmt->execute([":src" =>$accountID]);
             get_account(); //refresh session data
         } catch (PDOException $e) {
             flash("Error refreshing account: " . var_export($e->errorInfo, true), "danger");
@@ -163,11 +188,11 @@ function transaction($money, $typeTrans, $src = -1, $dest = -1, $memo = "")
         $params[":acd"] = $dest;
         $params[":r"] = $typeTrans;
         $params[":m"] = $memo;
-        $params[":pc"] = ($money * -1);
+        $params[":pc"] = ($money * -100);
 
         $params[":acs2"] = $dest;
         $params[":acd2"] = $src;
-        $params[":pc2"] = $money;
+        $params[":pc2"] = $money *100;
         $db = getDB();
         $stmt = $db->prepare($query);
         try {
@@ -175,9 +200,11 @@ function transaction($money, $typeTrans, $src = -1, $dest = -1, $memo = "")
             //Only refresh the balance of the user if the logged in user's account is part of the transfer
             //this is needed so future features don't waste time/resources or potentially cause an error when a calculation
             //occurs without a logged in user
-            if ($src == get_user_account_id() || $dest == get_user_account_id()) {
-                refresh_account_balance();
-            }
+           
+                refresh_account_balance($dest);
+                refresh_account_balance($src);
+              //  refresh_system_balance();
+            
         } catch (PDOException $e) {
             flash("Transfer error occurred: " . var_export($e->errorInfo, true), "danger");
         }
@@ -242,6 +269,34 @@ function get_or_create_account($accountType, $money)
     } else {
         flash("You're not logged in", "danger");
     }
+}
+function get_system_account(){
+    if (is_logged_in()) {
+        //let's define our data structure first
+        //id is for internal references, account_number is user facing info, and balance will be a cached value of activity
+        $account = ["id" => -1, "account_number" => false, "balance" => 0];
+        //this should always be 0 or 1, but being safe
+        $query = "SELECT id, account, balance from Bank_Accounts where user_id = :uid LIMIT 1";
+        $db = getDB();
+        $stmt = $db->prepare($query);
+        try {
+            $stmt->execute([":uid" => -1]);
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+                //$account = $result; //just copy it over
+                $account["id"] = $result["id"];
+                $account["account_number"] = $result["account"];
+                $account["balance"] = $result["balance"];
+            
+        } catch (PDOException $e) {
+            flash("Technical error: " . var_export($e->errorInfo, true), "danger");
+        }
+        $_SESSION["user"]["account"] = $account; //storing the account info as a key under the user session
+        //Note: if there's an error it'll initialize to the "empty" definition around line 161
+
+    } else {
+        flash("You're not logged in", "danger");
+    } 
 }
 function get_account()
 {
