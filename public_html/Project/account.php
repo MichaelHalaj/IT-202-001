@@ -11,8 +11,9 @@ if(isset($_POST["save"])){
 
     //echo var_export($_SESSION["user"]["account"]["id"]);
    // echo var_export($depositAmount);
-    transaction($depositAmount, "deposit", -1, get_user_account_id(), "");
+    
     get_or_create_account($accountType, $depositAmount);
+    transaction($depositAmount, "deposit", -1, get_user_account_id(), "");
     die(header("Location: user_accounts.php"));
   // $y = se($_SESSION["user"], "account", "", false);
    // echo var_export($_SESSION["user"]);
