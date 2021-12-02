@@ -3,17 +3,20 @@ require(__DIR__ . "/../../partials/nav.php");
 
 if(isset($_POST["save"])){
     $account = se($_POST, "account", null, false);
-    $withdrawAmount = se($_POST, "withdraw", null, false);
-    $memo = se($_POST, "memo", null, false);
-    //echo var_export((int)$withdrawAmount *-1);
-    if(get_balance($account)>= $withdrawAmount){
-        transaction((int)$withdrawAmount * -1, "withdraw", -1, find_account($account), $memo);
-        flash("Successful withdrawal" , "success");
-        die(header('Location: home.php'));
+    if(strlen($account)!=12){
+        flash("Please select an account", "warning");
     }else{
-        flash("Insufficient funds" , "warning");
+        $withdrawAmount = se($_POST, "withdraw", null, false);
+        $memo = se($_POST, "memo", null, false);
+        //echo var_export((int)$withdrawAmount *-1);
+        if(get_balance($account)>= $withdrawAmount){
+            transaction((int)$withdrawAmount * -1, "withdraw", -1, find_account($account), $memo);
+            flash("Successful withdrawal" , "success");
+            die(header('Location: home.php'));
+        }else{
+            flash("Insufficient funds" , "warning");
+        }
     }
-
 
 }
 $query = "SELECT account, account_type, balance from Bank_Accounts WHERE user_id = :uid";
@@ -39,7 +42,7 @@ try{
 <?php if (is_logged_in()) : ?>
    <form onsubmit="return validate(this)" method="POST">
 
-            <select class=" btn btn-light form-select" name = "account">
+            <select class=" btn btn-dark form-select" name = "account">
                     <option selected> Select an account to withdraw from</option>
                 <?php foreach ($accounts as $account) : ?>
                     <li><option><?php se($account, "account"); ?></option></li>

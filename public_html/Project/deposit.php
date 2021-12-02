@@ -5,9 +5,13 @@ if(isset($_POST["save"])){
     $account = se($_POST, "account", null, false);
     $depositAmount = se($_POST, "deposit", null, false);
     $memo = se($_POST, "memo", null, false);
-    transaction($depositAmount, "deposit", -1, find_account($account), $memo);
-    flash("Successful deposit" , "success");
-    die(header('Location: home.php'));
+    if(strlen($account)!=12){
+        flash("Please select an account", "warning");
+    }else{
+        transaction($depositAmount, "deposit", -1, find_account($account), $memo);
+        flash("Successful deposit" , "success");
+        die(header('Location: home.php'));
+    }
 
 }
 $query = "SELECT account, account_type, balance from Bank_Accounts WHERE user_id = :uid";
@@ -33,7 +37,7 @@ try{
 <?php if (is_logged_in()) : ?>
    <form onsubmit="return validate(this)" method="POST">
 
-            <select class=" btn btn-light form-select" name = "account">
+            <select class=" btn btn-dark form-select" name = "account">
                     <option selected> Select an account to depsosit into</option>
                 <?php foreach ($accounts as $account) : ?>
                     <li><option><?php se($account, "account"); ?></option></li>
