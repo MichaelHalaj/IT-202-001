@@ -131,6 +131,34 @@ function get_url($dest)
     //handle relative path
     return $BASE_PATH . $dest;
 }
+function get_balance($accountNumber){
+    if(is_logged_in()){
+        $query = "SELECT balance FROM Bank_Accounts WHERE account = :account LIMIT 1";
+        $db = getDB();
+        $stmt = $db->prepare($query);
+        try{
+            $stmt->execute([":account" => $accountNumber]);
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            return $result["balance"];
+        }catch (PDOException $e){
+            flash("Technical error: " . var_export($e->errorInfo, true), "danger");
+        }
+    }
+}
+function find_account($accountNumber){
+    if(is_logged_in()){
+        $query = "SELECT id FROM Bank_Accounts WHERE account = :account LIMIT 1";
+        $db = getDB();
+        $stmt = $db->prepare($query);
+        try{
+            $stmt->execute([":account" => $accountNumber]);
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            return $result["id"];
+        }catch (PDOException $e){
+            flash("Technical error: " . var_export($e->errorInfo, true), "danger");
+        }
+    }
+}
 function get_user_account_id(){
     if (is_logged_in()) { //we need to check for login first because "user" key may not exist
         $query = "SELECT id FROM Bank_Accounts WHERE id=(SELECT max(id) FROM Bank_Accounts) and user_id = :uid LIMIT 1";
@@ -179,7 +207,6 @@ function refresh_account_balance($accountID)
 function transaction($money, $typeTrans, $src = -1, $dest = -1, $memo = "")
 {
     //I'm choosing to ignore the record of 0 point transactions
-    if ($money > 0) {
         $query = "INSERT INTO Bank_Account_Transactions (src, dest, diff, typeTrans, memo) 
             VALUES (:acs, :acd, :pc, :r,:m), 
             (:acs2, :acd2, :pc2, :r, :m)";
@@ -208,7 +235,7 @@ function transaction($money, $typeTrans, $src = -1, $dest = -1, $memo = "")
         } catch (PDOException $e) {
             flash("Transfer error occurred: " . var_export($e->errorInfo, true), "danger");
         }
-    }
+    
 }
 function get_random_str($length)
 {
