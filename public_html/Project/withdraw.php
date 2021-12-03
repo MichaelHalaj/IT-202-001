@@ -8,11 +8,13 @@ if(isset($_POST["save"])){
     }else{
         $withdrawAmount = se($_POST, "withdraw", null, false);
         $memo = se($_POST, "memo", null, false);
-        //echo var_export((int)$withdrawAmount *-1);
-        if(get_balance($account)>= $withdrawAmount){
+        
+        if(get_balance($account) - ((int)$withdrawAmount *100) >= 0){
             transaction((int)$withdrawAmount * -1, "withdraw", -1, find_account($account), $memo);
             flash("Successful withdrawal" , "success");
+            //echo var_export(get_balance($account)>= $withdrawAmount);
             die(header('Location: home.php'));
+           
         }else{
             flash("Insufficient funds" , "warning");
         }
