@@ -198,7 +198,7 @@ function refresh_account_balance($accountID)
         $stmt = $db->prepare($query);
         try {
             $stmt->execute([":src" =>$accountID]);
-            get_account(); //refresh session data
+            //get_account(); //refresh session data
         } catch (PDOException $e) {
             flash("Error refreshing account: " . var_export($e->errorInfo, true), "danger");
         }
