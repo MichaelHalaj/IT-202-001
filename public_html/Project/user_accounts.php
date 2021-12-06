@@ -30,6 +30,7 @@ try{
 }
 ?>
 <div class="container-fluid">
+<?php if (is_logged_in()) : ?>    
 <form onsubmit="return validate(this)" method="POST">
     <h1>Account list</h1>
     <table class = "table text-light">
@@ -87,6 +88,7 @@ try{
                             <?php endif; ?>
                             </table>
                             </tbody>
+                            <?php endif; ?> 
 </div>
 <script>
     function validate(form) {

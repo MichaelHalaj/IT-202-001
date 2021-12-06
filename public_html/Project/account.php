@@ -52,7 +52,7 @@ if(isset($_POST["save"])){
         </div>
             <div class="mb-3 form-group col-md-3">
                     <h2 label class="form-label text-dark" for="da">Deposit</h2>
-                    <input class="form-control" type="number" input type="number" min="5.00" step="0.01"  name="deposit"  id="da" />
+                    <input class="form-control" type="number" input type="number" min="5.00" step="0.01"  name="deposit"  id="da" required/>
                     <small id="minimumDeposit"  class="form-text text-warning">A minimum deposit of $5.00 must be made.</small>
 
             </div>
