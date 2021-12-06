@@ -18,7 +18,7 @@ if (is_logged_in()) {
             <a class="btn btn-dark" href="<?php echo get_url('user_accounts.php'); ?>" role="button">My Accounts</a>
             <a class="btn btn-dark" href="<?php echo get_url('deposit.php'); ?>" role="button" role="button">Deposit</a>
             <a class="btn btn-dark" href="<?php echo get_url('withdraw.php'); ?>" role="button">Withdraw</a>
-            <a class="btn btn-dark" href="#" role="button">Transfer</a>
+            <a class="btn btn-dark" href="<?php echo get_url('transfer.php'); ?>" role="button">Transfer</a>
             <a class="btn btn-dark" href="<?php echo get_url('profile.php'); ?>" role="button">Profile</a>
         <?php endif; ?>
     </div>
