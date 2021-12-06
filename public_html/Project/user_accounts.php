@@ -30,6 +30,7 @@ try{
 }
 ?>
 <div class="container-fluid">
+
 <?php if (is_logged_in()) : ?>    
 <form onsubmit="return validate(this)" method="POST">
     <h1>Account list</h1>
@@ -60,11 +61,19 @@ try{
 
 </form>
 </table>
+<div class = "row">
+<div class="mb-3 col-md-9">
 <?php if (empty($history)) : ?>
     <h1>Transaction History for No Account Shown</h1>
     <?php else : ?>
         <h1>Transaction History for <?php se($_POST, "save"); ?></h1>
     <?php endif; ?>
+</div>
+<div class="mb-3 col-md-3">
+    <a class="btn btn-dark" href="<?php echo get_url('transactions.php'); ?>" role="button">More details</a>
+</div>
+</div>
+
                             <table class=" table text-light">
                             <thead>
                                 <th>Amount</th>
