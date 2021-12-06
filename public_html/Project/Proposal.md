@@ -43,10 +43,8 @@
       - Pull Requests
         - https://github.com/MichaelHalaj/IT-202-001/pull/17
       - Screenshots
-        - ![Screenshot (86)](https://user-images.githubusercontent.com/89932319/140791213-4d8ac5c8-35d1-47dc-9470-5fa4451794e5.png)
+        ![Screenshot (86)](https://user-images.githubusercontent.com/89932319/140791213-4d8ac5c8-35d1-47dc-9470-5fa4451794e5.png)
           - Demonstrates the input needed to register
-        - ![Screenshot (109)](https://user-images.githubusercontent.com/89932319/141167378-3614cd37-5e57-4152-9224-f912a12325ff.png)
-          - Demonstrates users table
 
 
 
@@ -97,9 +95,6 @@
       - Screenshots
         - ![Screenshot (90)](https://user-images.githubusercontent.com/89932319/140847686-8fd57073-cfd5-4827-a3cb-d36bfdcd5fd9.png)
           - Demonstrates the function that checks if a user is logged in
-        - ![Screenshot (110)](https://user-images.githubusercontent.com/89932319/141168041-eebea5ce-3334-456b-9372-8269097b9498.png)
-          - Demonstrates that the user cannot access admin functions
-
 
   - [x] \(11/8/2021) Basic Roles implemented
     -  List of Evidence of Feature Completion
@@ -113,8 +108,6 @@
       - Screenshots
         - ![Screenshot (97)](https://user-images.githubusercontent.com/89932319/141029384-21d69541-4c7e-4111-ad21-5bde18dee981.png)
           - Demonstrates the tables created with the roles
-        - ![Screenshot (112)](https://user-images.githubusercontent.com/89932319/141168951-4bd44ee1-6714-4fa5-9630-05f7251c6fe9.png)
-          - Demonstrates the function that checks if a user has a role
 
   - [x] \(11/8/2021) Site should have basic styles/theme applied; everything should be styled
     -  List of Evidence of Feature Completion
@@ -217,6 +210,45 @@
 
  [https://github.com/MichaelHalaj/IT-202-001/pull/72](https://github.com/MichaelHalaj/IT-202-001/pull/72)</p></td></tr><tr><td><table><tr><td>F8 - Form should have a dropdown of their accounts to pick from / World account should not be in the dropdown/  Form should have a field to enter a positive numeric value / For now, allow any deposit value (0 - inf) / Form should allow the user to record a memo for the transaction<tr><td>Status: pending</td></tr><tr><td>![Screenshot (149)](https://user-images.githubusercontent.com/89932319/144537472-d4018606-d8a1-4380-81f3-0972081ed50d.png)<p>Drop down of accounts</td></tr><tr><td>![Screenshot (151)](https://user-images.githubusercontent.com/89932319/144537595-ed16a2ce-79ac-436b-8fec-94affe45b287.png)<p>Minimum deposit amount and display of memo</td></tr></td></tr></table></td></tr><tr><td><table><tr><td>F8 - For withdraw, add a check to make sure they can’t withdraw more money than the account has / Show appropriate user-friendly error messages<tr><td>Status: completed</td></tr><tr><td>![Screenshot (154)](https://user-images.githubusercontent.com/89932319/144538243-8ebe4af9-5204-4f99-9ab5-742ecab87cad.png)<p>Shows that the user cannot withdraw more than their account balance</td></tr><tr><td>![Screenshot (156)](https://user-images.githubusercontent.com/89932319/144538517-6bbeb003-91e2-47d8-b632-48799351d624.png)<p>Code that checks that withdrawal is not greater than balance</td></tr><tr><td>![Screenshot (163)](https://user-images.githubusercontent.com/89932319/144539232-49b78ce2-02a8-485b-be2c-913754d0f1e3.png)<p>Shows user friendly message after withdrawal</td></tr><tr><td>![Screenshot (165)](https://user-images.githubusercontent.com/89932319/144539375-7440c496-5e41-4ebc-a9f9-103b820093fe.png)<p>Shows user friendly message after deposit</td></tr></td></tr></table></td></tr><tr><td><table><tr><td>F8 - Each transaction is recorded as a transaction pair in the Transaction table per the details below<tr><td>Status: completed</td></tr><tr><td>![Screenshot (159)](https://user-images.githubusercontent.com/89932319/144538758-da97fbf6-620c-4e7a-928c-81be57791beb.png)<p>Shows transaction pair in transaction table</td></tr><tr><td>![Screenshot (161)](https://user-images.githubusercontent.com/89932319/144540637-8ba40882-3f25-4828-834a-68df619794ff.png)<p>Shows that world account is negative due to all the deposits</td></tr></td></tr></table></td></tr></td></tr></table>
 - Milestone 3
+  - [ ] \(mm/dd/yyyy of completion) User will be able to transfer between their accounts
+    -  List of Evidence of Feature Completion
+      - Status: Pending (Completed, Partially working, Incomplete, Pending)
+      - Direct Link: (Direct link to the file or files in heroku prod for quick testing (even if it's a protected page))
+      - Pull Requests
+        - PR link #1 (repeat as necessary)
+      - Screenshots
+        - Screenshot #1 (paste the image so it uploads to github) (repeat as necessary)
+          - Screenshot #1 description explaining what you're trying to show
+
+  - [ ] \(mm/dd/yyyy of completion) Transaction History page
+    -  List of Evidence of Feature Completion
+      - Status: Pending (Completed, Partially working, Incomplete, Pending)
+      - Direct Link: (Direct link to the file or files in heroku prod for quick testing (even if it's a protected page))
+      - Pull Requests
+        - PR link #1 (repeat as necessary)
+      - Screenshots
+        - Screenshot #1 (paste the image so it uploads to github) (repeat as necessary)
+          - Screenshot #1 description explaining what you're trying to show
+
+  - [ ] \(mm/dd/yyyy of completion) User’s profile page should record/show First and Last name
+    -  List of Evidence of Feature Completion
+      - Status: Pending (Completed, Partially working, Incomplete, Pending)
+      - Direct Link: (Direct link to the file or files in heroku prod for quick testing (even if it's a protected page))
+      - Pull Requests
+        - PR link #1 (repeat as necessary)
+      - Screenshots
+        - Screenshot #1 (paste the image so it uploads to github) (repeat as necessary)
+          - Screenshot #1 description explaining what you're trying to show
+
+  - [ ] \(mm/dd/yyyy of completion) User will be able to transfer funds to another user’s account
+    -  List of Evidence of Feature Completion
+      - Status: Pending (Completed, Partially working, Incomplete, Pending)
+      - Direct Link: (Direct link to the file or files in heroku prod for quick testing (even if it's a protected page))
+      - Pull Requests
+        - PR link #1 (repeat as necessary)
+      - Screenshots
+        - Screenshot #1 (paste the image so it uploads to github) (repeat as necessary)
+          - Screenshot #1 description explaining what you're trying to show
 - Milestone 4
 ### Intructions
 #### Don't delete this
