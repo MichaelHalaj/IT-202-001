@@ -5,6 +5,7 @@ if(isset($_POST["save"])){
     $amount = se($_POST, "transfer", null ,false);
     $from = se($_POST, "accountFROM", null, false);
     $into = se($_POST, "accountINTO", null, false);
+    $memo = se($_POST, "memo", null, false);
     $fromBal = get_balance($from);
     //$intoBal = get_balance($into);
     $fromID = find_account($from);
@@ -12,7 +13,7 @@ if(isset($_POST["save"])){
     if($fromBal - ($amount*100) < 0 ){
         flash("Insufficient funds to transfer", "warning");
     }else{
-        transaction($amount, "transfer", $fromID, $intoID, "");
+        transaction($amount, "transfer", $fromID, $intoID, $memo);
         flash("Successful transfer");
         die(header("Location: user_accounts.php"));
     }
@@ -37,8 +38,12 @@ try{
 <?php if (is_logged_in()) : ?>
     <form onsubmit="return validate(this)"  name = "this" method="POST">
 <br>
-<div class = "row justify-content-center">
+<div class = "row ">
+    <div class = "mb-3 form-group col-md-3">
+        
+    </div>
     <div class="mb-3 form-group col-md-3">
+    <h2 class = "text-warning">Source</h2>
         <select class=" btn btn-dark form-select" name = "accountFROM" aria-label="from">
                         <option selected> Select an account to transfer FROM</option>
                         <?php foreach ($accounts as $account) : ?>
@@ -47,6 +52,7 @@ try{
                     </select>
     </div>
     <div class="mb-3 form-group col-md-3">
+    <h2 class = "text-info">Destination</h2>
         <select class=" btn btn-dark form-select" name = "accountINTO" aria-label="into">
                         <option selected> Select an account to transfer INTO</option>
                         <?php foreach ($accounts as $account) : ?>
@@ -59,6 +65,10 @@ try{
 <div class="mb-3 form-group col-md-3">
             <h2 label class="form-label text-dark" for="da" >Transfer Amount</h2>
             <input class="form-control" type="number" input type="number" min="0.01" step="0.01"  name="transfer"  id="da" aria-labelledby="da" required/>
+</div>
+<div class="mb-3 form-group col-md-6">
+            <h2 label class="form-label text-dark" for="memo" >Memo</h2>
+            <textarea class="form-control" name="memo"  id="memo"></textarea> 
 </div>
 <input type="submit" class="btn btn-success" value = "Transfer" name = "save"></input>  
     <table class = "table text-light">
