@@ -19,6 +19,15 @@ if (is_logged_in()) {
             <a class="btn btn-dark" href="<?php echo get_url('deposit.php'); ?>" role="button" role="button">Deposit</a>
             <a class="btn btn-dark" href="<?php echo get_url('withdraw.php'); ?>" role="button">Withdraw</a>
             <a class="btn btn-dark" href="<?php echo get_url('transfer.php'); ?>" role="button">Transfer</a>
+            <a class = "dropdown">
+                <button class="btn btn-dark dropdown-toggle" role = "button" id="dropdownMenuButton" data-toggle="dropdown" aria-expanded="false">
+                    Transfer
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                   <li> <a class="dropdown-item" href="#">Action</a></li>
+                   <li> <a class="dropdown-item" href="#">Another action</a></li>
+                </ul>
+            </a>
             <a class="btn btn-dark" href="<?php echo get_url('profile.php'); ?>" role="button">Profile</a>
         <?php endif; ?>
     </div>
