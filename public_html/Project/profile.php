@@ -6,6 +6,8 @@ is_logged_in(true);
 if (isset($_POST["save"])) {
     $email = se($_POST, "email", null, false);
     $username = se($_POST, "username", null, false);
+    $first = se($_POST, "firstName", null, false);
+    $last = se($_POST, "lastName", null, false);
     $hasError = false;
     //sanitize
     $email = sanitize_email($email);
@@ -14,16 +16,29 @@ if (isset($_POST["save"])) {
         flash("Invalid email address", "danger");
         $hasError = true;
     }
+    if(strlen($first) > 25 || strlen($last) > 25){
+        flash("First name or last name length must be less than 25 characters", "danger");
+        $hasError = true;
+    }
+    if(!preg_match('/^[a-zA-Z]+$/', $first)){
+        flash("First name must be alphabetical", "danger");
+        $hasError = true;
+    }
+    if(!preg_match('/^[a-zA-Z]+$/', $last)){
+        flash("Last name must be alphabetical", "danger");
+        $hasError = true;
+    } 
     if (!preg_match('/^[a-z0-9_-]{3,16}$/i', $username)) {
         flash("Username must only be alphanumeric and can only contain - or _", "danger");
         $hasError = true;
     }
     if (!$hasError) {
-        $params = [":email" => $email, ":username" => $username, ":id" => get_user_id()];
+        $params = [":email" => $email, ":username" => $username, ":firstName" => $first, ":lastName" => $last, ":id" => get_user_id()];
         $db = getDB();
-        $stmt = $db->prepare("UPDATE Users set email = :email, username = :username where id = :id");
+        $stmt = $db->prepare("UPDATE Users set email = :email, username = :username, firstName = :firstName, lastName = :lastName where id = :id");
         try {
             $stmt->execute($params);
+            flash("Successful update");
         } catch (Exception $e) {
             users_check_duplicate($e->errorInfo);  
         }
@@ -38,6 +53,8 @@ if (isset($_POST["save"])) {
             //$_SESSION["user"] = $user;
             $_SESSION["user"]["email"] = $user["email"];
             $_SESSION["user"]["username"] = $user["username"];
+            $_SESSION["user"]["firstName"] = $user["firstName"];
+            $_SESSION["user"]["lastName"] = $user["lastName"];
         } else {
             flash("User doesn't exist", "danger");
         }
@@ -85,10 +102,13 @@ if (isset($_POST["save"])) {
 <?php
 $email = get_user_email();
 $username = get_username();
+$first = get_user_first();
+$last = get_user_last();
 ?>
 <div class="container-fluid">
     <h1 class = "fw-bold">Profile</h1>
     <form method="POST" onsubmit="return validate(this);">
+    <div class = "row">
         <div class="mb-3 form-group col-md-4">
             <label class="form-label" for="email">Email</label>
             <input class="form-control" type="email" name="email" id="email" value="<?php se($email); ?>" />
@@ -97,7 +117,17 @@ $username = get_username();
             <label class="form-label" for="username">Username</label>
             <input class="form-control" type="text" name="username" id="username" value="<?php se($username); ?>" />
         </div>
-        
+        </div>
+        <div class ="row">
+        <div class="mb-3 form-group col-md-4">
+            <label class="form-label" for="first">First Name</label>
+            <input class="form-control" type="text" name="firstName" id="first" value = "<?php se($first); ?>"/>
+        </div>
+        <div class="mb-3 form-group col-md-4">
+            <label class="form-label" for="last">Last Name</label>
+            <input class="form-control" type="text" name="lastName" id="last" value = "<?php se($last); ?>"/>
+        </div>
+        </div>
         <!-- DO NOT PRELOAD PASSWORD -->
         <h3 class="mb-3">Password Reset</h3>
         <div class="mb-3 form-group col-md-4">
