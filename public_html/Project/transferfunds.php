@@ -28,15 +28,25 @@ if(isset($_POST["save"])){
     //$intoBal = get_balance($into);
     //$fromID = find_account($from);
     //$intoID = find_account($into);
-    if($fromBal - ($amount*100) < 0 ){
-        flash("Insufficient funds to transfer", "warning");
+    if($otherID === $fromID){
+        flash("Accounts must be different", "warning");
     }else{
-       // echo var_export($fromID);
-        //echo var_export($otherID);
-        transaction($amount, "transfer", $fromID, $otherID, $memo);
-        flash("Successful transfer");
-        die(header("Location: user_accounts.php"));
+        if($fromBal - ($amount*100) < 0 ){
+            flash("Insufficient funds to transfer", "warning");
+        }else{
+            if($userID === get_user_id()){
+                flash("Please select an account that is not yours", "warning");
+            }else{
+           // echo var_export($fromID);
+            //echo var_export($otherID);
+            transaction($amount, "transfer", $fromID, $otherID, $memo);
+            flash("Successful transfer");
+            die(header("Location: user_accounts.php"));
+            }
+
+        }
     }
+ 
 
 }
 
@@ -109,8 +119,8 @@ try{
     function validate(form) {
         let z = document["this"]["accountFROM"].value;
         //let a = document["this"]["accountINTO"].value;
-        alert(z);
-        console.log(z);
+        //alert(z);
+        //console.log(z);
         if(z.length != 12){
             flash("Please select an account", "warning");
             return false;
