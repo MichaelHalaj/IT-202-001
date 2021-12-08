@@ -73,8 +73,8 @@ try{
     </div>
     <div class="mb-3 form-group col-md-3">
             <h2 class = "text-info">Destination</h2>
-            <input class="form-control" type="text" name="lastName" id="lastName"/>
-            <small id="name"  class="form-text text-warning">Search for user's last name</small>
+            <input class="form-control" type="text" name="lastName" id="lastName" required/>
+            <small id="search"  class="form-text text-warning">Search for user's last name</small>
     </div>
     </div>
 </div>
@@ -83,8 +83,8 @@ try{
         <div class = "mb-3 form-group col-md-3"></div>
 <div class="mb-3 form-group col-md-3">
             <h2 class = "text-info">Account Number</h2>
-            <input class="form-control" type="text" name="accountNum" id="accountNum"/>
-            <small id="name"  class="form-text text-warning">Enter the last 4 characters of the user account</small>
+            <input class="form-control" type="text" name="accountNum" id="accountNum" required/>
+            <small id="4chars"  class="form-text text-warning">Enter the last 4 characters of the user account</small>
     </div>
 </div>
 <div class="mb-3 form-group col-md-3">
@@ -108,12 +108,10 @@ try{
 <script>
     function validate(form) {
         let z = document["this"]["accountFROM"].value;
-        let a = document["this"]["accountINTO"].value;
-        if(z === a){
-            flash("Accounts must be different", "warning");
-            return false;
-        }
-        if(z.length != 12 || a.length != 12){
+        //let a = document["this"]["accountINTO"].value;
+        alert(z);
+        console.log(z);
+        if(z.length != 12){
             flash("Please select an account", "warning");
             return false;
         }
