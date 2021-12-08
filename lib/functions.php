@@ -173,6 +173,19 @@ function find_account($accountNumber){
         }
     }
 }
+function get_last_name_id($last){
+    $query = "SELECT id FROM Users WHERE lastName = :lastName LIMIT 1" ;
+    $db = getDB();
+    $stmt = $db->prepare($query);
+    try{
+        $stmt->execute([":lastName" => $last]);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $result["id"];
+        //echo var_export($userID);
+    }catch (PDOException $e){
+        flash("Technical error: " . var_export($e->errorInfo, true), "danger");
+    }
+}
 function get_user_account_id(){
     if (is_logged_in()) { //we need to check for login first because "user" key may not exist
         $query = "SELECT id FROM Bank_Accounts WHERE id=(SELECT max(id) FROM Bank_Accounts) and user_id = :uid LIMIT 1";
