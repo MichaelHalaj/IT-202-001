@@ -217,6 +217,12 @@ function refresh_system_balance()
         }
     }
 }*/
+
+function pagination_filter($newPage){
+    $_GET["page"] = $newPage;
+    return se(http_build_query($_GET));
+}
+
 function refresh_account_balance($accountID)
 {
     if (is_logged_in()) {
