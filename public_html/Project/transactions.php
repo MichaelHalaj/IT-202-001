@@ -14,7 +14,7 @@ if(strlen($account)===12){
 
     $type = se($_GET, "type", null, false);
     $start = se($_GET, "date1", date("Y-m-d", strtotime("-1 month")), false);
-   echo var_export($start);
+   //echo var_export($start);
     $order = se($_GET, "order", "asc", false);
     $params = [];
     if (!in_array($order, ["asc", "desc"])) {
@@ -163,7 +163,7 @@ try{
         </form>
     </div>
 
-    <?php endif?>
+
     <table class=" table text-light">
                             <thead>
                                 <th>Account ID</th>
@@ -211,6 +211,7 @@ try{
                 <a class = "page-link" href = "?<?php pagination_filter($page + 1); ?>">Next</a>
             </li>    
         </ul>
+        <?php endif?>
 </div>
 <script>
         var x = document.getElementsByClassName("bal");
