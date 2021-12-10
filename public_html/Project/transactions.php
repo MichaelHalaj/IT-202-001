@@ -3,8 +3,10 @@ require(__DIR__ . "/../../partials/nav.php");
 
 $result = [];
 $db = getDB();
+
+
 $col = se($_GET, "col", "deposit", false);
-echo var_export($col);
+//echo var_export($col);
 
 if(!in_array($col, ["desposit", "withdraw", "transfer"])){
     $col = "deposit";
@@ -25,8 +27,27 @@ if(strlen($account) === 12){
     $query .= " AND (src = :src OR dest = :dest)";
     $params[":src"] = $account;
     $params[":dest"] = $account;
-    echo var_export($params);
+    //echo var_export($params);
 }else{
+   // $q = $db->prepare("SELECT id FROM Bank_Accounts WHERE user_id = :user_id");
+    $q = $db->prepare("SELECT Bank_Accounts.id FROM Bank_Accounts JOIN Bank_Account_Transactions ON 
+    Bank_Accounts.id = Bank_Account_Transactions.src WHERE Bank_Accounts.user_id = :user_id");
+$q->execute([":user_id" => get_user_id()]);
+$src = $q->fetchAll(PDO::FETCH_ASSOC);
+if($src){
+    echo "YOOOOOOO";
+    echo var_export($src);
+}
+else{
+    echo "EEEEEEEEEEEEEEEEEEEE";
+    
+}
+    /*$q =  $db->prepare("SELECT Bank_Accounts.id FROM Bank_Accounts JOIN Bank_Account_Transactions ON
+    Bank_Accounts.id = Bank_Account_Transactions.src OR Bank_Accounts.id = Bank_Account_Transactions.dest 
+    WHERE Bank_Accounts.id = :user_id"); */
+
+     //echo var_export($result);
+    /*
     $s = "SELECT id from Bank_Accounts WHERE user_id = :uid";
     $stmt = $db->prepare($s);
     $accountList = [];
@@ -35,28 +56,32 @@ if(strlen($account) === 12){
         $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
         if ($results) {
             $accountList = $results;
+            echo var_export($accountList);
+            //$query .= " AND (src in ({implode(',', $accountList)}) or dest in ({implode(',', $accountList)}))";
         }
     } catch (PDOException $e) {
         flash(var_export($e->errorInfo, true), "danger");
-    }
+    } */
    // $query .= " AND ";
 }
+
 if(!empty($col)){
     $query .= " AND typeTrans = :typeTrans";
     $params[":typeTrans"] = $col;
 }
 if (!empty($order)) {
     //$query .= " ORDER BY $order"; //be sure you trust these values, I validate via the in_array checks above
+    //THIS IS PROBABLY NOT WORKING BECAUSE YOU NEED TO SPECIFY WHAT VARIABLE TO ORDER BY LIKE IN HIS EXAMPLE , IE  ORDER BY $col $order
 }
 //echo var_export($params);
 $stmt = $db->prepare($query);
-echo var_export($query);
+//echo var_export($query);
 try {
     $stmt->execute($params); //dynamically populated params to bind
     $r = $stmt->fetchAll(PDO::FETCH_ASSOC);
     if ($r) {
         $results = $r;
-        echo var_export($results);
+        //echo var_export($results);
     }
 } catch (PDOException $e) {
     flash("<pre>" . var_export($e, true) . "</pre>");
