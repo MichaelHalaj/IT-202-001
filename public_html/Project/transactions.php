@@ -7,13 +7,14 @@ $base_query = "SELECT t.id, t.src, t.diff, t.typeTrans, t.memo, t.created /*IF(a
 Bank_Accounts a1 on a1.id = t.src JOIN Bank_Accounts a2 on a2.id = t.dest WHERE 1=1";
 
 $end = se($_GET, "date2", date("Y-m-d"), false);
+
 $account = se($_GET, "account", "" , false);
 if(strlen($account)===12){
     $account = find_account($account);
 
     $type = se($_GET, "type", null, false);
-    $start = se($_GET, "date1", date("Y-m-d", strtotime("-1 month")));
-   
+    $start = se($_GET, "date1", date("Y-m-d", strtotime("-1 month")), false);
+   echo var_export($start);
     $order = se($_GET, "order", "asc", false);
     $params = [];
     if (!in_array($order, ["asc", "desc"])) {
@@ -60,7 +61,7 @@ if(strlen($account)===12){
     }
     $records_per_page = 10;
     $total_records = 0;
-
+    
     $stmt = $db->prepare($total_query);
     try{
         $stmt->execute($params);
@@ -121,51 +122,7 @@ try{
 }catch (PDOException $e){
     flash(var_export($e->errorInfo, true), "danger");
 }
-//echo var_export($accounts);
-//get the total
-/*
-$stmt = $db->prepare($total_query . $query);
-$total = 0;
-try {
-    $stmt->execute($params);
-    $r = $stmt->fetch(PDO::FETCH_ASSOC);
-    if ($r) {
-        $total = (int)se($r, "total", 0, false);
-    }
-} catch (PDOException $e) {
-    flash("<pre>" . var_export($e, true) . "</pre>");
-} */
-/*
-//apply the pagination (the pagination stuff will be moved to reusable pieces later)
-$page = se($_GET, "page", 1, false); //default to page 1 (human readable number)
-$per_page = 10; //how many items to show per page (hint, this could also be something the user can change via a dropdown or similar)
-$offset = ($page - 1) * $per_page;
-$query .= " LIMIT :offset, :count";
-$params[":offset"] = $offset;
-$params[":count"] = $per_page;
-//get the records
-$stmt = $db->prepare($base_query . $query); //dynamically generated query
-//we'll want to convert this to use bindValue so ensure they're integers so lets map our array
-foreach ($params as $key => $value) {
-    $type = is_int($value) ? PDO::PARAM_INT : PDO::PARAM_STR;
-    $stmt->bindValue($key, $value, $type);
-}
-$params = null; //set it to null to avoid issues
 
-//echo var_export($params);
-$stmt = $db->prepare($query);
-//echo var_export($query);
-try {
-    $stmt->execute($params); //dynamically populated params to bind
-    $r = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    if ($r) {
-        $results = $r;
-        echo var_export($results);
-    }
-} catch (PDOException $e) {
-    flash("<pre>" . var_export($e, true) . "</pre>");
-}
-*/
 ?>
 
 <div class = "container-fluid">
