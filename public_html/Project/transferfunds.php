@@ -4,19 +4,49 @@ require(__DIR__ . "/../../partials/nav.php");
 if(isset($_POST["save"])){
     $amount = se($_POST, "transfer", null ,false);
     $from = se($_POST, "accountFROM", null, false);
-    $into = se($_POST, "accountINTO", null, false);
+    $account = se($_POST, "accountNum", null, false);
+    $last = se($_POST, "lastName", null ,false);
+    $userID = get_last_name_id($last);
+    $fromID = find_account($from);
+    $query = "SELECT id FROM Bank_Accounts WHERE account LIKE '%$account' AND user_id = :uid LIMIT 1" ;
+    $db = getDB();
+    $stmt = $db->prepare($query);
+    try{
+        $stmt->execute([":uid" => $userID]);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        if($result){
+            $otherID =  $result["id"];
+
+        }
+
+    }catch (PDOException $e){
+        flash("Technical error: " . var_export($e->errorInfo, true), "danger");
+    }
+   // $into = se($_POST, "accountINTO", null, false);
     $memo = se($_POST, "memo", null, false);
     $fromBal = get_balance($from);
     //$intoBal = get_balance($into);
-    $fromID = find_account($from);
-    $intoID = find_account($into);
-    if($fromBal - ($amount*100) < 0 ){
-        flash("Insufficient funds to transfer", "warning");
+    //$fromID = find_account($from);
+    //$intoID = find_account($into);
+    if($otherID === $fromID){
+        flash("Accounts must be different", "warning");
     }else{
-        transaction($amount, "transfer", $fromID, $intoID, $memo);
-        flash("Successful transfer");
-        die(header("Location: user_accounts.php"));
+        if($fromBal - ($amount*100) < 0 ){
+            flash("Insufficient funds to transfer", "warning");
+        }else{
+            if($userID === get_user_id()){
+                flash("Please select an account that is not yours", "warning");
+            }else{
+           // echo var_export($fromID);
+            //echo var_export($otherID);
+            transaction($amount, "transfer", $fromID, $otherID, $memo);
+            flash("Successful transfer");
+            die(header("Location: user_accounts.php"));
+            }
+
+        }
     }
+ 
 
 }
 
@@ -52,14 +82,19 @@ try{
                     </select>
     </div>
     <div class="mb-3 form-group col-md-3">
-    <h2 class = "text-info">Destination</h2>
-        <select class=" btn btn-dark form-select" name = "accountINTO" aria-label="into">
-                        <option selected> Select an account to transfer INTO</option>
-                        <?php foreach ($accounts as $account) : ?>
-                    <li><option><?php se($account, "account"); ?></option></li>
-                <?php endforeach; ?>
-                
-                    </select>
+            <h2 class = "text-info">Destination</h2>
+            <input class="form-control" type="text" name="lastName" id="lastName" required/>
+            <small id="search"  class="form-text text-warning">Search for user's last name</small>
+    </div>
+    </div>
+</div>
+<div class = "row">
+        <div class = "mb-3 form-group col-md-3"></div>
+        <div class = "mb-3 form-group col-md-3"></div>
+<div class="mb-3 form-group col-md-3">
+            <h2 class = "text-info">Account Number</h2>
+            <input class="form-control" type="text" name="accountNum" id="accountNum" required/>
+            <small id="4chars"  class="form-text text-warning">Enter the last 4 characters of the user account</small>
     </div>
 </div>
 <div class="mb-3 form-group col-md-3">
@@ -83,12 +118,10 @@ try{
 <script>
     function validate(form) {
         let z = document["this"]["accountFROM"].value;
-        let a = document["this"]["accountINTO"].value;
-        if(z === a){
-            flash("Accounts must be different", "warning");
-            return false;
-        }
-        if(z.length != 12 || a.length != 12){
+        //let a = document["this"]["accountINTO"].value;
+        //alert(z);
+        //console.log(z);
+        if(z.length != 12){
             flash("Please select an account", "warning");
             return false;
         }
