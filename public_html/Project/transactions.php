@@ -30,18 +30,30 @@ if(strlen($account) === 12){
     //echo var_export($params);
 }else{
    // $q = $db->prepare("SELECT id FROM Bank_Accounts WHERE user_id = :user_id");
-    $q = $db->prepare("SELECT Bank_Accounts.id FROM Bank_Accounts JOIN Bank_Account_Transactions ON 
-    Bank_Accounts.id = Bank_Account_Transactions.src WHERE Bank_Accounts.user_id = :user_id");
-$q->execute([":user_id" => get_user_id()]);
-$src = $q->fetchAll(PDO::FETCH_ASSOC);
-if($src){
-    echo "YOOOOOOO";
-    echo var_export($src);
-}
-else{
-    echo "EEEEEEEEEEEEEEEEEEEE";
-    
-}
+            $q = $db->prepare("SELECT Bank_Accounts.id FROM Bank_Accounts JOIN Bank_Account_Transactions ON 
+            Bank_Accounts.id = Bank_Account_Transactions.src WHERE Bank_Accounts.user_id = :user_id");
+        $q->execute([":user_id" => get_user_id()]);
+        $src = $q->fetchAll(PDO::FETCH_ASSOC);
+        if($src){
+            echo "YOOOOOOO";
+            echo var_export($src);
+        }
+        else{
+            echo "EEEEEEEEEEEEEEEEEEEE";
+            
+        }
+        $q = $db->prepare("SELECT Bank_Accounts.id FROM Bank_Accounts JOIN Bank_Account_Transactions ON 
+        Bank_Accounts.id = Bank_Account_Transactions.dest WHERE Bank_Accounts.user_id = :user_id");
+        $q->execute([":user_id" => get_user_id()]);
+        $src = $q->fetchAll(PDO::FETCH_ASSOC);
+        if($src){
+            echo "YOOOOOOO";
+            echo var_export($src);
+        }
+        else{
+            echo "EEEEEEEEEEEEEEEEEEEE";
+
+        }
     /*$q =  $db->prepare("SELECT Bank_Accounts.id FROM Bank_Accounts JOIN Bank_Account_Transactions ON
     Bank_Accounts.id = Bank_Account_Transactions.src OR Bank_Accounts.id = Bank_Account_Transactions.dest 
     WHERE Bank_Accounts.id = :user_id"); */
@@ -70,7 +82,7 @@ if(!empty($col)){
     $params[":typeTrans"] = $col;
 }
 if (!empty($order)) {
-    //$query .= " ORDER BY $order"; //be sure you trust these values, I validate via the in_array checks above
+    $query .= " ORDER BY  typeTrans $order"; //be sure you trust these values, I validate via the in_array checks above
     //THIS IS PROBABLY NOT WORKING BECAUSE YOU NEED TO SPECIFY WHAT VARIABLE TO ORDER BY LIKE IN HIS EXAMPLE , IE  ORDER BY $col $order
 }
 //echo var_export($params);
@@ -81,7 +93,7 @@ try {
     $r = $stmt->fetchAll(PDO::FETCH_ASSOC);
     if ($r) {
         $results = $r;
-        //echo var_export($results);
+        echo var_export($results);
     }
 } catch (PDOException $e) {
     flash("<pre>" . var_export($e, true) . "</pre>");
@@ -131,9 +143,9 @@ $stmt = $db->prepare($query);
 $accounts = [];
 try{
     $stmt->execute([":uid" => get_user_id()]);
-    $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    if ($results) {
-        $accounts = $results;
+    $rr = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    if ($rr) {
+        $accounts = $rr;
     }
 } catch (PDOException $e) {
     flash(var_export($e->errorInfo, true), "danger");
@@ -203,14 +215,72 @@ try{
         </div>
         <div class="col">
             <div class="input-group">
-                <input type="submit" class="btn btn-primary" value="Apply" />
+                <input type="submit" class="btn btn-primary" value="Apply" onclick = "func()" />
             </div>
         </div>
+        <table class=" table text-light">
+                            <thead>
+                                <th>Source</th>
+                                <th>Destination</th>
+                                <th>Amount</th>
+                                <th>Type</th>
+                                <th>Date</th>
+                            </thead>
+                            <tbody>
+                            <?php if (empty($result)) : ?>
+                                <tr>
+                                    <td colspan="100%">No selected account</td>
+                                </tr>
+                                <?php else : ?>
+                            <?php foreach ($result as $h) : ?>
+                                <tr>
+                                    <td><?php se($h, "src"); ?></td>
+                                    <td><?php se($h, "dest"); ?></td>
+                                    <td class = "bal"><?php se($h, "diff"); ?></td>
+                                    <td><?php se($h, "typeTrans"); ?></td>
+                                    <td><?php se($h, "created"); ?></td>
+                                </tr>
+                            <?php endforeach; ?> 
+                            <?php endif; ?>
+                            </table>
+                            </tbody>
     </form>
-    <?php endif; ?> 
+  
 </div>
-
-
+</div>
+                            <table class=" table text-light" id = "tbl">
+                            <thead>
+                                <th>Source</th>
+                                <th>Destination</th>
+                                <th>Amount</th>
+                                <th>Type</th>
+                                <th>Date</th>
+                            </thead>
+                            <tbody>
+                            <?php if (empty($result)) : ?>
+                                <tr>
+                                    <td colspan="100%">No selected account</td>
+                                </tr>
+                                <?php else : ?>
+                            <?php foreach ($result as $h) : ?>
+                                <tr>
+                                    <td><?php se($h, "src"); ?></td>
+                                    <td><?php se($h, "dest"); ?></td>
+                                    <td class = "bal"><?php se($h, "diff"); ?></td>
+                                    <td><?php se($h, "typeTrans"); ?></td>
+                                    <td><?php se($h, "created"); ?></td>
+                                </tr>
+                            <?php endforeach; ?> 
+                            <?php endif; ?>
+                            </table>
+                            </tbody>
+                            <?php endif; ?> 
+</div>
+<script>
+    function func(){
+ document.getElementById('tbl').style.display = 'block';
+}
+</script>
  
 
  
