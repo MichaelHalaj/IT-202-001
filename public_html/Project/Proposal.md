@@ -209,46 +209,428 @@
  [https://github.com/MichaelHalaj/IT-202-001/pull/70](https://github.com/MichaelHalaj/IT-202-001/pull/70)</p><p>
 
  [https://github.com/MichaelHalaj/IT-202-001/pull/72](https://github.com/MichaelHalaj/IT-202-001/pull/72)</p></td></tr><tr><td><table><tr><td>F8 - Form should have a dropdown of their accounts to pick from / World account should not be in the dropdown/  Form should have a field to enter a positive numeric value / For now, allow any deposit value (0 - inf) / Form should allow the user to record a memo for the transaction<tr><td>Status: pending</td></tr><tr><td>![Screenshot (149)](https://user-images.githubusercontent.com/89932319/144537472-d4018606-d8a1-4380-81f3-0972081ed50d.png)<p>Drop down of accounts</td></tr><tr><td>![Screenshot (151)](https://user-images.githubusercontent.com/89932319/144537595-ed16a2ce-79ac-436b-8fec-94affe45b287.png)<p>Minimum deposit amount and display of memo</td></tr></td></tr></table></td></tr><tr><td><table><tr><td>F8 - For withdraw, add a check to make sure they can’t withdraw more money than the account has / Show appropriate user-friendly error messages<tr><td>Status: completed</td></tr><tr><td>![Screenshot (154)](https://user-images.githubusercontent.com/89932319/144538243-8ebe4af9-5204-4f99-9ab5-742ecab87cad.png)<p>Shows that the user cannot withdraw more than their account balance</td></tr><tr><td>![Screenshot (156)](https://user-images.githubusercontent.com/89932319/144538517-6bbeb003-91e2-47d8-b632-48799351d624.png)<p>Code that checks that withdrawal is not greater than balance</td></tr><tr><td>![Screenshot (163)](https://user-images.githubusercontent.com/89932319/144539232-49b78ce2-02a8-485b-be2c-913754d0f1e3.png)<p>Shows user friendly message after withdrawal</td></tr><tr><td>![Screenshot (165)](https://user-images.githubusercontent.com/89932319/144539375-7440c496-5e41-4ebc-a9f9-103b820093fe.png)<p>Shows user friendly message after deposit</td></tr></td></tr></table></td></tr><tr><td><table><tr><td>F8 - Each transaction is recorded as a transaction pair in the Transaction table per the details below<tr><td>Status: completed</td></tr><tr><td>![Screenshot (159)](https://user-images.githubusercontent.com/89932319/144538758-da97fbf6-620c-4e7a-928c-81be57791beb.png)<p>Shows transaction pair in transaction table</td></tr><tr><td>![Screenshot (161)](https://user-images.githubusercontent.com/89932319/144540637-8ba40882-3f25-4828-834a-68df619794ff.png)<p>Shows that world account is negative due to all the deposits</td></tr></td></tr></table></td></tr></td></tr></table>
-- Milestone 3
-  - [ ] \(mm/dd/yyyy of completion) User will be able to transfer between their accounts
-    -  List of Evidence of Feature Completion
-      - Status: Pending (Completed, Partially working, Incomplete, Pending)
-      - Direct Link: (Direct link to the file or files in heroku prod for quick testing (even if it's a protected page))
-      - Pull Requests
-        - PR link #1 (repeat as necessary)
-      - Screenshots
-        - Screenshot #1 (paste the image so it uploads to github) (repeat as necessary)
-          - Screenshot #1 description explaining what you're trying to show
 
-  - [ ] \(mm/dd/yyyy of completion) Transaction History page
-    -  List of Evidence of Feature Completion
-      - Status: Pending (Completed, Partially working, Incomplete, Pending)
-      - Direct Link: (Direct link to the file or files in heroku prod for quick testing (even if it's a protected page))
-      - Pull Requests
-        - PR link #1 (repeat as necessary)
-      - Screenshots
-        - Screenshot #1 (paste the image so it uploads to github) (repeat as necessary)
-          - Screenshot #1 description explaining what you're trying to show
+<table>
+<tr><td>Milestone3</td></tr><tr><td>
+<table>
+<tr><td>F1 - User will be able to transfer between their accounts (2021-12-10)</td></tr>
+<tr><td>Status: complete</td></tr>
+<tr><td>Links:<p>
 
-  - [ ] \(mm/dd/yyyy of completion) User’s profile page should record/show First and Last name
-    -  List of Evidence of Feature Completion
-      - Status: Pending (Completed, Partially working, Incomplete, Pending)
-      - Direct Link: (Direct link to the file or files in heroku prod for quick testing (even if it's a protected page))
-      - Pull Requests
-        - PR link #1 (repeat as necessary)
-      - Screenshots
-        - Screenshot #1 (paste the image so it uploads to github) (repeat as necessary)
-          - Screenshot #1 description explaining what you're trying to show
+ [https://mh45-prod.herokuapp.com/Project/transfer.php](https://mh45-prod.herokuapp.com/Project/transfer.php)</p><p>
 
-  - [ ] \(mm/dd/yyyy of completion) User will be able to transfer funds to another user’s account
-    -  List of Evidence of Feature Completion
-      - Status: Pending (Completed, Partially working, Incomplete, Pending)
-      - Direct Link: (Direct link to the file or files in heroku prod for quick testing (even if it's a protected page))
-      - Pull Requests
-        - PR link #1 (repeat as necessary)
-      - Screenshots
-        - Screenshot #1 (paste the image so it uploads to github) (repeat as necessary)
-          - Screenshot #1 description explaining what you're trying to show
+ [https://mh45-prod.herokuapp.com/Project/home.php](https://mh45-prod.herokuapp.com/Project/home.php)</p><p>
+
+ [https://mh45-prod.herokuapp.com/Project/login.php](https://mh45-prod.herokuapp.com/Project/login.php)</p></td></tr>
+<tr><td>PRs:<p>
+
+ [https://github.com/MichaelHalaj/IT-202-001/pull/76](https://github.com/MichaelHalaj/IT-202-001/pull/76)</p></td></tr>
+<tr><td>
+<table>
+<tr><td>F1 - Form should include a dropdown first AccountSrc and a dropdown for AccountDest (only accounts the user owns; no world account)</td></tr>
+<tr><td>Status: 
+<img width="100" height="20" src="https://via.placeholder.com/400x120/009955/fff?text=completed"></td></tr>
+
+<tr><td>
+<img width="768px" src="https://user-images.githubusercontent.com/89932319/145655043-590b5220-5fff-4c8a-9717-418e11196c7b.png">
+<p>Demonstrates the account dropdown for source</p>
+</td></tr>
+
+<tr><td>
+<img width="768px" src="https://user-images.githubusercontent.com/89932319/145655093-e96bae70-714a-41dd-bb6b-ce536f259b4a.png">
+<p>Demonstrates the account dropdown for destination</p>
+</td></tr>
+
+</td>
+</tr>
+</table>
+</td>
+</tr>
+<tr><td>
+<table>
+<tr><td>F1 - Form should include a field for a positive numeric value</td></tr>
+<tr><td>Status: 
+<img width="100" height="20" src="https://via.placeholder.com/400x120/009955/fff?text=completed"></td></tr>
+
+<tr><td>
+<img width="768px" src="https://user-images.githubusercontent.com/89932319/145655182-097cdeac-0ff2-451c-a821-8cc3df4bc505.png">
+<p>Demonstrates a field where you cannot enter a negative number</p>
+</td></tr>
+
+</td>
+</tr>
+</table>
+</td>
+</tr>
+<tr><td>
+<table>
+<tr><td>F1 - System shouldn’t allow the user to transfer more funds than what’s available in AccountSrc</td></tr>
+<tr><td>Status: 
+<img width="100" height="20" src="https://via.placeholder.com/400x120/009955/fff?text=completed"></td></tr>
+
+<tr><td>
+<img width="768px" src="https://user-images.githubusercontent.com/89932319/145655348-3f7ee9a7-67c7-4058-9306-b77751b4af61.png">
+<p>Shows that the source cannot transfer more than it has</p>
+</td></tr>
+
+</td>
+</tr>
+</table>
+</td>
+</tr>
+<tr><td>
+<table>
+<tr><td>F1 - Form should allow the user to record a memo for the transaction</td></tr>
+<tr><td>Status: 
+<img width="100" height="20" src="https://via.placeholder.com/400x120/009955/fff?text=completed"></td></tr>
+
+<tr><td>
+<img width="768px" src="https://user-images.githubusercontent.com/89932319/145655453-ac721fb7-3b23-4089-8799-1d19195d7df2.png">
+<p>Shows input for memo</p>
+</td></tr>
+
+</td>
+</tr>
+</table>
+</td>
+</tr>
+<tr><td>
+<table>
+<tr><td>F1 - Each transaction is recorded as a transaction pair in the Transaction table / These will reflect in the transaction history page</td></tr>
+<tr><td>Status: 
+<img width="100" height="20" src="https://via.placeholder.com/400x120/009955/fff?text=completed"></td></tr>
+
+<tr><td>
+<img width="768px" src="https://user-images.githubusercontent.com/89932319/145655631-2e341775-b6ed-40fe-b1b6-bfe1bf4df28d.png">
+<p>Shows that transaction was recorded as a pair</p>
+</td></tr>
+
+</td>
+</tr>
+</table>
+</td>
+</tr>
+<tr><td>
+<table>
+<tr><td>F1 - Show appropriate user-friendly error messages / Show user-friendly success messages</td></tr>
+<tr><td>Status: 
+<img width="100" height="20" src="https://via.placeholder.com/400x120/009955/fff?text=completed"></td></tr>
+
+<tr><td>
+<img width="768px" src="https://user-images.githubusercontent.com/89932319/145655736-eeac48be-9679-4e63-b0c1-f21d8cf3a579.png">
+<p>Shows successful transfer and redirect to user's accounts</p>
+</td></tr>
+
+<tr><td>
+<img width="768px" src="https://user-images.githubusercontent.com/89932319/145655812-32fd40e3-08d5-493a-a85e-0144424a6561.png">
+<p>Shows that user cannot transfer into the same account</p>
+</td></tr>
+
+<tr><td>
+<img width="768px" src="https://user-images.githubusercontent.com/89932319/145655869-35453f9f-baf2-40ef-85a5-62744c6a8c97.png">
+<p>Check if user selected an account</p>
+</td></tr>
+
+<tr><td>
+<img width="768px" src="https://user-images.githubusercontent.com/89932319/145655908-be4e1c50-e039-498a-9cd6-84ace189887d.png">
+<p>Check if user selected an account</p>
+</td></tr>
+
+</td>
+</tr>
+</table>
+</td>
+</tr>
+<table>
+<tr><td>F2 - Transaction History page (2021-12-10)</td></tr>
+<tr><td>Status: complete</td></tr>
+<tr><td>Links:<p>
+
+ [https://mh45-prod.herokuapp.com/Project/home.php](https://mh45-prod.herokuapp.com/Project/home.php)</p><p>
+
+ [https://mh45-prod.herokuapp.com/Project/login.php](https://mh45-prod.herokuapp.com/Project/login.php)</p><p>
+
+ [https://mh45-prod.herokuapp.com/Project/user_accounts.php](https://mh45-prod.herokuapp.com/Project/user_accounts.php)</p><p>
+
+ [https://mh45-prod.herokuapp.com/Project/transactions.php](https://mh45-prod.herokuapp.com/Project/transactions.php)</p></td></tr>
+<tr><td>PRs:<p>
+
+ [https://github.com/MichaelHalaj/IT-202-001/pull/79](https://github.com/MichaelHalaj/IT-202-001/pull/79)</p><p>
+
+ [https://github.com/MichaelHalaj/IT-202-001/pull/92](https://github.com/MichaelHalaj/IT-202-001/pull/92)</p><p>
+
+ [https://github.com/MichaelHalaj/IT-202-001/pull/93](https://github.com/MichaelHalaj/IT-202-001/pull/93)</p></td></tr>
+<tr><td>
+<table>
+<tr><td>F2 - Will show the latest 10 transactions by default</td></tr>
+<tr><td>Status: 
+<img width="100" height="20" src="https://via.placeholder.com/400x120/009955/fff?text=completed"></td></tr>
+
+<tr><td>
+<img width="768px" src="https://user-images.githubusercontent.com/89932319/145656129-a9fcf329-3396-4897-930f-b29655be4048.png">
+<p>Shows that once an account is selected and filter is pressed, a default of 10 transactions are shown</p>
+</td></tr>
+
+<tr><td>
+<img width="768px" src="https://user-images.githubusercontent.com/89932319/145657934-f4d6e3e5-ab38-49e2-b0bf-6458de72b864.png">
+<p>Showing where to find this filter page by clicking more details</p>
+</td></tr>
+
+</td>
+</tr>
+</table>
+</td>
+</tr>
+<tr><td>
+<table>
+<tr><td>F2 - User will be able to filter transactions between two dates</td></tr>
+<tr><td>Status: 
+<img width="100" height="20" src="https://via.placeholder.com/400x120/009955/fff?text=completed"></td></tr>
+
+<tr><td>
+<img width="768px" src="https://user-images.githubusercontent.com/89932319/145656207-12a0c2f1-458b-408f-bec6-88418fbd8138.png">
+<p>Shows the filter for transactions between two dates</p>
+</td></tr>
+
+<tr><td>
+<img width="768px" src="https://user-images.githubusercontent.com/89932319/145656255-ffde7475-2a26-423e-9525-15cae9c2eeb6.png">
+<p>Shows the filter for transactions between two dates</p>
+</td></tr>
+
+</td>
+</tr>
+</table>
+</td>
+</tr>
+<tr><td>
+<table>
+<tr><td>F2 - User will be able to filter transactions by type (deposit, withdraw, transfer)</td></tr>
+<tr><td>Status: 
+<img width="100" height="20" src="https://via.placeholder.com/400x120/009955/fff?text=completed"></td></tr>
+
+<tr><td>
+<img width="768px" src="https://user-images.githubusercontent.com/89932319/145656310-9ff75e75-f56e-4937-a241-0f192a851141.png">
+<p>Shows the selection of type</p>
+</td></tr>
+
+<tr><td>
+<img width="768px" src="https://user-images.githubusercontent.com/89932319/145656335-6baab4b8-7537-4589-82af-be23dc4139b3.png">
+<p>Shows the successful filter for transfers</p>
+</td></tr>
+
+<tr><td>
+<img width="768px" src="https://user-images.githubusercontent.com/89932319/145656369-45765194-9156-4c03-90ba-421f99c24572.png">
+<p>Shows the successful filter for deposits</p>
+</td></tr>
+
+</td>
+</tr>
+</table>
+</td>
+</tr>
+<tr><td>
+<table>
+<tr><td>F2 - Transactions should paginate results after the initial 10</td></tr>
+<tr><td>Status: 
+<img width="100" height="20" src="https://via.placeholder.com/400x120/009955/fff?text=completed"></td></tr>
+
+<tr><td>
+<img width="768px" src="https://user-images.githubusercontent.com/89932319/145656466-fed55e8c-d0ba-45ef-a79c-0559cede98fa.png">
+<p>Shows first page as well as high to low order; however, pages numbers do not show up bottom left</p>
+</td></tr>
+
+<tr><td>
+<img width="768px" src="https://user-images.githubusercontent.com/89932319/145656550-89838463-fb9a-4a11-8823-b5069a923f22.png">
+<p>Shows second page; however, high to low order does not persist </p>
+</td></tr>
+
+<tr><td>
+<img width="768px" src="https://user-images.githubusercontent.com/89932319/145656595-b02e1fc0-2f4e-4523-b810-c7996d5b9910.png">
+<p>Shows last page</p>
+</td></tr>
+
+</td>
+</tr>
+</table>
+</td>
+</tr>
+<table>
+<tr><td>F3 - User’s profile page should record/show First and Last name (2021-12-10)</td></tr>
+<tr><td>Status: complete</td></tr>
+<tr><td>Links:<p>
+
+ [https://mh45-prod.herokuapp.com/Project/profile.php](https://mh45-prod.herokuapp.com/Project/profile.php)</p><p>
+
+ [https://mh45-prod.herokuapp.com/Project/home.php](https://mh45-prod.herokuapp.com/Project/home.php)</p><p>
+
+ [https://mh45-prod.herokuapp.com/Project/login.php](https://mh45-prod.herokuapp.com/Project/login.php)</p></td></tr>
+<tr><td>PRs:<p>
+
+ [https://github.com/MichaelHalaj/IT-202-001/pull/81](https://github.com/MichaelHalaj/IT-202-001/pull/81)</p></td></tr>
+<tr><td>
+<table>
+<tr><td>F3 - First And Last Name</td></tr>
+<tr><td>Status: 
+<img width="100" height="20" src="https://via.placeholder.com/400x120/009955/fff?text=completed"></td></tr>
+
+<tr><td>
+<img width="768px" src="https://user-images.githubusercontent.com/89932319/145656681-430ea21a-4f1e-4499-88ab-12a46c878658.png">
+<p>Shows input for first and last name</p>
+</td></tr>
+
+<tr><td>
+<img width="768px" src="https://user-images.githubusercontent.com/89932319/145656723-a0801bcf-4ae9-4012-be04-29b6bd38b26c.png">
+<p>Shows input</p>
+</td></tr>
+
+<tr><td>
+<img width="768px" src="https://user-images.githubusercontent.com/89932319/145656744-7ce33e2f-fb79-4f74-a702-903200a1ded8.png">
+<p>Shows user friendly message</p>
+</td></tr>
+
+<tr><td>
+<img width="768px" src="https://user-images.githubusercontent.com/89932319/145656766-4732acb3-dae5-4ee9-b695-5273d3105bfa.png">
+<p>Shows Test1@gmail.com properly updated with first and last name</p>
+</td></tr>
+
+<tr><td>
+<img width="768px" src="https://user-images.githubusercontent.com/89932319/145656839-e849af19-d0d9-461a-b839-b7f7665eb426.png">
+<p>Check for length and correct alphabetical input</p>
+</td></tr>
+
+<tr><td>
+<img width="768px" src="https://user-images.githubusercontent.com/89932319/145656868-0e4c0a68-85a8-4c4c-a694-4fbe45cfda2c.png">
+<p>Shows wrong input and corresponding messages</p>
+</td></tr>
+
+</td>
+</tr>
+</table>
+</td>
+</tr>
+<table>
+<tr><td>F4 - User will be able to transfer funds to another user’s account (2021-12-10)</td></tr>
+<tr><td>Status: complete</td></tr>
+<tr><td>Links:<p>
+
+ [https://mh45-prod.herokuapp.com/Project/transferfunds.php](https://mh45-prod.herokuapp.com/Project/transferfunds.php)</p><p>
+
+ [https://mh45-prod.herokuapp.com/Project/home.php](https://mh45-prod.herokuapp.com/Project/home.php)</p></td></tr>
+<tr><td>PRs:<p>
+
+ [https://github.com/MichaelHalaj/IT-202-001/pull/80](https://github.com/MichaelHalaj/IT-202-001/pull/80)</p><p>
+
+ [https://github.com/MichaelHalaj/IT-202-001/pull/91](https://github.com/MichaelHalaj/IT-202-001/pull/91)</p><p>
+
+ [https://github.com/MichaelHalaj/IT-202-001/pull/93](https://github.com/MichaelHalaj/IT-202-001/pull/93)</p><p>
+
+ [https://github.com/MichaelHalaj/IT-202-001/pull/96](https://github.com/MichaelHalaj/IT-202-001/pull/96)</p><p>
+
+ [https://github.com/MichaelHalaj/IT-202-001/pull/99](https://github.com/MichaelHalaj/IT-202-001/pull/99)</p><p>
+
+ [https://github.com/MichaelHalaj/IT-202-001/pull/102](https://github.com/MichaelHalaj/IT-202-001/pull/102)</p><p>
+
+ [https://github.com/MichaelHalaj/IT-202-001/pull/106](https://github.com/MichaelHalaj/IT-202-001/pull/106)</p></td></tr>
+<tr><td>
+<table>
+<tr><td>F4 - Form should include a dropdown of the current user’s accounts (as AccountSrc) / Form should include a field for the destination user’s last name / Form should include a field for the last 4 digits of the destination user’s account number (to lookup AccountDest) / Form should include a field for a positive numerical value Form should allow the user to record a memo for the transaction</td></tr>
+<tr><td>Status: 
+<img width="100" height="20" src="https://via.placeholder.com/400x120/009955/fff?text=completed"></td></tr>
+
+<tr><td>
+<img width="768px" src="https://user-images.githubusercontent.com/89932319/145657171-388939d8-4b66-418b-930c-a3bc5c30e842.png">
+<p>Shows the list of accounts from user, input for last name and last 4 characters of account, a positive input value and input for memo</p>
+</td></tr>
+
+<tr><td>
+<img width="768px" src="https://user-images.githubusercontent.com/89932319/145657889-e814cdd2-6fa1-45a9-9224-c029c5290f45.png">
+<p>Showing how to navigate to the transfer to other users</p>
+</td></tr>
+
+</td>
+</tr>
+</table>
+</td>
+</tr>
+<tr><td>
+<table>
+<tr><td>F4 - System shouldn’t let the user transfer more than the balance of their account</td></tr>
+<tr><td>Status: 
+<img width="100" height="20" src="https://via.placeholder.com/400x120/009955/fff?text=completed"></td></tr>
+
+<tr><td>
+<img width="768px" src="https://user-images.githubusercontent.com/89932319/145658221-933f0aa5-cbf0-45be-8e61-08779a840908.png">
+<p>Shows that the user cannot transfer if they do not have enough money</p>
+</td></tr>
+
+</td>
+</tr>
+</table>
+</td>
+</tr>
+<tr><td>
+<table>
+<tr><td>F4 - System will lookup appropriate account based on destination user’s last name and the last 4 digits of the account number</td></tr>
+<tr><td>Status: 
+<img width="100" height="20" src="https://via.placeholder.com/400x120/009955/fff?text=completed"></td></tr>
+
+<tr><td>
+<img width="768px" src="https://user-images.githubusercontent.com/89932319/145658940-302feeba-ff82-453e-b294-5148791abb5f.png">
+<p>Code that looks up  last name and last 4 digits</p>
+</td></tr>
+
+</td>
+</tr>
+</table>
+</td>
+</tr>
+<tr><td>
+<table>
+<tr><td>F4 - Show appropriate user-friendly error messages / Show user-friendly success messages</td></tr>
+<tr><td>Status: 
+<img width="100" height="20" src="https://via.placeholder.com/400x120/009955/fff?text=completed"></td></tr>
+
+<tr><td>
+<img width="768px" src="https://user-images.githubusercontent.com/89932319/145658996-3edba7a0-3d76-4c88-a403-f816e695fa49.png">
+<p>Message when anything other than alphabetical letters are typed into input for last name</p>
+</td></tr>
+
+<tr><td>
+<img width="768px" src="https://user-images.githubusercontent.com/89932319/145659793-f2e952f4-a0b3-4b01-bc13-e34b82cc564d.png">
+<p>Message when user does not select account</p>
+</td></tr>
+
+<tr><td>
+<img width="768px" src="https://user-images.githubusercontent.com/89932319/145659813-7a1f1bc7-534f-4d72-a67f-d419ab5c5254.png">
+<p>Message when the system cannot locate account to transfer to</p>
+</td></tr>
+
+<tr><td>
+<img width="768px" src="https://user-images.githubusercontent.com/89932319/145659835-fe3c604b-72cf-4dda-8df4-8af9f92c0b50.png">
+<p>Message and redirect with successful transfer</p>
+</td></tr>
+
+</td>
+</tr>
+</table>
+</td>
+</tr>
+<tr><td>
+<table>
+<tr><td>F4 - Transaction will be recorded with the type as “ext-transfer” / Each transaction is recorded as a transaction pair in the Transaction table / These will reflect in the transaction history page</td></tr>
+<tr><td>Status: 
+<img width="100" height="20" src="https://via.placeholder.com/400x120/009955/fff?text=completed"></td></tr>
+
+<tr><td>
+<img width="768px" src="https://user-images.githubusercontent.com/89932319/145659912-862acc5b-431e-4236-aa0c-0ae4ce7e4e21.png">
+<p>Shows the type of transfer and pair in table </p>
+</td></tr>
+
+</td>
+</tr>
+</table>
+</td>
+</tr></td></tr></table>
 - Milestone 4
 
 ### Intructions
