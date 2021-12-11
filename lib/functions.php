@@ -180,7 +180,13 @@ function get_last_name_id($last){
     try{
         $stmt->execute([":lastName" => $last]);
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
-        return $result["id"];
+        if($result){
+            return $result["id"];
+        }
+        else{
+            return "none";
+        }
+        
         //echo var_export($userID);
     }catch (PDOException $e){
         flash("Technical error: " . var_export($e->errorInfo, true), "danger");

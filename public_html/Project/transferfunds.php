@@ -6,62 +6,68 @@ if(isset($_POST["save"])){
     $from = se($_POST, "accountFROM", null, false);
     $account = se($_POST, "accountNum", null, false);
     $last = se($_POST, "lastName", null ,false);
+    $hasError = false;
     if(!preg_match('/^[a-zA-Z]+$/', $last)){
         flash("Must be valid last name", "warning");
         $hasError = true;
+    }
     }if(!$hasError){
         
         $userID = get_last_name_id($last);
-    
-        $fromID = find_account($from);
-        $query = "SELECT id FROM Bank_Accounts WHERE account LIKE '%$account' AND user_id = :uid LIMIT 1" ;
-        $db = getDB();
-        $stmt = $db->prepare($query);
-        try{
-            $stmt->execute([":uid" => $userID]);
-            $result = $stmt->fetch(PDO::FETCH_ASSOC);
-            if($result){
-                $otherID =  $result["id"];
-            }
-            else{
-                $otherID = "none";
-            }
-    
-        }catch (PDOException $e){
-            flash("Technical error: " . var_export($e->errorInfo, true), "danger");
-        }
-       // $into = se($_POST, "accountINTO", null, false);
-        $memo = se($_POST, "memo", null, false);
-        $fromBal = get_balance($from);
-        //$intoBal = get_balance($into);
-        //$fromID = find_account($from);
-        //$intoID = find_account($into);
-        if($otherID === "none"){
-            flash("No such account exists. Try again.", "warning");
+        if($userID === "none"){
+            flash("No such user exists", "warning");
         }else{
-            if($otherID === $fromID){
-                flash("Accounts must be different", "warning");
-            }else{
-                if($fromBal - ($amount*100) < 0 ){
-                    flash("Insufficient funds to transfer", "warning");
-                }else{
-                    if($userID === get_user_id()){
-                        flash("Please select an account that is not yours", "warning");
-                    }else{
-                   // echo var_export($fromID);
-                    //echo var_export($otherID);
-                    transaction($amount, "ext-transfer", $fromID, $otherID, $memo);
-                    flash("Successful transfer");
-                    die(header("Location: user_accounts.php"));
-                    }
-        
+            $fromID = find_account($from);
+            $query = "SELECT id FROM Bank_Accounts WHERE account LIKE '%$account' AND user_id = :uid LIMIT 1" ;
+            $db = getDB();
+            $stmt = $db->prepare($query);
+            try{
+                $stmt->execute([":uid" => $userID]);
+                $result = $stmt->fetch(PDO::FETCH_ASSOC);
+                if($result){
+                    $otherID =  $result["id"];
                 }
-            }
-         
+                else{
+                    $otherID = "none";
+                }
         
+            }catch (PDOException $e){
+                flash("Technical error: " . var_export($e->errorInfo, true), "danger");
+            }
+           // $into = se($_POST, "accountINTO", null, false);
+            $memo = se($_POST, "memo", null, false);
+            $fromBal = get_balance($from);
+            //$intoBal = get_balance($into);
+            //$fromID = find_account($from);
+            //$intoID = find_account($into);
+            if($otherID === "none"){
+                flash("No such account exists. Try again.", "warning");
+            }else{
+                if($otherID === $fromID){
+                    flash("Accounts must be different", "warning");
+                }else{
+                    if($fromBal - ($amount*100) < 0 ){
+                        flash("Insufficient funds to transfer", "warning");
+                    }else{
+                        if($userID === get_user_id()){
+                            flash("Please select an account that is not yours", "warning");
+                        }else{
+                       // echo var_export($fromID);
+                        //echo var_export($otherID);
+                        transaction($amount, "ext-transfer", $fromID, $otherID, $memo);
+                        flash("Successful transfer");
+                        die(header("Location: user_accounts.php"));
+                        }
+            
+                    }
+                }
+             
+            
+            }
+            }
         }
-        }
-    }
+
+    
 
 
 
@@ -108,7 +114,7 @@ try{
         <div class = "mb-3 form-group col-md-3"></div>
 <div class="mb-3 form-group col-md-3">
             <h2 class = "text-info">Account Number</h2>
-            <input class="form-control" type="text" name="accountNum" id="accountNum" maxlength = 4 required/>
+            <input class="form-control" type="text" name="accountNum" id="accountNum" minlength =4 maxlength = 4 required/>
             <small id="4chars"  class="form-text text-warning">Enter the last 4 characters of the user account</small>
     </div>
 </div>
