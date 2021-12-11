@@ -6,13 +6,10 @@ if(isset($_POST["save"])){
     $from = se($_POST, "accountFROM", null, false);
     $account = se($_POST, "accountNum", null, false);
     $last = se($_POST, "lastName", null ,false);
-    $hasError = false;
+
     if(!preg_match('/^[a-zA-Z]+$/', $last)){
         flash("Must be valid last name", "warning");
-        $hasError = true;
-    }
-    }if(!$hasError){
-        
+    }else{
         $userID = get_last_name_id($last);
         if($userID === "none"){
             flash("No such user exists", "warning");
@@ -65,6 +62,9 @@ if(isset($_POST["save"])){
             
             }
             }
+    }
+        
+
         }
 
     
