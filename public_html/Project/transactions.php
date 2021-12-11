@@ -149,6 +149,7 @@ try{
                     <option value = "transfer">Transfer</option>
                     <option value = "deposit">Deposit</option>
                     <option value = "withdraw">Withdrawal</option>
+                    <option value = "ext-transfer">ext-Transfer</option>
                 </select>
                 <span class = "input-group-text" id = "sort">Sort</span>
                 <select class = "form-control" name = "sort" aria-label="sort" aria-describedby="sort">
