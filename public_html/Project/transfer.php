@@ -68,7 +68,7 @@ try{
 </div>
 <div class="mb-3 form-group col-md-6">
             <h2 label class="form-label text-dark" for="memo" >Memo</h2>
-            <textarea class="form-control" name="memo"  id="memo"></textarea> 
+            <textarea class="form-control" name="memo"  id="memo" maxlength = 240></textarea> 
 </div>
 <input type="submit" class="btn btn-success" value = "Transfer" name = "save"></input>  
     <table class = "table text-light">
