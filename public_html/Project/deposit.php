@@ -51,7 +51,7 @@ try{
         </div>
         <div class="mb-3 form-group">
             <h2 label class=" text-dark form-label" for="d">Memo</h2>
-            <textarea class="form-control" name="memo" id="d"></textarea>
+            <textarea class="form-control" name="memo" id="d" maxlength =240></textarea>
         </div>
         <input type="submit" class="btn btn-success" value = "Deposit" name = "save"></input>  
    </form>

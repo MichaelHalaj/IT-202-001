@@ -16,7 +16,9 @@ if(isset($_POST["save"])){
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
         if($result){
             $otherID =  $result["id"];
-
+        }
+        else{
+            $otherID = "none";
         }
 
     }catch (PDOException $e){
@@ -28,27 +30,32 @@ if(isset($_POST["save"])){
     //$intoBal = get_balance($into);
     //$fromID = find_account($from);
     //$intoID = find_account($into);
-    if($otherID === $fromID){
-        flash("Accounts must be different", "warning");
+    if($otherID === "none"){
+        flash("No such account exists. Try again.", "warning");
     }else{
-        if($fromBal - ($amount*100) < 0 ){
-            flash("Insufficient funds to transfer", "warning");
+        if($otherID === $fromID){
+            flash("Accounts must be different", "warning");
         }else{
-            if($userID === get_user_id()){
-                flash("Please select an account that is not yours", "warning");
+            if($fromBal - ($amount*100) < 0 ){
+                flash("Insufficient funds to transfer", "warning");
             }else{
-           // echo var_export($fromID);
-            //echo var_export($otherID);
-            transaction($amount, "transfer", $fromID, $otherID, $memo);
-            flash("Successful transfer");
-            die(header("Location: user_accounts.php"));
+                if($userID === get_user_id()){
+                    flash("Please select an account that is not yours", "warning");
+                }else{
+               // echo var_export($fromID);
+                //echo var_export($otherID);
+                transaction($amount, "transfer", $fromID, $otherID, $memo);
+                flash("Successful transfer");
+                die(header("Location: user_accounts.php"));
+                }
+    
             }
-
         }
+     
+    
     }
- 
+    }
 
-}
 
 $query = "SELECT account, account_type, balance from Bank_Accounts WHERE user_id = :uid";
 $db = getDB();
@@ -83,7 +90,7 @@ try{
     </div>
     <div class="mb-3 form-group col-md-3">
             <h2 class = "text-info">Destination</h2>
-            <input class="form-control" type="text" name="lastName" id="lastName" required/>
+            <input class="form-control" type="text" name="lastName" id="lastName" maxlength = 25 required/>
             <small id="search"  class="form-text text-warning">Search for user's last name</small>
     </div>
     </div>
@@ -93,7 +100,7 @@ try{
         <div class = "mb-3 form-group col-md-3"></div>
 <div class="mb-3 form-group col-md-3">
             <h2 class = "text-info">Account Number</h2>
-            <input class="form-control" type="text" name="accountNum" id="accountNum" required/>
+            <input class="form-control" type="text" name="accountNum" id="accountNum" maxlength = 4 required/>
             <small id="4chars"  class="form-text text-warning">Enter the last 4 characters of the user account</small>
     </div>
 </div>
