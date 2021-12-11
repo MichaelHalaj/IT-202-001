@@ -44,7 +44,7 @@ if(isset($_POST["save"])){
                 }else{
                // echo var_export($fromID);
                 //echo var_export($otherID);
-                transaction($amount, "transfer", $fromID, $otherID, $memo);
+                transaction($amount, "ext-transfer", $fromID, $otherID, $memo);
                 flash("Successful transfer");
                 die(header("Location: user_accounts.php"));
                 }
