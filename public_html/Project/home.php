@@ -20,6 +20,7 @@ if (is_logged_in()) {
             <a class="btn btn-dark" href="<?php echo get_url('withdraw.php'); ?>" role="button">Withdraw</a>
             <a class="btn btn-dark" href="<?php echo get_url('transfer.php'); ?>" role="button">Transfer</a>
             <a class="btn btn-dark" href="<?php echo get_url('transferfunds.php'); ?>" role="button">Transfer Funds To Another User</a>
+            <a class="btn btn-dark" href="<?php echo get_url('loan.php'); ?>" role="button">Loan</a>
             <a class="btn btn-dark" href="<?php echo get_url('profile.php'); ?>" role="button">Profile</a>
         <?php endif; ?>
     </div>
