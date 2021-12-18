@@ -1,26 +1,6 @@
 <?php
 require(__DIR__ . "/../../partials/nav.php");
 
-if(isset($_POST["save"])){
-    $total = se($_POST, "loan", "", false);
-    
-    $apy = se($_POST, "apy", "", false);
-    echo var_export($apy);
-    //$actual = ($total *$apy) + $total;
-    $accountID = se($_POST,"account","",false);
-    if(strlen($accountID)!=12){
-        flash("Please select an account", "warning");
-    }else{
-        
-       // get_or_create_account("loan", "");
-        //echo var_export(get_user_account_id());
-        //transaction($actual, "loan", -1, get_user_account_id(), "loan");
-       // transaction($total, "loan", -1, find_account($accountID), "loan");
-    }
-
-    
-}
-
 $query = "SELECT APY FROM System_Properties";
 $db = getDB();
 $stmt = $db->prepare($query);
@@ -45,6 +25,31 @@ try{
 } catch (PDOException $e) {
     flash(var_export($e->errorInfo, true), "danger");
 }
+
+
+
+if(isset($_POST["save"])){
+    $total = se($_POST, "loan", "", false);
+    
+   // $apy = se($_POST, "apy", "", false);
+    //echo var_export($_POST["apy"]);
+    $actual = ($total * ($value/100)) + $total;
+    echo var_export($actual);
+    $accountID = se($_POST,"account","",false);
+    if(strlen($accountID)!=12){
+        flash("Please select an account", "warning");
+    }else{
+        
+        get_or_create_account("loan", "");
+        //echo var_export(get_user_account_id());
+        transaction($actual *100, "loan", -1, get_user_account_id(), "loan");
+        transaction($total * 100, "loan", -1, find_account($accountID), "loan");
+    }
+
+    
+}
+
+
 ?>
 <head>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -115,15 +120,12 @@ try{
     });
 */
     $("#loanAm").keyup(function(){
-        var a = parseInt($('#loanAm').val()*100, 10);
-       //var b = document.getElementsByClassName("bal");
-       var b = $('#apy').val();
-      // console.log(b);
-       var c = a +b;
-      // document.getElementById("total").innerHTML = c;
-      if(!isNaN(a)){
+        var a = parseInt($('#loanAm').val(), 10);
+       var data = <?php echo json_encode($value, JSON_HEX_TAG); ?>;
+       var si = a * (data/100) + a;
+      if(!isNaN(si)){
         $("#total").show();
-        $("#total").text("$" + a/100);
+        $("#total").text("$" + si);
       }
       else{
         $("#total").hide();
@@ -131,14 +133,12 @@ try{
         
     });
     $("#loanAm").click(function(){
-        var a = parseInt($('#loanAm').val() *100, 10);
-       var b = $('#apy').val();
-       console.log(b);
-       var c = $('#loanAm').val();
-      // document.getElementById("total").innerHTML = c;
-      if(!isNaN(a)){
+        var a = parseInt($('#loanAm').val(), 10);
+       var data = <?php echo json_encode($value, JSON_HEX_TAG); ?>;
+       var si = a * (data/100) + a;
+      if(!isNaN(si)){
         $("#total").show();
-        $("#total").text("$" + a/100);
+        $("#total").text("$" + si);
       }
       else{
         $("#total").hide();
