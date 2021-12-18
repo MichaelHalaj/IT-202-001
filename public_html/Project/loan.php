@@ -44,6 +44,7 @@ if(isset($_POST["save"])){
         //echo var_export(get_user_account_id());
         transaction($actual *100, "loan", -1, get_user_account_id(), "loan");
         transaction($total * 100, "loan", -1, find_account($accountID), "loan");
+        die(header('Location: user_accounts.php'));
     }
 
     
