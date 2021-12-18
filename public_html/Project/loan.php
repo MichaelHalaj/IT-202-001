@@ -34,7 +34,7 @@ if(isset($_POST["save"])){
    // $apy = se($_POST, "apy", "", false);
     //echo var_export($_POST["apy"]);
     $actual = ($total * ($value/100)) + $total;
-    echo var_export($actual);
+    //echo var_export($actual);
     $accountID = se($_POST,"account","",false);
     if(strlen($accountID)!=12){
         flash("Please select an account", "warning");
@@ -125,7 +125,7 @@ if(isset($_POST["save"])){
        var si = a * (data/100) + a;
       if(!isNaN(si)){
         $("#total").show();
-        $("#total").text("$" + si);
+        $("#total").text("Balance After 1-Year: $" + si);
       }
       else{
         $("#total").hide();
@@ -138,7 +138,7 @@ if(isset($_POST["save"])){
        var si = a * (data/100) + a;
       if(!isNaN(si)){
         $("#total").show();
-        $("#total").text("$" + si);
+        $("#total").text("Balance After 1-Year: $" + si);
       }
       else{
         $("#total").hide();
