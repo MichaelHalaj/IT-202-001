@@ -310,7 +310,12 @@ function get_or_create_account($accountType, $money)
                         $created = true;
                         //transaction($money, "deposit", -1, $account_number, ""); 
                         //if we got here it was a success, let's exit
-                        flash("Welcome! Your account has been created successfully", "success");
+                        if($accountType == "loan"){
+                            flash("Your loan account has been opened");
+                        }else{
+                            flash("Welcome! Your account has been created successfully", "success");
+                        }
+                        
                     } catch (PDOException $e) {
                         $code = se($e->errorInfo, 0, "00000", false);
                         //if it's a duplicate error, just let the loop happen
