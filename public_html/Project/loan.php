@@ -56,6 +56,7 @@ if(isset($_POST["save"])){
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <div class = "container">
+<?php if (is_logged_in()) : ?>
     <br>
     <form onsubmit="return validate(this)" method="POST" name = "this">
         <div class = "row">
@@ -74,7 +75,7 @@ if(isset($_POST["save"])){
         </div>
         <div class="mb-3 form-group col-md-3">
         <select class=" btn btn-dark form-select" name = "account">
-                    <option selected> Select an account to depsosit loan into</option>
+                    <option selected> Select an account to deposit loan into</option>
                 <?php foreach ($accounts as $account) : ?>
                     <li><option><?php se($account, "account"); ?></option></li>
                 <?php endforeach; ?>
@@ -84,6 +85,7 @@ if(isset($_POST["save"])){
 
         <input type="submit" class="btn btn-success" value = "Take out loan" name = "save"></input>
     </form>
+    <?php endif; ?>  
 </div>
 <script>
         var x = document.getElementsByClassName("bal");
