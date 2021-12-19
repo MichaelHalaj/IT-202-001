@@ -257,6 +257,49 @@ function refresh_account_balance($accountID)
         }
     }
 }
+function update_APY(){
+    $query = "SELECT account, ID, created, balance FROM Bank_Accounts where user_id = :ID AND account_type = :savings";
+    
+    $db = getDB();
+    $stmt = $db->prepare($query);
+    try{
+        $stmt->execute([":ID" => get_user_id(), ":savings" => "savings"]);
+        $result = $stmt->fetchALL(PDO::FETCH_ASSOC);
+        $queryAPY = "SELECT APY from System_Properties WHERE APY = :APY";
+        $stmt = $db->prepare($queryAPY);
+        try{
+            $stmt->execute([":APY" => 1]);
+            $APY = $stmt->fetch(PDO::FETCH_ASSOC);
+            $APY = $APY["APY"];
+            $APY = $APY/1000;
+            $date = date('Y-m-d H:i:s');
+            $date1 = date_create();
+
+            foreach($result as $r){
+                $date2 = date_create($r["created"]);
+                $diff = date_diff($date2,$date1, true);
+                $offset = ceil($diff->d/30);
+                if($offset%30 == 1 && $offset != 0){
+                    $interest = ($APY/12 * $r["balance"])*100;
+                    //transaction($interest, "transfer", -1, $r["ID"], "interest");
+                    $updatedBalance = $interest + $r["balance"];
+                    echo var_export($updatedBalance);
+                }
+                echo var_export($offset);
+                echo var_export($r["created"]);
+                //$d = json_decode($toolie,true);
+                
+            }
+            echo var_export($date);
+            return $APY;
+        }catch (PDOException $e) {
+            flash("Error refreshing account: " . var_export($e->errorInfo, true), "danger");
+        }
+        //return $result;
+    }catch (PDOException $e) {
+        flash("Error refreshing account: " . var_export($e->errorInfo, true), "danger");
+    }
+}
 function transaction($money, $typeTrans, $src = -1, $dest = -1, $memo = "")
 {
     //I'm choosing to ignore the record of 0 point transactions
