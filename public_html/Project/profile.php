@@ -127,6 +127,13 @@ $last = get_user_last();
             <label class="form-label" for="last">Last Name</label>
             <input class="form-control" type="text" name="lastName" id="last" value = "<?php se($last); ?>"/>
         </div>
+        <div class="mb-3 form-group col-md-4">
+        <label class="form-label" for="">Account Visibility</label>
+                <input class="form-check-input" type="radio" name="radio" value = "public" id="public" checked>
+                <label class="form-check-label" for="Public">
+                    Public
+                </label>
+        </div>
         </div>
         <!-- DO NOT PRELOAD PASSWORD -->
         <h3 class="mb-3">Password Reset</h3>
