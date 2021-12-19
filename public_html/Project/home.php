@@ -7,8 +7,7 @@ if (is_logged_in()) {
     //comment this out if you don't want to see the session variables
    // echo "<pre>" . var_export($_SESSION, true) . "</pre>";
    //$email = get_user_email();
-   $t = update_APY();
-   echo var_export($t);
+   update_APY();
 } 
 ?>
 <div class = "container-fluid">
