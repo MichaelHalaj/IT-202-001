@@ -28,7 +28,19 @@ try{
 } catch (PDOException $e) {
     flash(var_export($e->errorInfo, true), "danger");
 }
+$queryAPY = "SELECT APY from System_Properties WHERE APY = :APY";
+        $stmt = $db->prepare($queryAPY);
+        try{
+            $stmt->execute([":APY" => 1]);
+            $APY = $stmt->fetch(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            flash(var_export($e->errorInfo, true), "danger");
+        }
+
 ?>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
 <div class="container-fluid">
 
 <?php if (is_logged_in()) : ?>    
@@ -39,6 +51,7 @@ try{
             <th>Account number</th>
             <th>Account type</th>
             <th>Balance</th>
+            <th>APY</th>
         </thead>
         <tbody>
         <?php if (empty($accounts)) : ?>
@@ -52,7 +65,7 @@ try{
                             </input></td>
                         <td><?php se($account, "account_type"); ?></td>
                         <td class = "bal"><?php se($account, "balance");?></td>
-
+                        <td id = "APY" class = "APY">-</td>
 
                     </tr>
                 <?php endforeach; ?>
@@ -117,8 +130,24 @@ try{
         console.log(i.innerHTML);
     
     }
-
-
+    var data = <?php echo json_encode($APY, JSON_HEX_TAG); ?>;
+    let a = data['APY'];
+    var accounts =  <?php echo json_encode($accounts, JSON_HEX_TAG); ?>;
+    let r = document.getElementsByClassName("APY");
+    let d = 0;
+    for(let y of r){
+        console.log(accounts[d]["account_type"]);
+        let u = y.innerHTML;
+        er = accounts[d]["account_type"];
+        if(er === "savings"){
+            y.innerHTML = (a/10) + "%";
+        }else{
+            y.innerHTML = "-";
+        }
+        
+        //console.log(u);
+        d++;
+    }
 </script>
 <?php
 //(se($account, "balance")

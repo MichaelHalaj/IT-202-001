@@ -94,7 +94,7 @@ if(isset($_POST["save"])){
         if(y < 0){
             y*=-1;
         }
-        i.innerHTML = parseInt(y)/100;
+        i.innerHTML = parseInt(y)/10;
         i.innerHTML += "%";
         console.log(i.innerHTML);
     
@@ -125,7 +125,7 @@ if(isset($_POST["save"])){
     $("#loanAm").keyup(function(){
         var a = parseInt($('#loanAm').val(), 10);
        var data = <?php echo json_encode($value, JSON_HEX_TAG); ?>;
-       var si = a * (data/100) + a;
+       var si = a * (data/1000) + a;
       if(!isNaN(si)){
         $("#total").show();
         $("#total").text("Balance After 1-Year: $" + si);
@@ -138,7 +138,7 @@ if(isset($_POST["save"])){
     $("#loanAm").click(function(){
         var a = parseInt($('#loanAm').val(), 10);
        var data = <?php echo json_encode($value, JSON_HEX_TAG); ?>;
-       var si = a * (data/100) + a;
+       var si = a * (data/1000) + a;
       if(!isNaN(si)){
         $("#total").show();
         $("#total").text("Balance After 1-Year: $" + si);
