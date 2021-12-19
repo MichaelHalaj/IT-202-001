@@ -9,6 +9,9 @@ if (isset($_POST["save"])) {
     $first = se($_POST, "firstName", null, false);
     $last = se($_POST, "lastName", null, false);
     $visi = se($_POST, "radio", null, false);
+    if($visi == ""){
+        $visi = "public";
+    }
     $hasError = false;
     //sanitize
     $email = sanitize_email($email);
@@ -105,7 +108,11 @@ $email = get_user_email();
 $username = get_username();
 $first = get_user_first();
 $last = get_user_last();
+$visi = get_visi($email);
 ?>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
 <div class="container-fluid">
     <h1 class = "fw-bold">Profile</h1>
     <form method="POST" onsubmit="return validate(this);">
@@ -129,8 +136,8 @@ $last = get_user_last();
             <input class="form-control" type="text" name="lastName" id="last" value = "<?php se($last); ?>"/>
         </div>
         <div class="mb-3 form-group col-md-4">
-        <h2>Account Visibility</h2>
-                <input class="form-check-input" type="radio" name="radio" value = "public" id="public"checked>
+        <h2>Account Visibility: <?php se($visi) ?></h2>
+                <input class="form-check-input" type="radio" name="radio" value = "public" id="public">
                 <label class="form-check-label" for="Public">
                     Public
                 </label>
@@ -185,6 +192,8 @@ $last = get_user_last();
         }
         return isValid;
     }
+    var data = <?php echo json_encode($visi, JSON_HEX_TAG); ?>;
+    $('#' + data).prop('checked', true);
 </script>
 <?php
 require_once(__DIR__ . "/../../partials/flash.php");

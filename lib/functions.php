@@ -56,6 +56,20 @@ function has_role($role)
     }
     return false;
 }
+function get_visi($email){
+    if(is_logged_in()){
+        $query = "SELECT visibility FROM Users WHERE email = :email LIMIT 1";
+        $db = getDB();
+        $stmt = $db->prepare($query);
+        try{
+            $stmt->execute([":email" => $email]);
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            return $result["visibility"];
+        }catch (PDOException $e){
+            flash("Technical error: " . var_export($e->errorInfo, true), "danger");
+        }
+    }
+}
 function get_username()
 {
     if (is_logged_in()) { //we need to check for login first because "user" key may not exist
