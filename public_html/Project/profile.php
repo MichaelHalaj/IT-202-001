@@ -8,6 +8,7 @@ if (isset($_POST["save"])) {
     $username = se($_POST, "username", null, false);
     $first = se($_POST, "firstName", null, false);
     $last = se($_POST, "lastName", null, false);
+    $visi = se($_POST, "radio", null, false);
     $hasError = false;
     //sanitize
     $email = sanitize_email($email);
@@ -33,9 +34,9 @@ if (isset($_POST["save"])) {
         $hasError = true;
     }
     if (!$hasError) {
-        $params = [":email" => $email, ":username" => $username, ":firstName" => $first, ":lastName" => $last, ":id" => get_user_id()];
+        $params = [":email" => $email, ":username" => $username, ":firstName" => $first, ":lastName" => $last, ":id" => get_user_id(), ":visibility" => $visi];
         $db = getDB();
-        $stmt = $db->prepare("UPDATE Users set email = :email, username = :username, firstName = :firstName, lastName = :lastName where id = :id");
+        $stmt = $db->prepare("UPDATE Users set email = :email, username = :username, firstName = :firstName, lastName = :lastName, visibility = :visibility where id = :id");
         try {
             $stmt->execute($params);
             flash("Successful update");
@@ -128,10 +129,14 @@ $last = get_user_last();
             <input class="form-control" type="text" name="lastName" id="last" value = "<?php se($last); ?>"/>
         </div>
         <div class="mb-3 form-group col-md-4">
-        <label class="form-label" for="">Account Visibility</label>
-                <input class="form-check-input" type="radio" name="radio" value = "public" id="public" checked>
+        <h2>Account Visibility</h2>
+                <input class="form-check-input" type="radio" name="radio" value = "public" id="public"checked>
                 <label class="form-check-label" for="Public">
                     Public
+                </label>
+                <input class="form-check-input" type="radio" name="radio" value = "private" id="private">
+                <label class="form-check-label" for="Private">
+                    Private
                 </label>
         </div>
         </div>
