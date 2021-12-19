@@ -33,7 +33,6 @@ $queryAPY = "SELECT APY from System_Properties WHERE APY = :APY";
         try{
             $stmt->execute([":APY" => 1]);
             $APY = $stmt->fetch(PDO::FETCH_ASSOC);
-            echo var_export($APY);
         } catch (PDOException $e) {
             flash(var_export($e->errorInfo, true), "danger");
         }
