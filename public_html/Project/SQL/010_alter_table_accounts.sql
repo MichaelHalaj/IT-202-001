@@ -4,3 +4,6 @@ ALTER TABLE Bank_Accounts
 ADD updated TIMESTAMP;
 ALTER TABLE Bank_Accounts
 MODIFY COLUMN balance BIGINT;
+
+ALTER TABLE Bank_Accounts
+ADD frozen varchar(15) DEFAULT 'false';

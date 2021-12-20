@@ -186,6 +186,23 @@ function close_account($ID){
     }
     }
 }
+function find_partial_account($accountNumber){
+    if(is_logged_in()){
+        $query = "SELECT id FROM Bank_Accounts WHERE account LIKE :account LIMIT 1";
+        $db = getDB();
+        $stmt = $db->prepare($query);
+        try{
+            $stmt->execute([":account" => "%$accountNumber%"]);
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            if($result){
+                return $result["id"];
+            }
+            return "";
+        }catch (PDOException $e){
+            flash("Technical error: " . var_export($e->errorInfo, true), "danger");
+        }
+    }
+}
 function find_account($accountNumber){
     if(is_logged_in()){
         $query = "SELECT id FROM Bank_Accounts WHERE account = :account LIMIT 1";
