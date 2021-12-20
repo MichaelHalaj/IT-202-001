@@ -12,12 +12,12 @@ try{
 } catch (PDOException $e) {
     flash(var_export($e->errorInfo, true), "danger");
 }
-$query = "SELECT account, account_type, balance from Bank_Accounts WHERE user_id = :uid and account_type <> :loan ";
+$query = "SELECT account, account_type, balance, active from Bank_Accounts WHERE user_id = :uid and account_type <> :loan AND active = :true";
 $db = getDB();
 $stmt = $db->prepare($query);
 $accounts = [];
 try{
-    $stmt->execute([":uid" => get_user_id(), ":loan" => "loan"]);
+    $stmt->execute([":uid" => get_user_id(), ":loan" => "loan", ":true" => "true"]);
     $r = $stmt->fetchAll(PDO::FETCH_ASSOC);
     if ($r) {
         $accounts = $r;
@@ -42,8 +42,10 @@ if(isset($_POST["save"])){
         
         get_or_create_account("loan", "");
         //echo var_export(get_user_account_id());
-        transaction($actual *100, "loan", -1, get_user_account_id(), "loan");
-        transaction($total * 100, "loan", -1, find_account($accountID), "loan");
+        //echo var_export($total);
+        //echo var_export($total *100);
+        transaction($total, "loan", -1, get_user_account_id(), "loan");
+        transaction($total, "loan", -1, find_account($accountID), "loan");
         die(header('Location: user_accounts.php'));
     }
 

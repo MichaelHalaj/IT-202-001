@@ -15,12 +15,12 @@ if(isset($_POST["save"])){
         flash(var_export($e->errorInfo, true), "danger");
     }
 }
-$query = "SELECT account, account_type, balance from Bank_Accounts WHERE user_id = :uid LIMIT 5";
+$query = "SELECT account, account_type, balance, active from Bank_Accounts WHERE user_id = :uid  and active = :true LIMIT 5";
 $db = getDB();
 $stmt = $db->prepare($query);
 $accounts = [];
 try{
-    $stmt->execute([":uid" => get_user_id()]);
+    $stmt->execute([":uid" => get_user_id(), ":true" => "true"]);
     $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
     if ($results) {
         $accounts = $results;
