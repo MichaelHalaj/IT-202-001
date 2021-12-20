@@ -5,17 +5,33 @@ if(isset($_POST["save"])){
     $amount = se($_POST, "transfer", null ,false);
     $from = se($_POST, "accountFROM", null, false);
     $into = se($_POST, "accountINTO", null, false);
+    $intoAccount = substr($into,0,12);
+    $intoType = substr($into,12);
     $memo = se($_POST, "memo", null, false);
     $fromBal = get_balance($from);
-    //$intoBal = get_balance($into);
+    $intoBal = get_balance($intoAccount);
     $fromID = find_account($from);
-    $intoID = find_account($into);
+    $intoID = find_account($intoAccount);
+
     if($fromBal - ($amount*100) < 0 ){
         flash("Insufficient funds to transfer", "warning");
     }else{
-        transaction($amount, "transfer", $fromID, $intoID, $memo);
-        flash("Successful transfer");
-        die(header("Location: user_accounts.php"));
+        if($intoType == "loan"){
+            if($intoBal - ($amount*100) < 0){
+                flash("Transfer exceeded loan balance", "warning");
+            }
+            else{
+                transaction($amount, "transfer", $fromID, -1, $memo);
+                transaction($amount, "transfer", $intoID, -1, $memo);
+                flash("Successful transfer to loan account");
+                die(header("Location: user_accounts.php"));
+            }
+        }else{
+            transaction($amount, "transfer", $fromID, $intoID, $memo);
+            flash("Successful transfer");
+            die(header("Location: user_accounts.php"));
+        }
+
     }
 
 }
@@ -29,6 +45,19 @@ try{
     $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
     if ($results) {
         $accounts = $results;
+    }
+} catch (PDOException $e) {
+    flash(var_export($e->errorInfo, true), "danger");
+}
+$query = "SELECT account, account_type, balance from Bank_Accounts WHERE user_id = :uid";
+$db = getDB();
+$stmt = $db->prepare($query);
+$accounts2 = [];
+try{
+    $stmt->execute([":uid" => get_user_id()]);
+    $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    if ($results) {
+        $accounts2 = $results;
     }
 } catch (PDOException $e) {
     flash(var_export($e->errorInfo, true), "danger");
@@ -55,8 +84,8 @@ try{
     <h2 class = "text-info">Destination</h2>
         <select class=" btn btn-dark form-select" name = "accountINTO" aria-label="into">
                         <option selected> Select an account to transfer INTO</option>
-                        <?php foreach ($accounts as $account) : ?>
-                    <li><option><?php se($account, "account"); ?></option></li>
+                        <?php foreach ($accounts2 as $account) : ?>
+                    <li><option value = "<?php [se($account, "account"), se($account, "account_type")];?>"><?php se($account, "account"); ?></option></li>
                 <?php endforeach; ?>
                 
                     </select>
@@ -84,11 +113,12 @@ try{
     function validate(form) {
         let z = document["this"]["accountFROM"].value;
         let a = document["this"]["accountINTO"].value;
+        a = a.substring(0,12);
         if(z === a){
             flash("Accounts must be different", "warning");
             return false;
         }
-        if(z.length != 12 || a.length != 12){
+        if(z.length > 12 || a.length > 12){
             flash("Please select an account", "warning");
             return false;
         }
