@@ -15,7 +15,7 @@ if(isset($_POST["save"])){
             flash("No such user exists", "warning");
         }else{
             $fromID = find_account($from);
-            $query = "SELECT id FROM Bank_Accounts WHERE account LIKE '%$account' AND user_id = :uid LIMIT 1" ;
+            $query = "SELECT id, account_type, balance FROM Bank_Accounts WHERE account LIKE '%$account' AND user_id = :uid LIMIT 1" ;
             $db = getDB();
             $stmt = $db->prepare($query);
             try{
@@ -23,6 +23,9 @@ if(isset($_POST["save"])){
                 $result = $stmt->fetch(PDO::FETCH_ASSOC);
                 if($result){
                     $otherID =  $result["id"];
+                    $otherType = $result["account_type"];
+                    $intoBal = $result["balance"];
+                    
                 }
                 else{
                     $otherID = "none";
@@ -49,11 +52,25 @@ if(isset($_POST["save"])){
                         if($userID === get_user_id()){
                             flash("Please select an account that is not yours", "warning");
                         }else{
+                            if($otherType == "loan"){
+                                if($intoBal - ($amount*100) < 0){
+                                    flash("Transfer exceeded loan balance", "warning");
+                                }
+                                else{
+                                    transaction($amount, "ext-transfer", $fromID, -1, $memo);
+                                    transaction($amount, "ext-transfer", $otherID, -1, $memo);
+                                    flash("Successful transfer to loan account");
+                                    //echo var_export($otherID);
+                                    die(header("Location: user_accounts.php"));
+                                }
+                            }else{
+                                transaction($amount, "ext-transfer", $fromID, $otherID, $memo);
+                                flash("Successful transfer");
+                                die(header("Location: user_accounts.php"));
+                            }
                        // echo var_export($fromID);
                         //echo var_export($otherID);
-                        transaction($amount, "ext-transfer", $fromID, $otherID, $memo);
-                        flash("Successful transfer");
-                        die(header("Location: user_accounts.php"));
+
                         }
             
                     }

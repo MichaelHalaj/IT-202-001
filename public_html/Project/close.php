@@ -51,9 +51,6 @@ if(is_logged_in()){
                     if($bal1 - ((int)$Amount) == 0){
                         transaction($Amount/100, "withdraw", find_account($account1), -1, "withdraw and close");
                         flash("Successful withdrawal" , "success");
-                        die(header('Location: user_accounts.php'));
-                        //echo var_export(get_balance($account)>= $withdrawAmount);
-                       
                         $query= "UPDATE Bank_Accounts set active = :false WHERE id = :id";
                         $stmt = $db->prepare($query);
                         try {
@@ -62,6 +59,10 @@ if(is_logged_in()){
                         } catch (PDOException $e) {
                             flash("Error refreshing account: " . var_export($e->errorInfo, true), "danger");
                         }
+                        die(header('Location: user_accounts.php'));
+                        //echo var_export(get_balance($account)>= $withdrawAmount);
+                       
+
                        // die(header('Location: home.php'));
                        
                     }else{
