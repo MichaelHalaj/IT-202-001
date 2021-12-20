@@ -4,53 +4,122 @@ if(is_logged_in()){
     if(isset($_POST["save"])){
         $account1 = se($_POST, "account", "", false);
         $account2 = se($_POST, "account2", "", false);
+        //echo var_export(strlen($account2));
+        if(strlen($account2) < 51){
+            $accountType2 = substr($account2,12);
+            $account2 = substr($account2,0,12);
+        }
         $accountType1 = substr($account1,12);
-        $accountType2 = substr($account2,12);
         $account1 = substr($account1,0,12);
-        $account2 = substr($account2,0,12);
         $bal1 = get_balance($account1);
         $ac1ID = find_account($account1);
-     
-        //echo var_export($accountType1);
-    
         $Amount = se($_POST, "withdraw", "", false);
-        $Amount *= 100;
+        if($Amount != ""){
+            $Amount *= 100;
+        }
+        //echo var_export($Amount);
         $db = getDB();
+        if(strlen($account1) === 27){
+            flash("Please select an account", "warning");
+        }elseif ($accountType1 !== "loan"){
+            //echo var_export($bal1);
+            if($bal1 == 0){
+                close_account($ac1ID);
+                flash("Successful closing", "success");
+            }else{
+                if(empty($Amount)){
+                    flash("Please enter exact amount to withdraw from account", "warning");
+                }elseif(($bal1 - $Amount) !== 0){
+                    flash("Must transfer exact amount in order to close account" , "warning");
+                }else{
+                    transaction($Amount/100, "withdraw", find_account($account1), -1, "withdraw and close");
+                    close_account($ac1ID);
+                    flash("Successful closing", "success");
+                    die(header('Location: home.php'));
+                }
+            }
+        }elseif($accountType1 === "loan"){
+            if($bal1 == 0){
+                close_account($ac1ID);
+                flash("Successful closing", "success");
+            }else{
+                if(empty($Amount)){
+                    flash("Please enter exact amount to withdraw from account", "warning");
+                }elseif(strlen($account2) > 12){
+                    flash("Please select an account to transfer loans", "warning");
+                }else{
+                    $ac2ID = find_account($account2);
+                    $bal2 = get_balance($account2);
+                    if($bal2 - $Amount < 0){
+                        flash("Insufficient funds to transfer", "warning");
+                    }elseif($bal1 - $Amount !== 0){
+                        flash("Must transfer exact amount in order to close account" , "warning");
+                    }else{
+                        transaction($Amount/100, "transfer", $ac2ID, -1, "transfer and close");
+                        transaction($Amount/100, "transfer", $ac1ID, -1, "transfer and close");
+                        close_account($ac1ID);
+                        flash("Successful transfer and closing", "success");
+                        die(header('Location: home.php'));
+                    }
+                }
+            }
+        }
        // echo var_export($Amount);
+       /*
         if(strlen($account1) === 27){
             flash("Please select an account", "warning");
         }else{
             if($accountType1 === "loan"){
                 $ac2ID = find_account($account2);
                 $bal2 = get_balance($account2);
-                echo var_export($bal2);
-                if($bal2 - ($Amount) < 0){
-                    flash("Insufficient funds to transfer" , "warning");
+                if($bal2 === 0){
+                    $query= "UPDATE Bank_Accounts set active = :false WHERE id = :id";
+                    $stmt = $db->prepare($query);
+                    try {
+                        $stmt->execute([":false" => "false", ":id" => $ac1ID]);
+                        
+                    } catch (PDOException $e) {
+                        flash("Error refreshing account: " . var_export($e->errorInfo, true), "danger");
+                    }
+                    flash("Successful closing of loan account", "warning");
                 }else{
-                    if($bal1 - $Amount !== 0){
-                        flash("Must transfer exact amount in order to close account" , "warning");
+                    if($Amount === ""){
+                        flash("Please select an account", "warning");
                     }else{
-                        if($bal1 - $Amount === 0){
-                            transaction($Amount/100,"transfer", $ac2ID, -1, "close");
-                            transaction($Amount/100,"transfer", $ac1ID, -1, "close");
-                            flash("Successful transfer and closing" , "success");
-                            $query= "UPDATE Bank_Accounts set active = :false WHERE id = :id";
-                            $stmt = $db->prepare($query);
-                            try {
-                                $stmt->execute([":false" => "false", ":id" => $ac1ID]);
-                                
-                            } catch (PDOException $e) {
-                                flash("Error refreshing account: " . var_export($e->errorInfo, true), "danger");
+                        if($bal2 - ($Amount) < 0){
+                            flash("Insufficient funds to transfer" , "warning");
+                        }else{
+                            if($bal1 - $Amount !== 0){
+                                flash("Must transfer exact amount in order to close account" , "warning");
+                            }else{
+                                if($bal1 - $Amount === 0){
+                                    transaction($Amount/100,"transfer", $ac2ID, -1, "close");
+                                    transaction($Amount/100,"transfer", $ac1ID, -1, "close");
+                                    flash("Successful transfer and closing" , "success");
+                                    $query= "UPDATE Bank_Accounts set active = :false WHERE id = :id";
+                                    $stmt = $db->prepare($query);
+                                    try {
+                                        $stmt->execute([":false" => "false", ":id" => $ac1ID]);
+                                        
+                                    } catch (PDOException $e) {
+                                        flash("Error refreshing account: " . var_export($e->errorInfo, true), "danger");
+                                    }
+                                    die(header('Location: user_accounts.php'));
+                                }
                             }
-                            die(header('Location: user_accounts.php'));
                         }
                     }
-                }
+                    }
+
+                echo var_export($bal2);
+
             }else{
                 if($accountType1 !== "loan"){
+
                     if($bal1 - ((int)$Amount) == 0){
                         transaction($Amount/100, "withdraw", find_account($account1), -1, "withdraw and close");
                         flash("Successful withdrawal" , "success");
+
                         $query= "UPDATE Bank_Accounts set active = :false WHERE id = :id";
                         $stmt = $db->prepare($query);
                         try {
@@ -59,20 +128,45 @@ if(is_logged_in()){
                         } catch (PDOException $e) {
                             flash("Error refreshing account: " . var_export($e->errorInfo, true), "danger");
                         }
+
                         die(header('Location: user_accounts.php'));
                         //echo var_export(get_balance($account)>= $withdrawAmount);
                        
 
                        // die(header('Location: home.php'));
-                       
+
                     }else{
-                        if($bal1 - $Amount > 0){
-                            flash("Must transfer exact amount in order to close account", "warning");
+                        if($Amount === ""){
+                            flash("Please select an account", "warning");
+                        }else{
+                            if($bal1 - ((int)$Amount) == 0){
+                                transaction($Amount/100, "withdraw", find_account($account1), -1, "withdraw and close");
+                                flash("Successful withdrawal" , "success");
+                                die(header('Location: user_accounts.php'));
+                                //echo var_export(get_balance($account)>= $withdrawAmount);
+                               
+                                $query= "UPDATE Bank_Accounts set active = :false WHERE id = :id";
+                                $stmt = $db->prepare($query);
+                                try {
+                                    $stmt->execute([":false" => "false", ":id" => $ac1ID]);
+                                    
+                                } catch (PDOException $e) {
+                                    flash("Error refreshing account: " . var_export($e->errorInfo, true), "danger");
+                                }
+                               // die(header('Location: home.php'));
+                               
+                            }else{
+                                if($bal1 - $Amount > 0){
+                                    flash("Must transfer exact amount in order to close account", "warning");
+                                }
+                                else{
+                                    flash("Insufficent funds to withdraw", "warning");
+                                }
+                            }
                         }
-                        else{
-                            flash("Insufficent funds to withdraw", "warning");
-                        }
+
                     }
+
                 }else{
                     flash("Please select an account to transfer loans", "warning");
                 } 
@@ -80,7 +174,7 @@ if(is_logged_in()){
             }
             //echo var_export($account);
     
-        }
+        } */
     }
     $query = "SELECT account, account_type, balance from Bank_Accounts WHERE user_id = :uid AND active = :true";
     $db = getDB();
@@ -95,12 +189,12 @@ if(is_logged_in()){
     } catch (PDOException $e) {
         flash(var_export($e->errorInfo, true), "danger");
     }
-    $query = "SELECT account, account_type, balance from Bank_Accounts WHERE user_id = :uid AND account_type <> :loan";
+    $query = "SELECT account, account_type, balance from Bank_Accounts WHERE user_id = :uid AND account_type <> :loan AND active = :true";
     $db = getDB();
     $stmt = $db->prepare($query);
     $accounts2 = [];
     try{
-        $stmt->execute([":uid" => get_user_id(), ":loan" => "loan"]);
+        $stmt->execute([":uid" => get_user_id(), ":loan" => "loan", ":true" => "true"]);
         $r = $stmt->fetchAll(PDO::FETCH_ASSOC);
         if ($r) {
             $accounts2 = $r;
@@ -141,7 +235,7 @@ if(is_logged_in()){
             </div>
             <div class="mb-3 form-group col-md-4">
                 <h2 label class="form-label text-dark" for="da" id = "header" >Enter Amount:</h2>
-            <input class="form-control" type="number" input type="number" min="0.01" step="0.01"  name="withdraw"  id="da" required/>
+            <input class="form-control" type="number" input type="number" min="0.01" step="0.01"  name="withdraw"  id="da"/>
             </div>
     </div>
 

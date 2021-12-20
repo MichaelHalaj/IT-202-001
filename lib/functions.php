@@ -173,6 +173,19 @@ function get_balance($accountNumber){
         }
     }
 }
+function close_account($ID){
+    if(is_logged_in()){
+    $db = getDB();
+    $query= "UPDATE Bank_Accounts set active = :false WHERE id = :id";
+    $stmt = $db->prepare($query);
+    try {
+        $stmt->execute([":false" => "false", ":id" => $ID]);
+        
+    } catch (PDOException $e) {
+        flash("Error refreshing account: " . var_export($e->errorInfo, true), "danger");
+    }
+    }
+}
 function find_account($accountNumber){
     if(is_logged_in()){
         $query = "SELECT id FROM Bank_Accounts WHERE account = :account LIMIT 1";

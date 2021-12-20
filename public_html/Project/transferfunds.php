@@ -15,11 +15,12 @@ if(isset($_POST["save"])){
             flash("No such user exists", "warning");
         }else{
             $fromID = find_account($from);
-            $query = "SELECT id, account_type, balance FROM Bank_Accounts WHERE account LIKE '%$account' AND user_id = :uid LIMIT 1" ;
+
+            $query = "SELECT id, account_type, balance FROM Bank_Accounts WHERE account LIKE '%$account' AND user_id = :uid and active = :true LIMIT 1" ;
             $db = getDB();
             $stmt = $db->prepare($query);
             try{
-                $stmt->execute([":uid" => $userID]);
+                $stmt->execute([":uid" => $userID, ":true" => "true"]);
                 $result = $stmt->fetch(PDO::FETCH_ASSOC);
                 if($result){
                     $otherID =  $result["id"];
@@ -88,12 +89,12 @@ if(isset($_POST["save"])){
 
 
 
-$query = "SELECT account, account_type, balance from Bank_Accounts WHERE user_id = :uid AND account_type <> :loan";
+$query = "SELECT account, account_type, balance from Bank_Accounts WHERE user_id = :uid AND account_type <> :loan and active = :true";
 $db = getDB();
 $stmt = $db->prepare($query);
 $accounts = [];
 try{
-    $stmt->execute([":uid" => get_user_id(), ":loan" => "loan"]);
+    $stmt->execute([":uid" => get_user_id(), ":loan" => "loan", ":true" => "true"]);
     $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
     if ($results) {
         $accounts = $results;
