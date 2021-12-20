@@ -258,12 +258,12 @@ function refresh_account_balance($accountID)
     }
 }
 function update_APY(){
-    $query = "SELECT account, ID, created, balance, updated FROM Bank_Accounts where user_id = :ID AND account_type = :savings";
+    $query = "SELECT account, ID, created, balance, updated, active FROM Bank_Accounts where user_id = :ID AND account_type = :savings AND active = :true";
     
     $db = getDB();
     $stmt = $db->prepare($query);
     try{
-        $stmt->execute([":ID" => get_user_id(), ":savings" => "savings"]);
+        $stmt->execute([":ID" => get_user_id(), ":savings" => "savings", ":true" => "true"]);
         $result = $stmt->fetchALL(PDO::FETCH_ASSOC);
         $queryAPY = "SELECT APY from System_Properties WHERE APY = :APY";
         $stmt = $db->prepare($queryAPY);

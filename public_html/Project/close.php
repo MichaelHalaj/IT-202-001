@@ -1,92 +1,114 @@
 <?php
 require(__DIR__ . "/../../partials/nav.php");
-if(isset($_POST["save"])){
-    $account1 = se($_POST, "account", "", false);
-    $account2 = se($_POST, "account2", "", false);
-    $accountType1 = substr($account1,12);
-    $accountType2 = substr($account2,12);
-    $account1 = substr($account1,0,12);
-    $account2 = substr($account2,0,12);
-    $bal1 = get_balance($account1);
-    $ac1ID = find_account($account1);
- 
-    echo var_export($accountType1);
-
-    $Amount = se($_POST, "withdraw", "", false);
-    $Amount *= 100;
-    echo var_export($Amount);
-    if(strlen($account1) === 27){
-        flash("Please select an account", "warning");
-    }else{
-        if($accountType1 === "loan"){
-            $ac2ID = find_account($account2);
-            $bal2 = get_balance($account2);
-            echo var_export($bal2);
-            if($bal2 - ($Amount) < 0){
-                flash("Insufficient funds to transfer" , "warning");
-            }else{
-                if($bal1 - $Amount !== 0){
-                    flash("Must transfer exact amount in order to close account" , "warning");
-                }else{
-                    if($bal1 - $Amount === 0){
-                        transaction($Amount,"transfer", $ac2ID, -1, "close");
-                        transaction($Amount,"transfer", $ac1ID, -1, "close");
-                        flash("Successful transfer and closing" , "success");
-                        
-                    }
-                }
-            }
+if(is_logged_in()){
+    if(isset($_POST["save"])){
+        $account1 = se($_POST, "account", "", false);
+        $account2 = se($_POST, "account2", "", false);
+        $accountType1 = substr($account1,12);
+        $accountType2 = substr($account2,12);
+        $account1 = substr($account1,0,12);
+        $account2 = substr($account2,0,12);
+        $bal1 = get_balance($account1);
+        $ac1ID = find_account($account1);
+     
+        //echo var_export($accountType1);
+    
+        $Amount = se($_POST, "withdraw", "", false);
+        $Amount *= 100;
+        $db = getDB();
+       // echo var_export($Amount);
+        if(strlen($account1) === 27){
+            flash("Please select an account", "warning");
         }else{
-            if($accountType1 !== "loan"){
-                if($bal1 - ((int)$Amount) == 0){
-                    //transaction((int)$withdrawAmount * -1, "withdraw", -1, find_account($account), $memo);
-                    flash("Successful withdrawal" , "success");
-                    //echo var_export(get_balance($account)>= $withdrawAmount);
-                   // die(header('Location: home.php'));
-                   
+            if($accountType1 === "loan"){
+                $ac2ID = find_account($account2);
+                $bal2 = get_balance($account2);
+                echo var_export($bal2);
+                if($bal2 - ($Amount) < 0){
+                    flash("Insufficient funds to transfer" , "warning");
                 }else{
-                    if($bal1 - $Amount > 0){
-                        flash("Must transfer exact amount in order to close account", "warning");
-                    }
-                    else{
-                        flash("Insufficent funds to withdraw", "warning");
+                    if($bal1 - $Amount !== 0){
+                        flash("Must transfer exact amount in order to close account" , "warning");
+                    }else{
+                        if($bal1 - $Amount === 0){
+                            transaction($Amount/100,"transfer", $ac2ID, -1, "close");
+                            transaction($Amount/100,"transfer", $ac1ID, -1, "close");
+                            flash("Successful transfer and closing" , "success");
+                            $query= "UPDATE Bank_Accounts set active = :false WHERE id = :id";
+                            $stmt = $db->prepare($query);
+                            try {
+                                $stmt->execute([":false" => "false", ":id" => $ac1ID]);
+                                
+                            } catch (PDOException $e) {
+                                flash("Error refreshing account: " . var_export($e->errorInfo, true), "danger");
+                            }
+                            die(header('Location: user_accounts.php'));
+                        }
                     }
                 }
             }else{
-                flash("Please select an account to transfer loans", "warning");
-            } 
-            
+                if($accountType1 !== "loan"){
+                    if($bal1 - ((int)$Amount) == 0){
+                        transaction($Amount/100, "withdraw", find_account($account1), -1, "withdraw and close");
+                        flash("Successful withdrawal" , "success");
+                        die(header('Location: user_accounts.php'));
+                        //echo var_export(get_balance($account)>= $withdrawAmount);
+                       
+                        $query= "UPDATE Bank_Accounts set active = :false WHERE id = :id";
+                        $stmt = $db->prepare($query);
+                        try {
+                            $stmt->execute([":false" => "false", ":id" => $ac1ID]);
+                            
+                        } catch (PDOException $e) {
+                            flash("Error refreshing account: " . var_export($e->errorInfo, true), "danger");
+                        }
+                       // die(header('Location: home.php'));
+                       
+                    }else{
+                        if($bal1 - $Amount > 0){
+                            flash("Must transfer exact amount in order to close account", "warning");
+                        }
+                        else{
+                            flash("Insufficent funds to withdraw", "warning");
+                        }
+                    }
+                }else{
+                    flash("Please select an account to transfer loans", "warning");
+                } 
+                
+            }
+            //echo var_export($account);
+    
         }
-        //echo var_export($account);
+    }
+    $query = "SELECT account, account_type, balance from Bank_Accounts WHERE user_id = :uid AND active = :true";
+    $db = getDB();
+    $stmt = $db->prepare($query);
+    $accounts = [];
+    try{
+        $stmt->execute([":uid" => get_user_id(), ":true" => "true"]);
+        $r = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        if ($r) {
+            $accounts = $r;
+        }
+    } catch (PDOException $e) {
+        flash(var_export($e->errorInfo, true), "danger");
+    }
+    $query = "SELECT account, account_type, balance from Bank_Accounts WHERE user_id = :uid AND account_type <> :loan";
+    $db = getDB();
+    $stmt = $db->prepare($query);
+    $accounts2 = [];
+    try{
+        $stmt->execute([":uid" => get_user_id(), ":loan" => "loan"]);
+        $r = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        if ($r) {
+            $accounts2 = $r;
+        }
+    } catch (PDOException $e) {
+        flash(var_export($e->errorInfo, true), "danger");
+    }
+}
 
-    }
-}
-$query = "SELECT account, account_type, balance from Bank_Accounts WHERE user_id = :uid AND active = :true";
-$db = getDB();
-$stmt = $db->prepare($query);
-$accounts = [];
-try{
-    $stmt->execute([":uid" => get_user_id(), ":true" => "true"]);
-    $r = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    if ($r) {
-        $accounts = $r;
-    }
-} catch (PDOException $e) {
-    flash(var_export($e->errorInfo, true), "danger");
-}
-$query = "SELECT account, account_type, balance from Bank_Accounts WHERE user_id = :uid AND account_type <> :loan";
-$db = getDB();
-$stmt = $db->prepare($query);
-$accounts2 = [];
-try{
-    $stmt->execute([":uid" => get_user_id(), ":loan" => "loan"]);
-    $r = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    if ($r) {
-        $accounts2 = $r;
-    }
-} catch (PDOException $e) {
-    flash(var_export($e->errorInfo, true), "danger");
-}
 ?>
 <head>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
