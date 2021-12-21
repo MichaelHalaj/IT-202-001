@@ -6,11 +6,12 @@ if(isset($_POST["save"])){
     $depositAmount = se($_POST, "deposit", null, false);
     $memo = se($_POST, "memo", null, false);
     $ID= find_account($account);
-    $query = "SELECT user_id, account_type from Bank_Accounts where id = :src";
+    $query = "SELECT user_id, account_type, active from Bank_Accounts where id = :src";
             $db = getDB();
             $stmt = $db->prepare($query);
             $belongsToUser = true;
             $isLoan = false;
+            $isActive = true;
             try{
                 $stmt->execute([":src" => $ID]);
                 $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -25,6 +26,8 @@ if(isset($_POST["save"])){
                         }elseif($r["account_type"] == "loan"){
                             $isLoan = true;
                             break;
+                        }elseif($r["active"] == "false"){
+                            $isActive = false;
                         }
                     }
                 }
@@ -35,7 +38,10 @@ if(isset($_POST["save"])){
                 flash("Please select accounts that belong to user", "warning");
             }elseif($isLoan){
                 flash("Cannot deposit into loan account; user must transfer into loan account", "warning");
-            }else{
+            }elseif(!$isActive){
+                flash("Cannot complete transaction as account is closed", "warning");
+            }
+            else{
                 if(strlen($account)!=12){
                     flash("Please select an account", "warning");
                 }else{

@@ -46,10 +46,11 @@ if(isset($_POST["save"])){
         if(frozen_check($accountID)){
             flash("Transaction cannot occur; Account[s] is/are frozen!", "warning");
         }else{
-            $query = "SELECT user_id from Bank_Accounts where id = :src";
+            $query = "SELECT user_id, active from Bank_Accounts where id = :src";
             $db = getDB();
             $stmt = $db->prepare($query);
             $belongsToUser = true;
+            $isActive = true;
             try{
                 $stmt->execute([":src" => $accountID]);
                 $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -61,6 +62,9 @@ if(isset($_POST["save"])){
                         if($r["user_id"] != $user_id){
                             $belongsToUser = false;
                             break;
+                        }elseif($r["active"] == "false"){
+                            $isActive = false;
+                            break;
                         }
                     }
                 }
@@ -69,7 +73,10 @@ if(isset($_POST["save"])){
             }
             if(!$belongsToUser){
                 flash("Please select accounts that belong to user", "warning");
-            }else{
+            }elseif(!$isActive){
+                flash("Cannot complete transaction as account is closed", "warning");
+            }
+            else{
                 get_or_create_account("loan", "");
                 //echo var_export(get_user_account_id());
                 //echo var_export($total);
