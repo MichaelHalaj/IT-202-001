@@ -15,9 +15,11 @@ if(is_logged_in()){
         $ac1ID = find_account($account1);
         $Amount = se($_POST, "withdraw", "", false);
         if($Amount != ""){
-            $Amount *= 100;
+           $Amount = round($Amount *100, 2);
         }
+        
         //echo var_export($Amount);
+      //  echo var_export($bal1);
         $db = getDB();
         if(strlen($account1) === 27){
             flash("Please select an account", "warning");
@@ -29,13 +31,17 @@ if(is_logged_in()){
             }else{
                 if(empty($Amount)){
                     flash("Please enter exact amount to withdraw from account", "warning");
-                }elseif(($bal1 - $Amount) !== 0){
+                }elseif(($bal1 - $Amount) != 0){
                     flash("Must transfer exact amount in order to close account" , "warning");
                 }else{
-                    transaction($Amount/100, "withdraw", find_account($account1), -1, "withdraw and close");
+                    //$id1 = find_account($account1);
+                   if(frozen_check($ac1ID)){
+                    flash("Transaction cannot occur; Account[s] is/are frozen!", "warning");
+                   }else{
+                    transaction($Amount/100, "withdraw", $ac1ID, -1, "withdraw and close");
                     close_account($ac1ID);
-                    flash("Successful closing", "success");
-                    die(header('Location: home.php'));
+                   }
+
                 }
             }
         }elseif($accountType1 === "loan"){
@@ -52,14 +58,19 @@ if(is_logged_in()){
                     $bal2 = get_balance($account2);
                     if($bal2 - $Amount < 0){
                         flash("Insufficient funds to transfer", "warning");
-                    }elseif($bal1 - $Amount !== 0){
+                    }elseif($bal1 - $Amount != 0){
                         flash("Must transfer exact amount in order to close account" , "warning");
                     }else{
-                        transaction($Amount/100, "transfer", $ac2ID, -1, "transfer and close");
-                        transaction($Amount/100, "transfer", $ac1ID, -1, "transfer and close");
-                        close_account($ac1ID);
-                        flash("Successful transfer and closing", "success");
-                        die(header('Location: home.php'));
+                        
+                        if(frozen_check($ac2ID) || frozen_check($ac1ID)){
+                            flash("Transaction cannot occur; Account[s] is/are frozen!", "warning");
+
+                        }else{
+                            transaction($Amount/100, "transfer", $ac2ID, -1, "transfer and close");
+                            transaction($Amount/100, "transfer", $ac1ID, -1, "transfer and close");
+                            close_account($ac1ID);
+                        }
+
                     }
                 }
             }

@@ -21,14 +21,16 @@ if(isset($_POST["save"])){
                 flash("Transfer exceeded loan balance", "warning");
             }
             else{
-                transaction($amount, "transfer", $fromID, -1, $memo);
-                transaction($amount, "transfer", $intoID, -1, $memo);
-                flash("Successful transfer to loan account");
-                die(header("Location: user_accounts.php"));
+                if(frozen_check($fromID) || frozen_check($intoID)){
+                    flash("Transaction cannot occur; Account[s] is/are frozen!", "warning");
+                }else{
+                    transaction($amount, "transfer", $fromID, -1, $memo);
+                    transaction($amount, "transfer", $intoID, -1, $memo);
+                    die(header("Location: user_accounts.php"));
+                }
             }
         }else{
             transaction($amount, "transfer", $fromID, $intoID, $memo);
-            flash("Successful transfer");
             die(header("Location: user_accounts.php"));
         }
 

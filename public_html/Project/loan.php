@@ -39,14 +39,20 @@ if(isset($_POST["save"])){
     if(strlen($accountID)!=12){
         flash("Please select an account", "warning");
     }else{
-        
-        get_or_create_account("loan", "");
-        //echo var_export(get_user_account_id());
-        //echo var_export($total);
-        //echo var_export($total *100);
-        transaction($total, "loan", -1, get_user_account_id(), "loan");
-        transaction($total, "loan", -1, find_account($accountID), "loan");
-        die(header('Location: user_accounts.php'));
+        //echo var_export(frozen_check(find_account($accountID)));
+        if(frozen_check(find_account($accountID))){
+            flash("Transaction cannot occur; Account[s] is/are frozen!", "warning");
+        }else{
+            
+            get_or_create_account("loan", "");
+            //echo var_export(get_user_account_id());
+            //echo var_export($total);
+            //echo var_export($total *100);
+            transaction($total, "loan", -1, get_user_account_id(), "loan");
+            transaction($total, "loan", -1, find_account($accountID), "loan");
+            die(header('Location: user_accounts.php')); 
+        }
+
     }
 
     

@@ -9,7 +9,6 @@ if(isset($_POST["save"])){
         flash("Please select an account", "warning");
     }else{
         transaction($depositAmount, "deposit", -1, find_account($account), $memo);
-        flash("Successful deposit" , "success");
         die(header('Location: home.php'));
     }
 
