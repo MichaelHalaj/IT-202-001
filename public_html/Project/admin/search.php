@@ -17,7 +17,7 @@ if(isset($_POST["account"])){
 $query .= " ORDER BY created desc LIMIT 10";
 $db = getDB();
 $stmt = $db->prepare($query);
-$roles = [];
+$accounts = [];
 try {
     $stmt->execute($params);
     $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -43,7 +43,7 @@ if (isset($_POST["first"]) && isset($_POST["last"])) {
 $query .= " ORDER BY modified desc LIMIT 10";
 $db = getDB();
 $stmt = $db->prepare($query);
-$roles = [];
+$info = [];
 try {
     $stmt->execute($params);
     $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -91,7 +91,11 @@ try {
                 <?php foreach($info as $i) : ?>
                     <tr>
                         <td><?php se($i, "id"); ?></td>
-                        <td><?php se($i, "email"); ?></td>
+                        <?php if($i["visibility"] == "public"): ?>
+                            <td><?php se($i, "email"); ?></td>
+                        <?php else :?>
+                            <td>PRIVATE</td>
+                        <?php endif; ?>
                         <td><?php  se($i, "username"); ?></td>
                         <td><?php se($i, "firstName"); ?></td>
                         <td><?php se($i, "lastName"); ?></td>
@@ -100,7 +104,7 @@ try {
             <?php endif ?>
         </tbody>
     </table>
-    <h1>Search Account</h1>
+    <h1>Search Account History</h1>
     <form method="POST" class="row row-cols-lg-auto g-3 align-items-center">
         <div class="input-group mb-3">
             <input class="form-control" type="search" name="account" placeholder="Account" />

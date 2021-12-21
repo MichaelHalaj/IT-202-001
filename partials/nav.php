@@ -54,6 +54,7 @@ require_once(__DIR__ . "/../lib/functions.php");
                             <li><a class="dropdown-item" href="<?php echo get_url('admin/list_roles.php'); ?>">List</a></li>
                             <li><a class="dropdown-item" href="<?php echo get_url('admin/assign_roles.php'); ?>">Assign</a></li>
                             <li><a class="dropdown-item" href="<?php echo get_url('admin/search.php'); ?>">Search</a></li>
+                            <li><a class="dropdown-item" href="<?php echo get_url('admin/manage.php'); ?>">Manage Users/Accounts</a></li>
                         </ul>
                     </li>
                 <?php endif; ?>
