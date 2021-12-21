@@ -15,11 +15,12 @@ if(isset($_POST["save"])){
     $intoID = find_account($intoAccount);
     //echo var_export($fromID);
    // echo var_export($intoID);
-    $query = "SELECT user_id, account_type from Bank_Accounts where id = :src";
+    $query = "SELECT user_id, account_type, active from Bank_Accounts where id = :src";
     $db = getDB();
     $stmt = $db->prepare($query);
     $belongsToUser = true;
     $isLoanSrc = false;
+    $isActive = true;
     try{
         $stmt->execute([":src" => $fromID]);
         $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -34,16 +35,18 @@ if(isset($_POST["save"])){
                 }elseif($r["account_type"] == "loan"){
                     $isLoanSrc = true;
                     break;
+                } elseif($r["active"] == "false"){
+                    $isActive = false;
+                    break;
                 }
             }
         }
     }catch (PDOException $e){
         flash("Technical error: " . var_export($e->errorInfo, true), "danger");
     }
-    $query = "SELECT user_id from Bank_Accounts where id = :dest";
+    $query = "SELECT user_id, active from Bank_Accounts where id = :dest";
     $db = getDB();
     $stmt = $db->prepare($query);
-    $belongsToUser = true;
     try{
         $stmt->execute([":dest" => $intoID]);
         $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -55,6 +58,9 @@ if(isset($_POST["save"])){
                 if($r["user_id"] != $user_id){
                     $belongsToUser = false;
                     break;
+                }    elseif($r["active"] == "false"){
+                    $isActive = false;
+                    break;
                 }
             }
         }
@@ -65,6 +71,8 @@ if(isset($_POST["save"])){
         flash("Please select accounts that belong to user", "warning");
     }elseif($isLoanSrc){
         flash("Cannot transfer from a loan account", "warning");
+    }elseif(!$isActive){
+        flash("Cannot complete transaction as account is closed", "warning");
     }else{
         if($fromBal - ($amount*100) < 0 ){
             flash("Insufficient funds to transfer", "warning");
@@ -106,12 +114,12 @@ try{
 } catch (PDOException $e) {
     flash(var_export($e->errorInfo, true), "danger");
 }
-$query = "SELECT account, account_type, balance from Bank_Accounts WHERE user_id = :uid";
+$query = "SELECT account, account_type, balance from Bank_Accounts WHERE user_id = :uid and active = :true";
 $db = getDB();
 $stmt = $db->prepare($query);
 $accounts2 = [];
 try{
-    $stmt->execute([":uid" => get_user_id()]);
+    $stmt->execute([":uid" => get_user_id(), ":true" => "true"]);
     $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
     if ($results) {
         $accounts2 = $results;
