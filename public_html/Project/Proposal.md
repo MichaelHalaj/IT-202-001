@@ -631,61 +631,499 @@
 </table>
 </td>
 </tr></td></tr></table>
-- Milestone 4
-  - [ ] \(mm/dd/yyyy of completion) User can set their profile to be public or private (will need another column in Users table)
-    -  List of Evidence of Feature Completion
-      - Status: Pending (Completed, Partially working, Incomplete, Pending)
-      - Direct Link: (Direct link to the file or files in heroku prod for quick testing (even if it's a protected page))
-      - Pull Requests
-        - PR link #1 (repeat as necessary)
-      - Screenshots
-        - Screenshot #1 (paste the image so it uploads to github) (repeat as necessary)
-          - Screenshot #1 description explaining what you're trying to show
-  - [ ] \(mm/dd/yyyy of completion) User will be able open a savings account
-    -  List of Evidence of Feature Completion
-      - Status: Pending (Completed, Partially working, Incomplete, Pending)
-      - Direct Link: (Direct link to the file or files in heroku prod for quick testing (even if it's a protected page))
-      - Pull Requests
-        - PR link #1 (repeat as necessary)
-      - Screenshots
-        - Screenshot #1 (paste the image so it uploads to github) (repeat as necessary)
-          - Screenshot #1 description explaining what you're trying to show
-  - [ ] \(mm/dd/yyyy of completion) User will be able to take out a loan
-    -  List of Evidence of Feature Completion
-      - Status: Pending (Completed, Partially working, Incomplete, Pending)
-      - Direct Link: (Direct link to the file or files in heroku prod for quick testing (even if it's a protected page))
-      - Pull Requests
-        - PR link #1 (repeat as necessary)
-      - Screenshots
-        - Screenshot #1 (paste the image so it uploads to github) (repeat as necessary)
-          - Screenshot #1 description explaining what you're trying to show
-  - [ ] \(mm/dd/yyyy of completion) Listing accounts and/or viewing Account Details should show any applicable APY or “-” if none is set for the particular account (may alternatively just hide the display for these types)
-    -  List of Evidence of Feature Completion
-      - Status: Pending (Completed, Partially working, Incomplete, Pending)
-      - Direct Link: (Direct link to the file or files in heroku prod for quick testing (even if it's a protected page))
-      - Pull Requests
-        - PR link #1 (repeat as necessary)
-      - Screenshots
-        - Screenshot #1 (paste the image so it uploads to github) (repeat as necessary)
-          - Screenshot #1 description explaining what you're trying to show
-  - [ ] \(mm/dd/yyyy of completion) User will be able to close an account
-    -  List of Evidence of Feature Completion
-      - Status: Pending (Completed, Partially working, Incomplete, Pending)
-      - Direct Link: (Direct link to the file or files in heroku prod for quick testing (even if it's a protected page))
-      - Pull Requests
-        - PR link #1 (repeat as necessary)
-      - Screenshots
-        - Screenshot #1 (paste the image so it uploads to github) (repeat as necessary)
-          - Screenshot #1 description explaining what you're trying to show
-  - [ ] \(mm/dd/yyyy of completion) Admin role (leave this section for last)
-    -  List of Evidence of Feature Completion
-      - Status: Pending (Completed, Partially working, Incomplete, Pending)
-      - Direct Link: (Direct link to the file or files in heroku prod for quick testing (even if it's a protected page))
-      - Pull Requests
-        - PR link #1 (repeat as necessary)
-      - Screenshots
-        - Screenshot #1 (paste the image so it uploads to github) (repeat as necessary)
-          - Screenshot #1 description explaining what you're trying to show
+
+<table>
+<tr><td>Milestone4</td></tr><tr><td>
+<table>
+<tr><td>F1 - User can set their profile to be public or private (will need another column in Users table) (2021-12-21)</td></tr>
+<tr><td>Status: complete</td></tr>
+<tr><td>Links:<p>
+
+ [https://mh45-prod.herokuapp.com/Project/home.php](https://mh45-prod.herokuapp.com/Project/home.php)</p><p>
+
+ [https://mh45-prod.herokuapp.com/Project/profile.php](https://mh45-prod.herokuapp.com/Project/profile.php)</p></td></tr>
+<tr><td>PRs:<p>
+
+ [https://github.com/MichaelHalaj/IT-202-001/pull/117](https://github.com/MichaelHalaj/IT-202-001/pull/117)</p><p>
+
+ [https://github.com/MichaelHalaj/IT-202-001/pull/118](https://github.com/MichaelHalaj/IT-202-001/pull/118)</p></td></tr>
+<tr><td>
+<table>
+<tr><td>F1 - If public, hide email address from other users</td></tr>
+<tr><td>Status: 
+<img width="100" height="20" src="https://via.placeholder.com/400x120/009955/fff?text=completed"></td></tr>
+
+<tr><td>
+<img width="768px" src="https://user-images.githubusercontent.com/89932319/146874668-ecb18a31-fc33-4c01-9c84-969953b88af2.png">
+<p>Demonstrates one account that has been set to private in User table</p>
+</td></tr>
+
+<tr><td>
+<img width="768px" src="https://user-images.githubusercontent.com/89932319/146874781-b6c9e6cc-10fd-4aa5-ad7b-379ffee5bf02.png">
+<p>Demonstrates how to set account to private or public</p>
+</td></tr>
+
+<tr><td>
+<img width="768px" src="https://user-images.githubusercontent.com/89932319/146874859-8d3d8294-46ce-4225-b608-b3570abc8247.png">
+<p>shows that email shows up as PRIVATE instead of showing actual email</p>
+</td></tr>
+
+<tr><td>
+<img width="768px" src="https://user-images.githubusercontent.com/89932319/146874971-72d9aced-5a0a-4e85-95dd-a86ebe8002a1.png">
+<p>shows that actual email shows up when account is set to PUBLIC</p>
+</td></tr>
+
+</td>
+</tr>
+</table>
+</td>
+</tr>
+<table>
+<tr><td>F2 - User will be able open a savings account (2021-12-21)</td></tr>
+<tr><td>Status: complete</td></tr>
+<tr><td>Links:<p>
+
+ [https://mh45-prod.herokuapp.com/Project/home.php](https://mh45-prod.herokuapp.com/Project/home.php)</p><p>
+
+ [https://mh45-prod.herokuapp.com/Project/account.php](https://mh45-prod.herokuapp.com/Project/account.php)</p></td></tr>
+<tr><td>PRs:<p>
+
+ [https://github.com/MichaelHalaj/IT-202-001/pull/111](https://github.com/MichaelHalaj/IT-202-001/pull/111)</p><p>
+
+ [https://github.com/MichaelHalaj/IT-202-001/pull/68](https://github.com/MichaelHalaj/IT-202-001/pull/68)</p><p>
+
+ [https://github.com/MichaelHalaj/IT-202-001/pull/113](https://github.com/MichaelHalaj/IT-202-001/pull/113)</p><p>
+
+ [https://github.com/MichaelHalaj/IT-202-001/pull/119](https://github.com/MichaelHalaj/IT-202-001/pull/119)</p></td></tr>
+<tr><td>
+<table>
+<tr><td>F2 - System will generate a 12 digit/character account number per the existing rules (see Checking Account above) / System will associate the account to the user Account type will be set as savings / Will require a minimum deposit of $5 (from the world account)</td></tr>
+<tr><td>Status: 
+<img width="100" height="20" src="https://via.placeholder.com/400x120/009955/fff?text=completed"></td></tr>
+
+<tr><td>
+<img width="768px" src="https://user-images.githubusercontent.com/89932319/146875558-1b9b9b1b-a4c4-4b7d-bd97-3a8a4cc42ead.png">
+<p>Shows that savings account with 12 characters was created</p>
+</td></tr>
+
+</td>
+</tr>
+</table>
+</td>
+</tr>
+<tr><td>
+<table>
+<tr><td>F2 - System sets an APY that’ll be used to calculate monthly interest based on the balance of the account</td></tr>
+<tr><td>Status: 
+<img width="100" height="20" src="https://via.placeholder.com/400x120/009955/fff?text=completed"></td></tr>
+
+<tr><td>
+<img width="768px" src="https://user-images.githubusercontent.com/89932319/146875770-be1d3d09-2bae-4034-993e-769a19f3c2ab.png">
+<p>Shows test of interest calculated based on an account's balance</p>
+</td></tr>
+
+<tr><td>
+<img width="768px" src="https://user-images.githubusercontent.com/89932319/146875886-9064444e-5ad2-4234-a57c-05c2a3c0b786.png">
+<p>Shows code snippet that determines payout based on APY</p>
+</td></tr>
+
+<tr><td>
+<img width="768px" src="https://user-images.githubusercontent.com/89932319/146876048-7c27a5ea-b3fb-4ad4-a58f-9df4365f519b.png">
+<p>APY table</p>
+</td></tr>
+
+</td>
+</tr>
+</table>
+</td>
+</tr>
+<tr><td>
+<table>
+<tr><td>F2 - User will see user-friendly error messages when appropriate / User will see user-friendly success message when account is created successfully</td></tr>
+<tr><td>Status: 
+<img width="100" height="20" src="https://via.placeholder.com/400x120/009955/fff?text=completed"></td></tr>
+
+<tr><td>
+<img width="768px" src="https://user-images.githubusercontent.com/89932319/146876126-253a3ec2-d64e-48a3-9cfd-1382d48ee188.png">
+<p>Shows how to select  and create savings account</p>
+</td></tr>
+
+<tr><td>
+<img width="768px" src="https://user-images.githubusercontent.com/89932319/146876224-a0397d90-b095-4000-9db7-14366bb47b96.png">
+<p>Shows success messages when created and deposited amount</p>
+</td></tr>
+
+</td>
+</tr>
+</table>
+</td>
+</tr>
+<table>
+<tr><td>F3 - User will be able to take out a loan (2021-12-21)</td></tr>
+<tr><td>Status: complete</td></tr>
+<tr><td>Links:<p>
+
+ [https://mh45-prod.herokuapp.com/Project/home.php](https://mh45-prod.herokuapp.com/Project/home.php)</p><p>
+
+ [https://mh45-prod.herokuapp.com/Project/loan.php](https://mh45-prod.herokuapp.com/Project/loan.php)</p><p>
+
+ [https://mh45-prod.herokuapp.com/Project/transfer.php](https://mh45-prod.herokuapp.com/Project/transfer.php)</p></td></tr>
+<tr><td>PRs:<p>
+
+ [https://github.com/MichaelHalaj/IT-202-001/pull/112](https://github.com/MichaelHalaj/IT-202-001/pull/112)</p><p>
+
+ [https://github.com/MichaelHalaj/IT-202-001/pull/114](https://github.com/MichaelHalaj/IT-202-001/pull/114)</p><p>
+
+ [https://github.com/MichaelHalaj/IT-202-001/pull/115](https://github.com/MichaelHalaj/IT-202-001/pull/115)</p><p>
+
+ [https://github.com/MichaelHalaj/IT-202-001/pull/121](https://github.com/MichaelHalaj/IT-202-001/pull/121)</p><p>
+
+ [https://github.com/MichaelHalaj/IT-202-001/pull/122](https://github.com/MichaelHalaj/IT-202-001/pull/122)</p></td></tr>
+<tr><td>
+<table>
+<tr><td>F3 - System will generate a 12 digit/character account number per the existing rules (see Checking Account above) / Account type will be set as loan / Will require a minimum value of $500</td></tr>
+<tr><td>Status: 
+<img width="100" height="20" src="https://via.placeholder.com/400x120/009955/fff?text=completed"></td></tr>
+
+<tr><td>
+<img width="768px" src="https://user-images.githubusercontent.com/89932319/146876752-b1465a01-953e-444e-b346-9b20918f9e9d.png">
+<p>Shows minimum value </p>
+</td></tr>
+
+<tr><td>
+<img width="768px" src="https://user-images.githubusercontent.com/89932319/146883335-276fcbfc-dfed-42e1-bbe1-daff176da2af.png">
+<p>Shows 12 character generation for loan account as well as positive balance for loans at the bottom</p>
+</td></tr>
+
+</td>
+</tr>
+</table>
+</td>
+</tr>
+<tr><td>
+<table>
+<tr><td>F3 - System will show an APY (before the user submits the form) / Form will have a dropdown of the user’s accounts of which to deposit the money into</td></tr>
+<tr><td>Status: 
+<img width="100" height="20" src="https://via.placeholder.com/400x120/009955/fff?text=completed"></td></tr>
+
+<tr><td>
+<img width="768px" src="https://user-images.githubusercontent.com/89932319/146883523-e65c11f4-4958-42e6-a415-1eca9ef69fa3.png">
+<p>Shows APY and dropdown of user accounts </p>
+</td></tr>
+
+</td>
+</tr>
+</table>
+</td>
+</tr>
+<tr><td>
+<table>
+<tr><td>F3 - Special Case for Loans:</td></tr>
+<tr><td>Status: 
+<img width="100" height="20" src="https://via.placeholder.com/400x120/009955/fff?text=completed"></td></tr>
+
+<tr><td>
+<img width="768px" src="https://user-images.githubusercontent.com/89932319/146884600-353f912a-5835-47f5-b197-0b79945b54a2.png">
+<p>Image shows that loan accounts do NOT appear in source dropdown</p>
+</td></tr>
+
+<tr><td>
+<img width="768px" src="https://user-images.githubusercontent.com/89932319/146884652-453a3846-d294-49f8-8f74-b68cc5305437.png">
+<p>Image shows that loan account do appear in destination dropdown</p>
+</td></tr>
+
+<tr><td>
+<img width="768px" src="https://user-images.githubusercontent.com/89932319/146885118-5e147b90-318d-4454-9915-b0f13fea00d6.png">
+<p>Code used to calculated APY for loan</p>
+</td></tr>
+
+</td>
+</tr>
+</table>
+</td>
+</tr>
+<tr><td>
+<table>
+<tr><td>F3 - User will see user-friendly error messages when appropriate / User will see user-friendly success message when account is created successfully</td></tr>
+<tr><td>Status: 
+<img width="100" height="20" src="https://via.placeholder.com/400x120/009955/fff?text=completed"></td></tr>
+
+<tr><td>
+<img width="768px" src="https://user-images.githubusercontent.com/89932319/146884483-b16e5dcd-ed06-42f5-8971-c3c79d7bc1e3.png">
+<p>Shows that you cannot transfer anymore to loan account</p>
+</td></tr>
+
+<tr><td>
+<img width="768px" src="https://user-images.githubusercontent.com/89932319/146884800-197b0922-5f37-4266-b5bf-d80231d862a8.png">
+<p>Shows successful opening of loan account</p>
+</td></tr>
+
+<tr><td>
+<img width="768px" src="https://user-images.githubusercontent.com/89932319/146885296-ba0328df-3397-4610-bfca-ff8b733fbdb6.png">
+<p>Error shown when user inputs account that is not theirs and tries to create loan account</p>
+</td></tr>
+
+<tr><td>
+<img width="768px" src="https://user-images.githubusercontent.com/89932319/146885415-caeee1e8-950b-425e-b2b7-008e2c29a349.png">
+<p>Error when user does not select account to deposit loan into</p>
+</td></tr>
+
+</td>
+</tr>
+</table>
+</td>
+</tr>
+<table>
+<tr><td>F4 - Listing accounts and/or viewing Account Details should show any applicable APY or “-” if none is set for the particular account (may alternatively just hide the display for these types) (2021-12-21)</td></tr>
+<tr><td>Status: complete</td></tr>
+<tr><td>Links:<p>
+
+ [https://mh45-prod.herokuapp.com/Project/home.php](https://mh45-prod.herokuapp.com/Project/home.php)</p></td></tr>
+<tr><td>PRs:<p>
+
+ [https://github.com/MichaelHalaj/IT-202-001/pull/120](https://github.com/MichaelHalaj/IT-202-001/pull/120)</p><p>
+
+ [https://github.com/MichaelHalaj/IT-202-001/pull/130](https://github.com/MichaelHalaj/IT-202-001/pull/130)</p></td></tr>
+<tr><td>
+<table>
+<tr><td>F4 - none</td></tr>
+<tr><td>Status: 
+<img width="100" height="20" src="https://via.placeholder.com/400x120/009955/fff?text=completed"></td></tr>
+
+<tr><td>
+<img width="768px" src="https://user-images.githubusercontent.com/89932319/146886194-21d861c1-d4ba-4d8a-a389-19a677327e5a.png">
+<p>Shows applicable APY next to savings and loan accounts</p>
+</td></tr>
+
+</td>
+</tr>
+</table>
+</td>
+</tr>
+<table>
+<tr><td>F5 - User will be able to close an account (2021-12-21)</td></tr>
+<tr><td>Status: complete</td></tr>
+<tr><td>Links:<p>
+
+ [https://mh45-prod.herokuapp.com/Project/home.php](https://mh45-prod.herokuapp.com/Project/home.php)</p><p>
+
+ [https://mh45-prod.herokuapp.com/Project/close.php](https://mh45-prod.herokuapp.com/Project/close.php)</p></td></tr>
+<tr><td>PRs:<p>
+
+ [https://github.com/MichaelHalaj/IT-202-001/pull/116](https://github.com/MichaelHalaj/IT-202-001/pull/116)</p><p>
+
+ [https://github.com/MichaelHalaj/IT-202-001/pull/121](https://github.com/MichaelHalaj/IT-202-001/pull/121)</p><p>
+
+ [https://github.com/MichaelHalaj/IT-202-001/pull/123](https://github.com/MichaelHalaj/IT-202-001/pull/123)</p><p>
+
+ [https://github.com/MichaelHalaj/IT-202-001/pull/124](https://github.com/MichaelHalaj/IT-202-001/pull/124)</p></td></tr>
+<tr><td>
+<table>
+<tr><td>F5 - User must transfer or withdraw all funds out of the account before doing so / If the account is a loan, it must be paid off in full first</td></tr>
+<tr><td>Status: 
+<img width="100" height="20" src="https://via.placeholder.com/400x120/009955/fff?text=completed"></td></tr>
+
+<tr><td>
+<img width="768px" src="https://user-images.githubusercontent.com/89932319/146886682-8c6ce1fe-6854-457a-a552-14d27ebbc8ab.png">
+<p>Shows the layout of closing an account</p>
+</td></tr>
+
+<tr><td>
+<img width="768px" src="https://user-images.githubusercontent.com/89932319/146886758-4e01fba4-d20f-47f9-823e-8f53ef46c14c.png">
+<p>Shows what happens when clicking on account</p>
+</td></tr>
+
+<tr><td>
+<img width="768px" src="https://user-images.githubusercontent.com/89932319/146886847-0ee46acb-0044-47e9-aa0e-e0fdc48b65e3.png">
+<p>Shows what happens when clicking on loan account</p>
+</td></tr>
+
+<tr><td>
+<img width="768px" src="https://user-images.githubusercontent.com/89932319/146886979-7e287453-0cde-4832-8cd9-9cc522c534b8.png">
+<p>Shows what happens you enter exact amount to pay off loan and close account</p>
+</td></tr>
+
+<tr><td>
+<img width="768px" src="https://user-images.githubusercontent.com/89932319/146887063-40123c33-7658-4bfd-9665-092581dc9f4f.png">
+<p>Shows that loan account no longer shows up</p>
+</td></tr>
+
+</td>
+</tr>
+</table>
+</td>
+</tr>
+<tr><td>
+<table>
+<tr><td>F5 - Account should have a column “active” that will get set as false.</td></tr>
+<tr><td>Status: 
+<img width="100" height="20" src="https://via.placeholder.com/400x120/009955/fff?text=completed"></td></tr>
+
+<tr><td>
+<img width="768px" src="https://user-images.githubusercontent.com/89932319/146887275-8313ed7c-6b06-4fe6-a381-639d62e2f35b.png">
+<p>Shows that user must enter exact amount needed to close account</p>
+</td></tr>
+
+<tr><td>
+<img width="768px" src="https://user-images.githubusercontent.com/89932319/146887443-44bf51c2-67d4-426e-b6a1-5bfd644e6852.png">
+<p>Shows the column where the account active is set to false and no longer appears on almost all dropdown menus</p>
+</td></tr>
+
+</td>
+</tr>
+</table>
+</td>
+</tr>
+<table>
+<tr><td>F6 - Admin role (leave this section for last) (2021-12-21)</td></tr>
+<tr><td>Status: complete</td></tr>
+<tr><td>Links:<p>
+
+ [https://mh45-prod.herokuapp.com/Project/home.php](https://mh45-prod.herokuapp.com/Project/home.php)</p><p>
+
+ [https://mh45-prod.herokuapp.com/Project/admin/search.php](https://mh45-prod.herokuapp.com/Project/admin/search.php)</p><p>
+
+ [https://mh45-prod.herokuapp.com/Project/admin/manage.php](https://mh45-prod.herokuapp.com/Project/admin/manage.php)</p></td></tr>
+<tr><td>PRs:<p>
+
+ [https://github.com/MichaelHalaj/IT-202-001/pull/124](https://github.com/MichaelHalaj/IT-202-001/pull/124)</p><p>
+
+ [https://github.com/MichaelHalaj/IT-202-001/pull/127](https://github.com/MichaelHalaj/IT-202-001/pull/127)</p></td></tr>
+<tr><td>
+<table>
+<tr><td>F6 - Will be able to search for users by firstname and/or lastname</td></tr>
+<tr><td>Status: 
+<img width="100" height="20" src="https://via.placeholder.com/400x120/009955/fff?text=completed"></td></tr>
+
+<tr><td>
+<img width="768px" src="https://user-images.githubusercontent.com/89932319/146888018-fa063e6e-be34-4785-8257-2d82d02ef681.png">
+<p>Shows result for searching my first name only</p>
+</td></tr>
+
+<tr><td>
+<img width="768px" src="https://user-images.githubusercontent.com/89932319/146888202-c32d6589-7960-4ba3-8984-7a19ea05c15c.png">
+<p>Shows result for searching both first and last name</p>
+</td></tr>
+
+<tr><td>
+<img width="768px" src="https://user-images.githubusercontent.com/89932319/146888355-d54687e0-e675-4631-9035-d46003ba1d3d.png">
+<p>Shows no matches found when cannot find user </p>
+</td></tr>
+
+</td>
+</tr>
+</table>
+</td>
+</tr>
+<tr><td>
+<table>
+<tr><td>F6 - Will be able to look-up specific account numbers (partial match) / Will be able to see the transaction history of an account</td></tr>
+<tr><td>Status: 
+<img width="100" height="20" src="https://via.placeholder.com/400x120/009955/fff?text=completed"></td></tr>
+
+<tr><td>
+<img width="768px" src="https://user-images.githubusercontent.com/89932319/146888496-bf1a31e5-95a4-49bb-8ecd-5ab468794e03.png">
+<p>Shows partial match account history</p>
+</td></tr>
+
+</td>
+</tr>
+</table>
+</td>
+</tr>
+<tr><td>
+<table>
+<tr><td>F6 - Will be able to freeze an account (this is similar to disable/delete but it’s a different column)</td></tr>
+<tr><td>Status: 
+<img width="100" height="20" src="https://via.placeholder.com/400x120/009955/fff?text=completed"></td></tr>
+
+<tr><td>
+<img width="768px" src="https://user-images.githubusercontent.com/89932319/146888746-5c362ad6-9610-41c4-b05f-fb9707ee3092.png">
+<p>Shows option to freeze an account</p>
+</td></tr>
+
+<tr><td>
+<img width="768px" src="https://user-images.githubusercontent.com/89932319/146888821-bb7929c3-5e01-4984-9b38-8795f17d884b.png">
+<p>Shows message when account is frozen or unfrozen</p>
+</td></tr>
+
+<tr><td>
+<img width="768px" src="https://user-images.githubusercontent.com/89932319/146889252-cd736d11-674f-44f0-a2bc-4d6457e5f82e.png">
+<p>Shows column for where account is frozen</p>
+</td></tr>
+
+<tr><td>
+<img width="768px" src="https://user-images.githubusercontent.com/89932319/146889419-9fe59f74-7527-41ae-8845-4aed68937e5f.png">
+<p>Code that checks if an account is frozen and prevents that account from being interacted with</p>
+</td></tr>
+
+<tr><td>
+<img width="768px" src="https://user-images.githubusercontent.com/89932319/146889592-3e030306-b5f2-4d4d-bb8f-af3e5ac10046.png">
+<p>Message that appears whenever user tries to interact with an account that is frozen</p>
+</td></tr>
+
+</td>
+</tr>
+</table>
+</td>
+</tr>
+<tr><td>
+<table>
+<tr><td>F6 - Will be able to open accounts for specific users</td></tr>
+<tr><td>Status: 
+<img width="100" height="20" src="https://via.placeholder.com/400x120/009955/fff?text=completed"></td></tr>
+
+<tr><td>
+<img width="768px" src="https://user-images.githubusercontent.com/89932319/146889792-2b08c653-c39d-4067-b72e-ee0e191769b6.png">
+<p>Demonstrates option to create account for another user</p>
+</td></tr>
+
+<tr><td>
+<img width="768px" src="https://user-images.githubusercontent.com/89932319/146889845-2da06a8e-a99f-4ed8-9047-220a59cd9335.png">
+<p>Shows success message when account is created</p>
+</td></tr>
+
+<tr><td>
+<img width="768px" src="https://user-images.githubusercontent.com/89932319/146889928-2a6d8edd-3e1f-461a-add0-9211d572d5a8.png">
+<p>Shows the newly created account for user with id 35 in table</p>
+</td></tr>
+
+</td>
+</tr>
+</table>
+</td>
+</tr>
+<tr><td>
+<table>
+<tr><td>F6 - Will be able to deactivate a user</td></tr>
+<tr><td>Status: 
+<img width="100" height="20" src="https://via.placeholder.com/400x120/009955/fff?text=completed"></td></tr>
+
+<tr><td>
+<img width="768px" src="https://user-images.githubusercontent.com/89932319/146890152-7dca9f63-191d-4afd-a582-ec7a4d70322a.png">
+<p>Shows option to deactivate a user by selecting false and then confirm</p>
+</td></tr>
+
+<tr><td>
+<img width="768px" src="https://user-images.githubusercontent.com/89932319/146890737-4e2c4a4a-92fc-437e-a0a7-f99f2ab9b573.png">
+<p>Shows what happens if active is set to true</p>
+</td></tr>
+
+<tr><td>
+<img width="768px" src="https://user-images.githubusercontent.com/89932319/146890823-c1c5c51a-79af-4f9a-b057-68e150b99677.png">
+<p>Shows what happens if active is set to false</p>
+</td></tr>
+
+<tr><td>
+<img width="768px" src="https://user-images.githubusercontent.com/89932319/146890944-91a6af62-6e9c-4152-b744-afa0ada60699.png">
+<p>Shows what happens when trying to log into account that has been deactivated</p>
+</td></tr>
+
+</td>
+</tr>
+</table>
+</td>
+</tr></td></tr></table>
 ### Intructions
 #### Don't delete this
 1. Pick one project type
