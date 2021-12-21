@@ -359,7 +359,24 @@ function update_APY(){
 } 
 
 
+function frozen_check($ID){
+    $querycheck= "SELECT frozen from Bank_Accounts where id = :id";
+    $db = getDB();
+    $stmt = $db->prepare($querycheck);
+    $frozen = false;
+    try {
+        $stmt->execute([":id" => $ID]);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
+            if($result["frozen"] == "true"){
+                $frozen = true;
+            }
+
+        return $frozen;
+    } catch (PDOException $e) {
+        flash("Transfer error occurred: " . var_export($e->errorInfo, true), "danger");
+    }   
+}
 function transaction($money, $typeTrans, $src = -1, $dest = -1, $memo = "")
 {   
     $querycheck= "SELECT frozen from Bank_Accounts where id = :src or id = :dest";
@@ -402,6 +419,7 @@ function transaction($money, $typeTrans, $src = -1, $dest = -1, $memo = "")
                
                     refresh_account_balance($dest);
                     refresh_account_balance($src);
+                    flash("Successful transaction", "success");
                   //  refresh_system_balance();
                 
             } catch (PDOException $e) {

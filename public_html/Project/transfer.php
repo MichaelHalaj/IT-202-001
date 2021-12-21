@@ -23,12 +23,10 @@ if(isset($_POST["save"])){
             else{
                 transaction($amount, "transfer", $fromID, -1, $memo);
                 transaction($amount, "transfer", $intoID, -1, $memo);
-                flash("Successful transfer to loan account");
                 die(header("Location: user_accounts.php"));
             }
         }else{
             transaction($amount, "transfer", $fromID, $intoID, $memo);
-            flash("Successful transfer");
             die(header("Location: user_accounts.php"));
         }
 

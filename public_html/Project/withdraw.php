@@ -11,7 +11,6 @@ if(isset($_POST["save"])){
         
         if(get_balance($account) - ((int)$withdrawAmount *100) >= 0){
             transaction((int)$withdrawAmount * -1, "withdraw", -1, find_account($account), $memo);
-            flash("Successful withdrawal" , "success");
             //echo var_export(get_balance($account)>= $withdrawAmount);
             die(header('Location: home.php'));
            

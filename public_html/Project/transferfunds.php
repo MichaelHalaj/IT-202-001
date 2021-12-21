@@ -60,13 +60,11 @@ if(isset($_POST["save"])){
                                 else{
                                     transaction($amount, "ext-transfer", $fromID, -1, $memo);
                                     transaction($amount, "ext-transfer", $otherID, -1, $memo);
-                                    flash("Successful transfer to loan account");
                                     //echo var_export($otherID);
                                     die(header("Location: user_accounts.php"));
                                 }
                             }else{
                                 transaction($amount, "ext-transfer", $fromID, $otherID, $memo);
-                                flash("Successful transfer");
                                 die(header("Location: user_accounts.php"));
                             }
                        // echo var_export($fromID);
