@@ -4,6 +4,7 @@ require(__DIR__ . "/../../partials/nav.php");
 if(isset($_POST["save"])){
     $amount = se($_POST, "transfer", null ,false);
     $from = se($_POST, "accountFROM", null, false);
+
     $into = se($_POST, "accountINTO", null, false);
     $intoAccount = substr($into,0,12);
     $intoType = substr($into,12);
@@ -12,29 +13,56 @@ if(isset($_POST["save"])){
     $intoBal = get_balance($intoAccount);
     $fromID = find_account($from);
     $intoID = find_account($intoAccount);
-
-    if($fromBal - ($amount*100) < 0 ){
-        flash("Insufficient funds to transfer", "warning");
-    }else{
-        if($intoType == "loan"){
-            if($intoBal - ($amount*100) < 0){
-                flash("Transfer exceeded loan balance", "warning");
-            }
-            else{
-                if(frozen_check($fromID) || frozen_check($intoID)){
-                    flash("Transaction cannot occur; Account[s] is/are frozen!", "warning");
-                }else{
-                    transaction($amount, "transfer", $fromID, -1, $memo);
-                    transaction($amount, "transfer", $intoID, -1, $memo);
-                    die(header("Location: user_accounts.php"));
+    //echo var_export($fromID);
+   // echo var_export($intoID);
+    $query = "SELECT user_id from Bank_Accounts where id = :src or id = :dest";
+    $db = getDB();
+    $stmt = $db->prepare($query);
+    $belongsToUser = true;
+    try{
+        $stmt->execute([":src" => $fromID, ":dest" => $intoID]);
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $user_id = get_user_id();
+       // echo var_export($result);
+        if($result){
+            //echo var_export($result);
+            foreach($result as $r){
+                if($r["user_id"] != $user_id){
+                    $belongsToUser = false;
+                    break;
                 }
             }
-        }else{
-            transaction($amount, "transfer", $fromID, $intoID, $memo);
-            die(header("Location: user_accounts.php"));
         }
-
+    }catch (PDOException $e){
+        flash("Technical error: " . var_export($e->errorInfo, true), "danger");
     }
+    if(!$belongsToUser){
+        flash("Please select accounts that belong to user", "warning");
+    }else{
+        if($fromBal - ($amount*100) < 0 ){
+            flash("Insufficient funds to transfer", "warning");
+        }else{
+            if($intoType == "loan"){
+                if($intoBal - ($amount*100) < 0){
+                    flash("Transfer exceeded loan balance", "warning");
+                }
+                else{
+                    if(frozen_check($fromID) || frozen_check($intoID)){
+                        flash("Transaction cannot occur; Account[s] is/are frozen!", "warning");
+                    }else{
+                        transaction($amount, "transfer", $fromID, -1, $memo);
+                        transaction($amount, "transfer", $intoID, -1, $memo);
+                        die(header("Location: user_accounts.php"));
+                    }
+                }
+            }else{
+                transaction($amount, "transfer", $fromID, $intoID, $memo);
+                die(header("Location: user_accounts.php"));
+            }
+    
+        }
+    }
+
 
 }
 

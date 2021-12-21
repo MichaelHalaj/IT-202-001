@@ -15,7 +15,30 @@ if(isset($_POST["save"])){
             flash("No such user exists", "warning");
         }else{
             $fromID = find_account($from);
-
+            $query = "SELECT user_id from Bank_Accounts where id = :src";
+            $db = getDB();
+            $stmt = $db->prepare($query);
+            $belongsToUser = true;
+            try{
+                $stmt->execute([":src" => $fromID]);
+                $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                $user_id = get_user_id();
+            // echo var_export($result);
+                if($result){
+                    //echo var_export($result);
+                    foreach($result as $r){
+                        if($r["user_id"] != $user_id){
+                            $belongsToUser = false;
+                            break;
+                        }
+                    }
+                }
+            }catch (PDOException $e){
+                flash("Technical error: " . var_export($e->errorInfo, true), "danger");
+            }
+            if(!$belongsToUser){
+                flash("Please select accounts that belong to user", "warning");
+            }else{
             $query = "SELECT id, account_type, balance FROM Bank_Accounts WHERE account LIKE '%$account' AND user_id = :uid and active = :true LIMIT 1" ;
             $db = getDB();
             $stmt = $db->prepare($query);
@@ -83,7 +106,7 @@ if(isset($_POST["save"])){
             }
             }
     }
-        
+}
 
         }
 
