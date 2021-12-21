@@ -15,10 +15,11 @@ if(isset($_POST["save"])){
             flash("No such user exists", "warning");
         }else{
             $fromID = find_account($from);
-            $query = "SELECT user_id from Bank_Accounts where id = :src";
+            $query = "SELECT user_id, account_type from Bank_Accounts where id = :src";
             $db = getDB();
             $stmt = $db->prepare($query);
             $belongsToUser = true;
+            $isLoanSrc = false;
             try{
                 $stmt->execute([":src" => $fromID]);
                 $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -30,6 +31,9 @@ if(isset($_POST["save"])){
                         if($r["user_id"] != $user_id){
                             $belongsToUser = false;
                             break;
+                        }elseif($r["account_type"] == "loan"){
+                            $isLoanSrc = true;
+                            break;
                         }
                     }
                 }
@@ -38,6 +42,8 @@ if(isset($_POST["save"])){
             }
             if(!$belongsToUser){
                 flash("Please select accounts that belong to user", "warning");
+            }elseif($isLoanSrc){
+                flash("Cannot transfer from a loan account", "warning");
             }else{
             $query = "SELECT id, account_type, balance FROM Bank_Accounts WHERE account LIKE '%$account' AND user_id = :uid and active = :true LIMIT 1" ;
             $db = getDB();

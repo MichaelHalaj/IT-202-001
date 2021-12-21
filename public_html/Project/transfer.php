@@ -15,12 +15,37 @@ if(isset($_POST["save"])){
     $intoID = find_account($intoAccount);
     //echo var_export($fromID);
    // echo var_export($intoID);
-    $query = "SELECT user_id from Bank_Accounts where id = :src or id = :dest";
+    $query = "SELECT user_id, account_type from Bank_Accounts where id = :src";
+    $db = getDB();
+    $stmt = $db->prepare($query);
+    $belongsToUser = true;
+    $isLoanSrc = false;
+    try{
+        $stmt->execute([":src" => $fromID]);
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $user_id = get_user_id();
+       // echo var_export($result);
+        if($result){
+            //echo var_export($result);
+            foreach($result as $r){
+                if($r["user_id"] != $user_id){
+                    $belongsToUser = false;
+                    break;
+                }elseif($r["account_type"] == "loan"){
+                    $isLoanSrc = true;
+                    break;
+                }
+            }
+        }
+    }catch (PDOException $e){
+        flash("Technical error: " . var_export($e->errorInfo, true), "danger");
+    }
+    $query = "SELECT user_id from Bank_Accounts where id = :dest";
     $db = getDB();
     $stmt = $db->prepare($query);
     $belongsToUser = true;
     try{
-        $stmt->execute([":src" => $fromID, ":dest" => $intoID]);
+        $stmt->execute([":dest" => $intoID]);
         $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
         $user_id = get_user_id();
        // echo var_export($result);
@@ -38,6 +63,8 @@ if(isset($_POST["save"])){
     }
     if(!$belongsToUser){
         flash("Please select accounts that belong to user", "warning");
+    }elseif($isLoanSrc){
+        flash("Cannot transfer from a loan account", "warning");
     }else{
         if($fromBal - ($amount*100) < 0 ){
             flash("Insufficient funds to transfer", "warning");

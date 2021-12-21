@@ -85,12 +85,12 @@ if(is_logged_in()){
                     }elseif($bal1 - $Amount != 0){
                         flash("Must transfer exact amount in order to close account" , "warning");
                     }else{
-                        $query = "SELECT user_id from Bank_Accounts where id = :src or id = :src2";
+                        $query = "SELECT user_id from Bank_Accounts where id = :src";
                         $db = getDB();
                         $stmt = $db->prepare($query);
                         $belongsToUser = true;
                         try{
-                            $stmt->execute([":src" => $ac1ID, ":src2" => $ac2ID]);
+                            $stmt->execute([":src" => $ac1ID]);
                             $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             $user_id = get_user_id();
                            // echo var_export($result);
@@ -106,8 +106,36 @@ if(is_logged_in()){
                         }catch (PDOException $e){
                             flash("Technical error: " . var_export($e->errorInfo, true), "danger");
                         }
+                        $query = "SELECT user_id, account_type from Bank_Accounts where id = :src2";
+                        $db = getDB();
+                        $stmt = $db->prepare($query);
+                        $isLoanSrc = false;
+                        try{
+                            $stmt->execute([":src2" => $ac2ID]);
+                            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                            $user_id = get_user_id();
+                           // echo var_export($result);
+                            if($result){
+                                //echo var_export($result);
+                                foreach($result as $r){
+                                    if($r["user_id"] != $user_id){
+                                        $belongsToUser = false;
+                                        break;
+                                    }elseif($r["account_type"] == "loan"){
+                                        $isLoanSrc = true;
+                                        break;
+                                    }
+                                }
+                            }
+                        }catch (PDOException $e){
+                            flash("Technical error: " . var_export($e->errorInfo, true), "danger");
+                        }
                         if(!$belongsToUser){
                             flash("Please select accounts that belong to user", "warning");
+                        }elseif($isLoanSrc){
+                            flash("Cannot transfer from a loan account", "warning");
+                        }elseif($ac1ID == $ac2ID){
+                            flash("Accounts must be different", "warning");
                         }else{
                             if(frozen_check($ac2ID) || frozen_check($ac1ID)){
                                 flash("Transaction cannot occur; Account[s] is/are frozen!", "warning");
