@@ -58,10 +58,14 @@ if(isset($_POST["save"])){
                                     flash("Transfer exceeded loan balance", "warning");
                                 }
                                 else{
-                                    transaction($amount, "ext-transfer", $fromID, -1, $memo);
-                                    transaction($amount, "ext-transfer", $otherID, -1, $memo);
-                                    //echo var_export($otherID);
-                                    die(header("Location: user_accounts.php"));
+                                    if(frozen_check($fromID) || frozen_check($otherID)){
+                                        flash("Transaction cannot occur; Account[s] is/are frozen!", "warning");
+                                    }else{
+                                        transaction($amount, "ext-transfer", $fromID, -1, $memo);
+                                        transaction($amount, "ext-transfer", $otherID, -1, $memo);
+                                        //echo var_export($otherID);
+                                        die(header("Location: user_accounts.php"));
+                                    }
                                 }
                             }else{
                                 transaction($amount, "ext-transfer", $fromID, $otherID, $memo);
