@@ -8,31 +8,19 @@ if(isset($_POST["save"])){
   //  $db = getDB();
     $accountType = se($_POST, "radio", null, false);
     $depositAmount = se($_POST, "deposit", "", false);
+    if($depositAmount < 5){
+        flash("Must deposit a valid amount", "danger");
+    }else{
+        if($accountType == "checking" || $accountType == "savings"){
+            get_or_create_account($accountType, $depositAmount);
+            transaction($depositAmount, "deposit", -1, get_user_account_id(), "");
+            die(header("Location: user_accounts.php"));
+        }else{
 
-    //echo var_export($_SESSION["user"]["account"]["id"]);
-   // echo var_export($depositAmount);
-    
-    get_or_create_account($accountType, $depositAmount);
-    transaction($depositAmount, "deposit", -1, get_user_account_id(), "");
-    die(header("Location: user_accounts.php"));
-  // $y = se($_SESSION["user"], "account", "", false);
-   // echo var_export($_SESSION["user"]);
-    //var_export($_SESSION["user"]["account"]["account_number"]);
-    //transaction($depositAmount, "deposit", -1, ;
-    /*
-    $query = "SELECT id from Bank_Accounts where account = :account LIMIT 1";
-    
-    $stmt = $db->prepare($query);
-    //$stmt->bind_param("s", $_SESSION["user"]["account"]["account_number"]);
+            flash("Must be a valid account type", "danger");
+        }
 
-        $stmt->execute([":account" => $_SESSION["user"]["account"]["account_number"]]);
-        $result = $stmt->fetch(PDO::FETCH_ASSOC); */
-        //$result = $stmt->get_result();
-        //$row = $result->fetch_assoc();
-    //echo var_export($result);
-    // transaction($depositAmount, "deposit", -1, $db->lastInsertID(), "");
-
-    
+    }
 }
 ?>
 <div class="container-fluid">

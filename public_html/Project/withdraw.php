@@ -11,7 +11,6 @@ if(isset($_POST["save"])){
         
         if(get_balance($account) - ((int)$withdrawAmount *100) >= 0){
             transaction((int)$withdrawAmount * -1, "withdraw", -1, find_account($account), $memo);
-            flash("Successful withdrawal" , "success");
             //echo var_export(get_balance($account)>= $withdrawAmount);
             die(header('Location: home.php'));
            
@@ -21,12 +20,12 @@ if(isset($_POST["save"])){
     }
 
 }
-$query = "SELECT account, account_type, balance from Bank_Accounts WHERE user_id = :uid";
+$query = "SELECT account, account_type, balance from Bank_Accounts WHERE user_id = :uid AND account_type <> :loan and active = :true";
 $db = getDB();
 $stmt = $db->prepare($query);
 $accounts = [];
 try{
-    $stmt->execute([":uid" => get_user_id()]);
+    $stmt->execute([":uid" => get_user_id(), ":loan" => "loan", ":true" => "true"]);
     $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
     if ($results) {
         $accounts = $results;
