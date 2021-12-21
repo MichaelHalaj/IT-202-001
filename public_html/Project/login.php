@@ -60,7 +60,7 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
     if (!$hasError) {
         //TODO 4
         $db = getDB();
-        $stmt = $db->prepare("SELECT id, email, username, password from Users where email = :email or username = :email" );
+        $stmt = $db->prepare("SELECT id, email, username, password, is_active from Users where email = :email or username = :email" );
         try {
             $r = $stmt->execute([":email" => $email]);
             if ($r) {
@@ -69,21 +69,26 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
                     $hash = $user["password"];
                     unset($user["password"]);
                     if (password_verify($password, $hash)) {
-                        flash("Welcome $email");
-                        $_SESSION["user"] = $user;
-                        //lookup potential roles
-                        $stmt = $db->prepare("SELECT Roles.name FROM Roles 
-                        JOIN UserRoles on Roles.id = UserRoles.role_id 
-                        where UserRoles.user_id = :user_id and Roles.is_active = 1 and UserRoles.is_active = 1");
-                        $stmt->execute([":user_id" => $user["id"]]);
-                        $roles = $stmt->fetchAll(PDO::FETCH_ASSOC); //fetch all since we'll want multiple
-                        //save roles or empty array
-                        if ($roles) {
-                            $_SESSION["user"]["roles"] = $roles; //at least 1 role
-                        } else {
-                            $_SESSION["user"]["roles"] = []; //no roles
+                        if($user["is_active"] == "false"){
+                            flash("Sorry your account is no longer active", "warning");
+                        }else{
+                            flash("Welcome $email");
+                            $_SESSION["user"] = $user;
+                            //lookup potential roles
+                            $stmt = $db->prepare("SELECT Roles.name FROM Roles 
+                            JOIN UserRoles on Roles.id = UserRoles.role_id 
+                            where UserRoles.user_id = :user_id and Roles.is_active = 1 and UserRoles.is_active = 1");
+                            $stmt->execute([":user_id" => $user["id"]]);
+                            $roles = $stmt->fetchAll(PDO::FETCH_ASSOC); //fetch all since we'll want multiple
+                            //save roles or empty array
+                            if ($roles) {
+                                $_SESSION["user"]["roles"] = $roles; //at least 1 role
+                            } else {
+                                $_SESSION["user"]["roles"] = []; //no roles
+                            }
+                            die(header("Location: home.php"));
                         }
-                        die(header("Location: home.php"));
+
                     } else {
                         flash("Invalid password", "danger");
                     }
