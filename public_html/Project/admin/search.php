@@ -95,7 +95,7 @@ if (isset($_POST["first"]) && isset($_POST["last"])) {
             $stmt = $db->prepare($query);
             try {
                 $stmt->execute([":is_active" => $activate, ":id" => $userID]);
-                flash("ID -> " . $userID . " has been deactived", "info");
+                flash("ID -> " . $userID . " has been set to active state:" . $activate, "info");
             } catch (PDOException $e) {
                 flash(var_export($e->errorInfo, true), "danger");
             }
