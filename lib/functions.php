@@ -361,7 +361,22 @@ function update_APY(){
 
 
 function transaction($money, $typeTrans, $src = -1, $dest = -1, $memo = "")
-{
+{   
+    $querycheck= "SELECT frozen from Bank_Accounts where id = :src or id = :dest";
+    $db = getDB();
+    $stmt = $db->prepare($querycheck);
+    $frozen = false;
+    try {
+        $stmt->execute([":src" => $src, ":dest" => $dest]);
+        $result = $stmt->fetchALL(PDO::FETCH_ASSOC);
+        foreach($result as $r){
+            if($r["frozen"] == "true"){
+                $frozen = true;
+            }
+        }
+    } catch (PDOException $e) {
+        flash("Transfer error occurred: " . var_export($e->errorInfo, true), "danger");
+    }
     //I'm choosing to ignore the record of 0 point transactions
         $query = "INSERT INTO Bank_Account_Transactions (src, dest, diff, typeTrans, memo) 
             VALUES (:acs, :acd, :pc, :r,:m), 
@@ -376,21 +391,26 @@ function transaction($money, $typeTrans, $src = -1, $dest = -1, $memo = "")
         $params[":acs2"] = $dest;
         $params[":acd2"] = $src;
         $params[":pc2"] = $money *100;
-        $db = getDB();
-        $stmt = $db->prepare($query);
-        try {
-            $stmt->execute($params);
-            //Only refresh the balance of the user if the logged in user's account is part of the transfer
-            //this is needed so future features don't waste time/resources or potentially cause an error when a calculation
-            //occurs without a logged in user
-           
-                refresh_account_balance($dest);
-                refresh_account_balance($src);
-              //  refresh_system_balance();
-            
-        } catch (PDOException $e) {
-            flash("Transfer error occurred: " . var_export($e->errorInfo, true), "danger");
+        if(!$frozen){
+            $db = getDB();
+            $stmt = $db->prepare($query);
+            try {
+                $stmt->execute($params);
+                //Only refresh the balance of the user if the logged in user's account is part of the transfer
+                //this is needed so future features don't waste time/resources or potentially cause an error when a calculation
+                //occurs without a logged in user
+               
+                    refresh_account_balance($dest);
+                    refresh_account_balance($src);
+                  //  refresh_system_balance();
+                
+            } catch (PDOException $e) {
+                flash("Transfer error occurred: " . var_export($e->errorInfo, true), "danger");
+            }
+        }else{
+            flash("Transaction cannot occur; Account[s] is/are frozen!", "warning");
         }
+
     
 }
 function get_random_str($length)

@@ -94,7 +94,6 @@ if(isset($_POST["account"])){
                                             False
                                         </label>
                                         <?php if (isset($id) && !empty($id)) : ?>
-                                    <?php /* if this is part of a search, lets persist the search criteria so it reloads correctly*/ ?>
                                     <input type="hidden" name="accountID" value="<?php se($id, null); ?>" />
                                 <?php endif; ?>
 
