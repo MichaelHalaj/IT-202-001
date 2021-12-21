@@ -32,39 +32,46 @@ try {
 }
 
 
-$query = "SELECT id, email, username, firstName, lastName, visibility from Users";
-$params = null; 
+
 if (isset($_POST["first"]) && isset($_POST["last"])) {
+    $query = "SELECT id, email, username, firstName, lastName, visibility ,is_active from Users";
+    $params = null; 
     $first = se($_POST, "first", "", false);
     $last = se($_POST, "last", "", false);
     $query .= " WHERE firstName LIKE :first AND lastName like :last";
     $params =  [":first" => "%$first%", ":last" => "%$last%"];
-}
-$query .= " ORDER BY modified desc LIMIT 10";
-$db = getDB();
-$stmt = $db->prepare($query);
-$info = [];
-try {
-    $stmt->execute($params);
-    $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    if ($results) {
-        $info = $results;
-        /*
-        foreach($info as $o){
-            if($o["visibility"] == "public"){
-                $o["email"] = "";
-                echo var_export($o["email"]);
-            }
-        }*/
+        $query .= " ORDER BY modified desc LIMIT 1";
+    $db = getDB();
+    $stmt = $db->prepare($query);
+    $info = [];
+    try {
+        $stmt->execute($params);
+        $results = $stmt->fetch(PDO::FETCH_ASSOC);
+        if ($results) {
+            $info = $results;
+            $active = $info["is_active"];
+            //echo var_export($active);
+            /*
+            foreach($info as $o){
+                if($o["visibility"] == "public"){
+                    $o["email"] = "";
+                    echo var_export($o["email"]);
+                }
+            }*/
 
-    } else {
-        flash("No matches found", "warning");
+        } else {
+            flash("No matches found", "warning");
+        }
+    } catch (PDOException $e) {
+        flash(var_export($e->errorInfo, true), "danger");
     }
-} catch (PDOException $e) {
-    flash(var_export($e->errorInfo, true), "danger");
-}
+    }
+
 
 ?>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
 <div class="container-fluid">
     <h1>Search Users</h1>
     <form method="POST" class="row row-cols-lg-auto g-3 align-items-center">
@@ -81,6 +88,8 @@ try {
             <th>UserName</th>
             <th>First Name</th>
             <th>Last Name</th>
+            <th>Open Account</th>
+            <th>Active</th>
         </thead>
         <tbody>
         <?php if (empty($info)) : ?>
@@ -88,19 +97,42 @@ try {
                     <td colspan="100%" >No info</td>
                 </tr>
             <?php else : ?>
-                <?php foreach($info as $i) : ?>
+               
                     <tr>
-                        <td><?php se($i, "id"); ?></td>
-                        <?php if($i["visibility"] == "public"): ?>
-                            <td><?php se($i, "email"); ?></td>
+                        <td><?php se($info, "id"); ?></td>
+                        <?php if($info["visibility"] == "public"): ?>
+                            <td><?php se($info, "email"); ?></td>
                         <?php else :?>
                             <td>PRIVATE</td>
                         <?php endif; ?>
-                        <td><?php  se($i, "username"); ?></td>
-                        <td><?php se($i, "firstName"); ?></td>
-                        <td><?php se($i, "lastName"); ?></td>
+                        <td><?php  se($info, "username"); ?></td>
+                        <td><?php se($info, "firstName"); ?></td>
+                        <td><?php se($info, "lastName"); ?></td>
+                        <td>
+
+                        </td>
+                        <td>
+                        <form method = "POST">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="radio" value = "active" id="active">
+                                        <label class="form-check-label" for="Active">
+                                            Active
+                                        </label>
+                                </div>
+                                <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="radio" value = "inactive" id="inactive">
+                                        <label class="form-check-label" for="Inactive">
+                                            Inactive
+                                        </label>
+                                        <?php if (isset($id) && !empty($id)) : ?>
+                                    <input type="hidden" name="accountID" value="<?php se($id, null); ?>" />
+                                <?php endif; ?>
+                                <br>
+                                <input class="btn btn-danger" type="submit" value="Confirm" />
+                                <form>
+                        </td>
+                        </td>
                     </tr>
-                <?php endforeach ?>
             <?php endif ?>
         </tbody>
     </table>
@@ -147,8 +179,15 @@ try {
         i.innerHTML = parseInt(y)/100;
         console.log(i.innerHTML);
     
-    }
-
+    }/*
+    var data = <?php echo json_encode($active, JSON_HEX_TAG); ?>;
+    //console.log(data);
+    if(data == "true"){
+        $('#active').prop('checked', true);
+    }else{
+        $('#inactive').prop('checked', true);
+    }*/
+    
 </script>
 
 <?php

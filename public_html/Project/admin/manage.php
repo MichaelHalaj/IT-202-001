@@ -48,13 +48,82 @@ if(isset($_POST["account"])){
         flash(var_export($e->errorInfo, true), "danger");
     }
 }
-
+if(isset($_POST["username"])){
+    $user = se($_POST, "username", "", false);
+    echo var_export($user);
+    $query = "SELECT id, username, is_active from Users WHERE username like :username LIMIT 1";
+    $db = getDB();
+    $stmt = $db->prepare($query);
+    try {
+        $stmt->execute([":username" => "%$user%"]);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        //echo var_export($result);
+        if ($result) {
+            $userInfo = $result;
+            $active = $userInfo["is_active"];
+            echo var_export($active);
+            echo var_export($userInfo);
+        } else {
+            flash("No matches found", "warning");
+        }
+    } catch (PDOException $e) {
+        flash(var_export($e->errorInfo, true), "danger");
+    }
+}
 
 ?>
 <head>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <div class = "container-fluid">
+    <!--
+<h1>Search User</h1>
+    <form method="POST" class="row row-cols-lg-auto g-3 align-items-center">
+        <div class="input-group mb-3">
+            <input class="form-control" type="search" name="username" placeholder="Username" />
+            <input class="btn btn-primary" type="submit" value="Search" />
+        </div>
+    </form>
+    <table class = "table text-dark">
+        <thead>
+            <th>ID</th>
+            <th>Username</th>
+            <th>Open Account</th>
+            <th>Active</th>
+        </thead>
+        <tbody>
+        <?php if (empty($userInfo)) : ?>
+                <tr>
+                    <td colspan="100%" >No info</td>
+                </tr>
+            <?php else : ?>
+                    <tr>
+                        <td><?php se($userInfo, "id"); ?></td>
+                        <td><?php se($userInfo, "username"); ?></td>
+                        <td>
+
+                        </td>
+                        <td>
+                        <form method = "POST">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="radio" value = "active" id="active">
+                                        <label class="form-check-label" for="Active">
+                                            Active
+                                        </label>
+                                </div>
+                                <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="radio" value = "inactive" id="inactive">
+                                        <label class="form-check-label" for="Inactive">
+                                            Inactive
+                                        </label>
+                                        <?php if (isset($id) && !empty($id)) : ?>
+                                    <input type="hidden" name="accountID" value="<?php se($id, null); ?>" />
+                                <?php endif; ?>
+                        </td>
+                    </tr>
+                <?php endif; ?>
+        </tbody>
+    </table> -->
 <h1>Search Account</h1>
     <form method="POST" class="row row-cols-lg-auto g-3 align-items-center">
         <div class="input-group mb-3">
@@ -119,6 +188,7 @@ if(isset($_POST["account"])){
     }
     var data = <?php echo json_encode($frozen, JSON_HEX_TAG); ?>;
     $('#' + data).prop('checked', true);
+
 </script>
 <?php
 //note we need to go up 1 more directory
