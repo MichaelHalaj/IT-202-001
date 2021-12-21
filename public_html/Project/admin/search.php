@@ -50,6 +50,8 @@ if (isset($_POST["first"]) && isset($_POST["last"])) {
         if ($results) {
             $info = $results;
             $active = $info["is_active"];
+            $user = $info["id"];
+           // echo var_export($user);
             //echo var_export($active);
             /*
             foreach($info as $o){
@@ -65,6 +67,21 @@ if (isset($_POST["first"]) && isset($_POST["last"])) {
     } catch (PDOException $e) {
         flash(var_export($e->errorInfo, true), "danger");
     }
+    }
+    if(isset($_POST["radio"])){
+        $account = se($_POST, "radio", "", false);
+        //echo var_export($account);
+        $userID = se($_POST, "user", "", false);
+        //echo var_export($userID);
+        if(empty($account)){
+            $account = "checking";
+        }elseif($userID == NULL){
+            flash("No user selected", "warning");
+        }else{
+            create_account_admin($account, $userID);
+            flash("Created " . $account . " account for ID ->" . $userID, "success");
+        } 
+        
     }
 
 
@@ -109,27 +126,48 @@ if (isset($_POST["first"]) && isset($_POST["last"])) {
                         <td><?php se($info, "firstName"); ?></td>
                         <td><?php se($info, "lastName"); ?></td>
                         <td>
+                            <form method = "POST">
 
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="radio" value = "checking" id="checking" checked>
+                                        <label class="form-check-label" for="Checking">
+                                            Checking
+                                        </label>
+                                </div>
+                                <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="radio" value = "savings" id="savings">
+                                        <label class="form-check-label" for="Savings">
+                                            Savings
+                                        </label>
+                                            <?php if (isset($user) && !empty($user)) : ?>
+                                                <input type="hidden" name="user" value="<?php se($user, null); ?>" />
+                                            <?php endif; ?>
+                                <br>
+                                <br>
+                                <input class="btn btn-success" type="submit" value="Create Account" />
+                                    </div>
+                            </form>
                         </td>
                         <td>
                         <form method = "POST">
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="radio" value = "active" id="active">
+                                        <input class="form-check-input" type="radio" name="radio1" value = "active" id="active" checked>
                                         <label class="form-check-label" for="Active">
                                             Active
                                         </label>
                                 </div>
                                 <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="radio" value = "inactive" id="inactive">
+                                        <input class="form-check-input" type="radio" name="radio1" value = "inactive" id="inactive">
                                         <label class="form-check-label" for="Inactive">
                                             Inactive
                                         </label>
-                                        <?php if (isset($id) && !empty($id)) : ?>
-                                    <input type="hidden" name="accountID" value="<?php se($id, null); ?>" />
+                                        <?php if (isset($user) && !empty($user)) : ?>
+                                    <input type="hidden" name="user1" value="<?php se($user, null); ?>" />
                                 <?php endif; ?>
                                 <br>
+                                <br>
                                 <input class="btn btn-danger" type="submit" value="Confirm" />
-                                <form>
+                        </form>
                         </td>
                         </td>
                     </tr>
