@@ -75,13 +75,31 @@ if (isset($_POST["first"]) && isset($_POST["last"])) {
         //echo var_export($userID);
         if(empty($account)){
             $account = "checking";
-        }elseif($userID == NULL){
+        }elseif(empty($userID)){
             flash("No user selected", "warning");
         }else{
             create_account_admin($account, $userID);
             flash("Created " . $account . " account for ID ->" . $userID, "success");
         } 
         
+    }
+    if(isset($_POST["radio1"])){
+        $userID = se($_POST, "user1", "", false);
+        $activate = se($_POST, "radio1", "", false);
+        if(empty($activate)){
+            flash("No selection made on active column", "warning");
+        }elseif(empty($userID)){
+            flash("No user selected", "warning");
+        }else{
+            $query = "UPDATE Users set is_active = :is_active where id = :id";
+            $stmt = $db->prepare($query);
+            try {
+                $stmt->execute([":is_active" => $activate, ":id" => $userID]);
+                flash("ID -> " . $userID . " has been deactived", "info");
+            } catch (PDOException $e) {
+                flash(var_export($e->errorInfo, true), "danger");
+            }
+        }
     }
 
 
@@ -151,15 +169,15 @@ if (isset($_POST["first"]) && isset($_POST["last"])) {
                         <td>
                         <form method = "POST">
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="radio1" value = "active" id="active" checked>
-                                        <label class="form-check-label" for="Active">
-                                            Active
+                                        <input class="form-check-input" type="radio" name="radio1" value = "true" id="true" checked>
+                                        <label class="form-check-label" for="True">
+                                            True
                                         </label>
                                 </div>
                                 <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="radio1" value = "inactive" id="inactive">
-                                        <label class="form-check-label" for="Inactive">
-                                            Inactive
+                                        <input class="form-check-input" type="radio" name="radio1" value = "false" id="false">
+                                        <label class="form-check-label" for="False">
+                                            False
                                         </label>
                                         <?php if (isset($user) && !empty($user)) : ?>
                                     <input type="hidden" name="user1" value="<?php se($user, null); ?>" />
