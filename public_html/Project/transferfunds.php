@@ -15,14 +15,18 @@ if(isset($_POST["save"])){
             flash("No such user exists", "warning");
         }else{
             $fromID = find_account($from);
-            $query = "SELECT id FROM Bank_Accounts WHERE account LIKE '%$account' AND user_id = :uid LIMIT 1" ;
+
+            $query = "SELECT id, account_type, balance FROM Bank_Accounts WHERE account LIKE '%$account' AND user_id = :uid and active = :true LIMIT 1" ;
             $db = getDB();
             $stmt = $db->prepare($query);
             try{
-                $stmt->execute([":uid" => $userID]);
+                $stmt->execute([":uid" => $userID, ":true" => "true"]);
                 $result = $stmt->fetch(PDO::FETCH_ASSOC);
                 if($result){
                     $otherID =  $result["id"];
+                    $otherType = $result["account_type"];
+                    $intoBal = $result["balance"];
+                    
                 }
                 else{
                     $otherID = "none";
@@ -49,11 +53,27 @@ if(isset($_POST["save"])){
                         if($userID === get_user_id()){
                             flash("Please select an account that is not yours", "warning");
                         }else{
+                            if($otherType == "loan"){
+                                if($intoBal - ($amount*100) < 0){
+                                    flash("Transfer exceeded loan balance", "warning");
+                                }
+                                else{
+                                    if(frozen_check($fromID) || frozen_check($otherID)){
+                                        flash("Transaction cannot occur; Account[s] is/are frozen!", "warning");
+                                    }else{
+                                        transaction($amount, "ext-transfer", $fromID, -1, $memo);
+                                        transaction($amount, "ext-transfer", $otherID, -1, $memo);
+                                        //echo var_export($otherID);
+                                        die(header("Location: user_accounts.php"));
+                                    }
+                                }
+                            }else{
+                                transaction($amount, "ext-transfer", $fromID, $otherID, $memo);
+                                die(header("Location: user_accounts.php"));
+                            }
                        // echo var_export($fromID);
                         //echo var_export($otherID);
-                        transaction($amount, "ext-transfer", $fromID, $otherID, $memo);
-                        flash("Successful transfer");
-                        die(header("Location: user_accounts.php"));
+
                         }
             
                     }
@@ -71,12 +91,12 @@ if(isset($_POST["save"])){
 
 
 
-$query = "SELECT account, account_type, balance from Bank_Accounts WHERE user_id = :uid";
+$query = "SELECT account, account_type, balance from Bank_Accounts WHERE user_id = :uid AND account_type <> :loan and active = :true";
 $db = getDB();
 $stmt = $db->prepare($query);
 $accounts = [];
 try{
-    $stmt->execute([":uid" => get_user_id()]);
+    $stmt->execute([":uid" => get_user_id(), ":loan" => "loan", ":true" => "true"]);
     $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
     if ($results) {
         $accounts = $results;

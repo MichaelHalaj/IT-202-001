@@ -9,17 +9,16 @@ if(isset($_POST["save"])){
         flash("Please select an account", "warning");
     }else{
         transaction($depositAmount, "deposit", -1, find_account($account), $memo);
-        flash("Successful deposit" , "success");
         die(header('Location: home.php'));
     }
 
 }
-$query = "SELECT account, account_type, balance from Bank_Accounts WHERE user_id = :uid";
+$query = "SELECT account, account_type, balance from Bank_Accounts WHERE user_id = :uid AND account_type <> :loan and active = :true";
 $db = getDB();
 $stmt = $db->prepare($query);
 $accounts = [];
 try{
-    $stmt->execute([":uid" => get_user_id()]);
+    $stmt->execute([":uid" => get_user_id(), ":loan" => "loan", ":true" => "true"]);
     $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
     if ($results) {
         $accounts = $results;

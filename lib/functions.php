@@ -56,6 +56,20 @@ function has_role($role)
     }
     return false;
 }
+function get_visi($email){
+    if(is_logged_in()){
+        $query = "SELECT visibility FROM Users WHERE email = :email LIMIT 1";
+        $db = getDB();
+        $stmt = $db->prepare($query);
+        try{
+            $stmt->execute([":email" => $email]);
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            return $result["visibility"];
+        }catch (PDOException $e){
+            flash("Technical error: " . var_export($e->errorInfo, true), "danger");
+        }
+    }
+}
 function get_username()
 {
     if (is_logged_in()) { //we need to check for login first because "user" key may not exist
@@ -159,6 +173,36 @@ function get_balance($accountNumber){
         }
     }
 }
+function close_account($ID){
+    if(is_logged_in()){
+    $db = getDB();
+    $query= "UPDATE Bank_Accounts set active = :false WHERE id = :id";
+    $stmt = $db->prepare($query);
+    try {
+        $stmt->execute([":false" => "false", ":id" => $ID]);
+        
+    } catch (PDOException $e) {
+        flash("Error refreshing account: " . var_export($e->errorInfo, true), "danger");
+    }
+    }
+}
+function find_partial_account($accountNumber){
+    if(is_logged_in()){
+        $query = "SELECT id FROM Bank_Accounts WHERE account LIKE :account LIMIT 1";
+        $db = getDB();
+        $stmt = $db->prepare($query);
+        try{
+            $stmt->execute([":account" => "%$accountNumber%"]);
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            if($result){
+                return $result["id"];
+            }
+            return "";
+        }catch (PDOException $e){
+            flash("Technical error: " . var_export($e->errorInfo, true), "danger");
+        }
+    }
+}
 function find_account($accountNumber){
     if(is_logged_in()){
         $query = "SELECT id FROM Bank_Accounts WHERE account = :account LIMIT 1";
@@ -243,8 +287,113 @@ function refresh_account_balance($accountID)
         }
     }
 }
+function update_APY(){
+    $query = "SELECT account, ID, created, balance, updated, active FROM Bank_Accounts where user_id = :ID AND account_type = :savings OR account_type = :loan AND active = :true";
+    
+    $db = getDB();
+    $stmt = $db->prepare($query);
+    try{
+        $stmt->execute([":ID" => get_user_id(), ":savings" => "savings", ":loan" => "loan", ":true" => "true"]);
+        $result = $stmt->fetchALL(PDO::FETCH_ASSOC);
+        $queryAPY = "SELECT APY from System_Properties WHERE APY = :APY";
+        $stmt = $db->prepare($queryAPY);
+        try{
+            $stmt->execute([":APY" => 1]);
+            $APY = $stmt->fetch(PDO::FETCH_ASSOC);
+            $APY = $APY["APY"];
+            $APY = $APY/1000;
+            //$date = date('Y-m-d H:i:s');
+            $date1 = date_create();
+            
+
+            foreach($result as $r){
+                $date2 = date_create($r["created"]);
+                $diff = date_diff($date2,$date1, true);
+                $offset = ceil($diff->d/30);
+                if($r["updated"] == NULL){
+                    if($offset%30 == 0 && $offset != 0){
+                        $interest = (($APY/12) * $r["balance"]/100)*100;
+                        transaction($interest, "transfer", -1, $r["ID"], "interest");
+                        //$updatedBalance = $interest + $r["balance"]*100;
+                        $query = "UPDATE Bank_Accounts set updated = :updated WHERE ID = :id";
+                        $db = getDB();
+                        $stmt = $db->prepare($query);
+                        try {
+                            $stmt->execute([":updated" => $date1->format('Y-m-d'), ":id" => $r["ID"]]);
+                        } catch (PDOException $e) {
+                            flash("Error refreshing account: " . var_export($e->errorInfo, true), "danger");
+                        }
+                    }
+                }else{
+                    $date3 = date_create($r["updated"]);
+                    $updatedDiff = date_diff($date3,$date1, true);
+                    if($updatedDiff->d != 0){
+                        if($offset%30 == 0 && $offset != 0){
+                            $interest = (($APY/12) * $r["balance"]/100)*100;
+                            transaction($interest, "transfer", -1, $r["ID"], "interest");
+                            //$updatedBalance = $interest + $r["balance"];
+                            $query = "UPDATE Bank_Accounts set updated = $date1 WHERE id = :id";
+                            $db = getDB();
+                            $stmt = $db->prepare($query);
+                            try {
+                                $stmt->execute([":id" => $r["id"]]);
+                                
+                            } catch (PDOException $e) {
+                                flash("Error refreshing account: " . var_export($e->errorInfo, true), "danger");
+                            }
+                    }
+                }
+                }
+                //echo var_export($offset);
+                //echo var_export($r["created"]);
+                
+                
+            }
+        }catch (PDOException $e) {
+            flash("Error refreshing account: " . var_export($e->errorInfo, true), "danger");
+        }
+    }catch (PDOException $e) {
+        flash("Error refreshing account: " . var_export($e->errorInfo, true), "danger");
+    }
+
+} 
+
+
+function frozen_check($ID){
+    $querycheck= "SELECT frozen from Bank_Accounts where id = :id";
+    $db = getDB();
+    $stmt = $db->prepare($querycheck);
+    $frozen = false;
+    try {
+        $stmt->execute([":id" => $ID]);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if($result["frozen"] == "true"){
+                $frozen = true;
+            }
+
+        return $frozen;
+    } catch (PDOException $e) {
+        flash("Transfer error occurred: " . var_export($e->errorInfo, true), "danger");
+    }   
+}
 function transaction($money, $typeTrans, $src = -1, $dest = -1, $memo = "")
-{
+{   
+    $querycheck= "SELECT frozen from Bank_Accounts where id = :src or id = :dest";
+    $db = getDB();
+    $stmt = $db->prepare($querycheck);
+    $frozen = false;
+    try {
+        $stmt->execute([":src" => $src, ":dest" => $dest]);
+        $result = $stmt->fetchALL(PDO::FETCH_ASSOC);
+        foreach($result as $r){
+            if($r["frozen"] == "true"){
+                $frozen = true;
+            }
+        }
+    } catch (PDOException $e) {
+        flash("Transfer error occurred: " . var_export($e->errorInfo, true), "danger");
+    }
     //I'm choosing to ignore the record of 0 point transactions
         $query = "INSERT INTO Bank_Account_Transactions (src, dest, diff, typeTrans, memo) 
             VALUES (:acs, :acd, :pc, :r,:m), 
@@ -259,26 +408,88 @@ function transaction($money, $typeTrans, $src = -1, $dest = -1, $memo = "")
         $params[":acs2"] = $dest;
         $params[":acd2"] = $src;
         $params[":pc2"] = $money *100;
-        $db = getDB();
-        $stmt = $db->prepare($query);
-        try {
-            $stmt->execute($params);
-            //Only refresh the balance of the user if the logged in user's account is part of the transfer
-            //this is needed so future features don't waste time/resources or potentially cause an error when a calculation
-            //occurs without a logged in user
-           
-                refresh_account_balance($dest);
-                refresh_account_balance($src);
-              //  refresh_system_balance();
-            
-        } catch (PDOException $e) {
-            flash("Transfer error occurred: " . var_export($e->errorInfo, true), "danger");
+        if(!$frozen){
+            $db = getDB();
+            $stmt = $db->prepare($query);
+            try {
+                $stmt->execute($params);
+                //Only refresh the balance of the user if the logged in user's account is part of the transfer
+                //this is needed so future features don't waste time/resources or potentially cause an error when a calculation
+                //occurs without a logged in user
+               
+                    refresh_account_balance($dest);
+                    refresh_account_balance($src);
+                    flash("Successful transaction", "success");
+                  //  refresh_system_balance();
+                
+            } catch (PDOException $e) {
+                flash("Transfer error occurred: " . var_export($e->errorInfo, true), "danger");
+            }
+        }else{
+            flash("Transaction cannot occur; Account[s] is/are frozen!", "warning");
         }
+
     
 }
 function get_random_str($length)
 {
     return substr(str_shuffle(str_repeat('0123456789abcdefghijklmnopqrstvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', 36)), 0, $length);
+}
+function create_account_admin($accountType, $user)
+{
+    if (is_logged_in()) {
+        //let's define our data structure first
+        //id is for internal references, account_number is user facing info, and balance will be a cached value of activity
+        $account = ["id" => -1, "account_number" => false, "balance" => 0];
+        //this should always be 0 or 1, but being safe
+        $query = "SELECT id, account, balance, account_type from Bank_Accounts where user_id = :uid LIMIT 1";
+        $db = getDB();
+        $stmt = $db->prepare($query);
+        try {
+            $stmt->execute([":uid" => $user]);
+            //$result = $stmt->fetch(PDO::FETCH_ASSOC);
+                //account doesn't exist, create it
+                $created = false;
+                //we're going to loop here in the off chance that there's a duplicate
+                //it shouldn't be too likely to occur with a length of 12, but it's still worth handling such a scenario
+
+                //you only need to prepare once
+                $query = "INSERT INTO Bank_Accounts (account, user_id, account_type) VALUES (:an, :uid, :at)";
+                $stmt = $db->prepare($query);
+                $user_id = get_user_id(); //caching a reference
+                $account_number = "";
+                while (!$created) {
+                    try {
+                        $account_number = get_random_str(12);
+                        $stmt->execute([":an" => $account_number, ":uid" => $user, ":at" => $accountType]);
+                        $created = true;
+                        //transaction($money, "deposit", -1, $account_number, ""); 
+                        //if we got here it was a success, let's exit
+                        
+                    } catch (PDOException $e) {
+                        $code = se($e->errorInfo, 0, "00000", false);
+                        //if it's a duplicate error, just let the loop happen
+                        //otherwise throw the error since it's likely something looping won't resolve
+                        //and we don't want to get stuck here forever
+                        if (
+                            $code !== "23000"
+                        ) {
+                            throw $e;
+                        }
+                    }
+                }
+                //loop exited, let's assign the new values
+                $account["id"] = $db->lastInsertId();
+                $account["account_number"] = $account_number;
+        } catch (PDOException $e) {
+            flash("Technical error: " . var_export($e->errorInfo, true), "danger");
+        }
+        $_SESSION["user"]["account"] = $account; //storing the account info as a key under the user session
+        //Note: if there's an error it'll initialize to the "empty" definition around line 161
+
+    } else {
+        flash("You're not logged in", "danger");
+    }
 }
 function get_or_create_account($accountType, $money)
 {
@@ -310,7 +521,12 @@ function get_or_create_account($accountType, $money)
                         $created = true;
                         //transaction($money, "deposit", -1, $account_number, ""); 
                         //if we got here it was a success, let's exit
-                        flash("Welcome! Your account has been created successfully", "success");
+                        if($accountType == "loan"){
+                            flash("Your loan account has been opened");
+                        }else{
+                            flash("Welcome! Your account has been created successfully", "success");
+                        }
+                        
                     } catch (PDOException $e) {
                         $code = se($e->errorInfo, 0, "00000", false);
                         //if it's a duplicate error, just let the loop happen
