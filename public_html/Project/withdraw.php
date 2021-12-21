@@ -4,10 +4,11 @@ require(__DIR__ . "/../../partials/nav.php");
 if(isset($_POST["save"])){
     $account = se($_POST, "account", null, false);
     $ID = find_account($account);
-    $query = "SELECT user_id from Bank_Accounts where id = :src";
+    $query = "SELECT user_id, account_type from Bank_Accounts where id = :src";
             $db = getDB();
             $stmt = $db->prepare($query);
             $belongsToUser = true;
+            $isLoan = false;
             try{
                 $stmt->execute([":src" => $ID]);
                 $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -19,6 +20,9 @@ if(isset($_POST["save"])){
                         if($r["user_id"] != $user_id){
                             $belongsToUser = false;
                             break;
+                        }elseif($r["account_type"] == "loan"){
+                            $isLoan = true;
+                            break;
                         }
                     }
                 }
@@ -27,6 +31,8 @@ if(isset($_POST["save"])){
             }
             if(!$belongsToUser){
                 flash("Please select accounts that belong to user", "warning");
+            }elseif($isLoan){
+                flash("Cannot withdraw from loan account", "warning");
             }else{
                 if(strlen($account)!=12){
                     flash("Please select an account", "warning");
@@ -69,7 +75,7 @@ try{
 <div class = "container-fluid">
 <?php if (is_logged_in()) : ?>
    <form onsubmit="return validate(this)" method="POST">
-
+    <br>
             <select class=" btn btn-dark form-select" name = "account">
                     <option selected> Select an account to withdraw from</option>
                 <?php foreach ($accounts as $account) : ?>
