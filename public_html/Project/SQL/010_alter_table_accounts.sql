@@ -7,3 +7,5 @@ MODIFY COLUMN balance BIGINT;
 
 ALTER TABLE Bank_Accounts
 ADD frozen varchar(15) DEFAULT 'false';
+ALTER TABLE Bank_Accounts
+Alter balance set default 0;

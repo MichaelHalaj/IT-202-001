@@ -38,19 +38,47 @@ if(isset($_POST["save"])){
     $accountID = se($_POST,"account","",false);
     if(strlen($accountID)!=12){
         flash("Please select an account", "warning");
+    }elseif($actual < 500){
+        flash("Enter a valid amount", "warning");
     }else{
         //echo var_export(frozen_check(find_account($accountID)));
-        if(frozen_check(find_account($accountID))){
+        $accountID = find_account($accountID);
+        if(frozen_check($accountID)){
             flash("Transaction cannot occur; Account[s] is/are frozen!", "warning");
         }else{
-            
-            get_or_create_account("loan", "");
-            //echo var_export(get_user_account_id());
-            //echo var_export($total);
-            //echo var_export($total *100);
-            transaction($total, "loan", -1, get_user_account_id(), "loan");
-            transaction($total, "loan", -1, find_account($accountID), "loan");
-            die(header('Location: user_accounts.php')); 
+            $query = "SELECT user_id from Bank_Accounts where id = :src";
+            $db = getDB();
+            $stmt = $db->prepare($query);
+            $belongsToUser = true;
+            try{
+                $stmt->execute([":src" => $accountID]);
+                $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                $user_id = get_user_id();
+            // echo var_export($result);
+                if($result){
+                    //echo var_export($result);
+                    foreach($result as $r){
+                        if($r["user_id"] != $user_id){
+                            $belongsToUser = false;
+                            break;
+                        }
+                    }
+                }
+            }catch (PDOException $e){
+                flash("Technical error: " . var_export($e->errorInfo, true), "danger");
+            }
+            if(!$belongsToUser){
+                flash("Please select accounts that belong to user", "warning");
+            }else{
+                get_or_create_account("loan", "");
+                //echo var_export(get_user_account_id());
+                //echo var_export($total);
+                //echo var_export($total *100);
+                transaction($total, "loan", -1, get_user_account_id(), "loan");
+                transaction($total, "loan", -1, $accountID, "loan");
+                die(header('Location: user_accounts.php')); 
+            }
+
         }
 
     }

@@ -17,7 +17,7 @@ if(is_logged_in()){
         if($Amount != ""){
            $Amount = round($Amount *100, 2);
         }
-        
+       
         //echo var_export($Amount);
       //  echo var_export($bal1);
         $db = getDB();
@@ -35,13 +35,37 @@ if(is_logged_in()){
                     flash("Must transfer exact amount in order to close account" , "warning");
                 }else{
                     //$id1 = find_account($account1);
+                    $query = "SELECT user_id from Bank_Accounts where id = :src";
+                    $db = getDB();
+                    $stmt = $db->prepare($query);
+                    $belongsToUser = true;
+                    try{
+                        $stmt->execute([":src" => $ac1ID]);
+                        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                        $user_id = get_user_id();
+                       // echo var_export($result);
+                        if($result){
+                            //echo var_export($result);
+                            foreach($result as $r){
+                                if($r["user_id"] != $user_id){
+                                    $belongsToUser = false;
+                                    break;
+                                }
+                            }
+                        }
+                    }catch (PDOException $e){
+                        flash("Technical error: " . var_export($e->errorInfo, true), "danger");
+                    }
+                    if(!$belongsToUser){
+                        flash("Please select accounts that belong to user", "warning");
+                    }else{
                    if(frozen_check($ac1ID)){
                     flash("Transaction cannot occur; Account[s] is/are frozen!", "warning");
                    }else{
                     transaction($Amount/100, "withdraw", $ac1ID, -1, "withdraw and close");
                     close_account($ac1ID);
                    }
-
+                }
                 }
             }
         }elseif($accountType1 === "loan"){
@@ -61,15 +85,40 @@ if(is_logged_in()){
                     }elseif($bal1 - $Amount != 0){
                         flash("Must transfer exact amount in order to close account" , "warning");
                     }else{
-                        
-                        if(frozen_check($ac2ID) || frozen_check($ac1ID)){
-                            flash("Transaction cannot occur; Account[s] is/are frozen!", "warning");
-
-                        }else{
-                            transaction($Amount/100, "transfer", $ac2ID, -1, "transfer and close");
-                            transaction($Amount/100, "transfer", $ac1ID, -1, "transfer and close");
-                            close_account($ac1ID);
+                        $query = "SELECT user_id from Bank_Accounts where id = :src or id = :src2";
+                        $db = getDB();
+                        $stmt = $db->prepare($query);
+                        $belongsToUser = true;
+                        try{
+                            $stmt->execute([":src" => $ac1ID, ":src2" => $ac2ID]);
+                            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                            $user_id = get_user_id();
+                           // echo var_export($result);
+                            if($result){
+                                //echo var_export($result);
+                                foreach($result as $r){
+                                    if($r["user_id"] != $user_id){
+                                        $belongsToUser = false;
+                                        break;
+                                    }
+                                }
+                            }
+                        }catch (PDOException $e){
+                            flash("Technical error: " . var_export($e->errorInfo, true), "danger");
                         }
+                        if(!$belongsToUser){
+                            flash("Please select accounts that belong to user", "warning");
+                        }else{
+                            if(frozen_check($ac2ID) || frozen_check($ac1ID)){
+                                flash("Transaction cannot occur; Account[s] is/are frozen!", "warning");
+    
+                            }else{
+                                transaction($Amount/100, "transfer", $ac2ID, -1, "transfer and close");
+                                transaction($Amount/100, "transfer", $ac1ID, -1, "transfer and close");
+                                close_account($ac1ID);
+                            }
+                        }
+
 
                     }
                 }
