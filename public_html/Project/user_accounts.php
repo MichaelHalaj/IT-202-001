@@ -139,7 +139,7 @@ $queryAPY = "SELECT APY from System_Properties WHERE APY = :APY";
         console.log(accounts[d]["account_type"]);
         let u = y.innerHTML;
         er = accounts[d]["account_type"];
-        if(er === "savings"){
+        if(er === "savings" || er == "loan"){
             y.innerHTML = (a/10) + "%";
         }else{
             y.innerHTML = "-";
