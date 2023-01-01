@@ -56,3 +56,11 @@ body{
     display: flex;
     justify-content: center;
 }
+table{
+    background-color: rgba(0,0,0,.2);
+    border-radius: 8px;
+}
+th,
+tr{
+    color: black;
+}
