@@ -16,29 +16,69 @@ if (is_logged_in()) {
         <?php endif; ?>
     <div class = "col">
         <?php if (is_logged_in()) : ?>
-            <div class="card" style="width: 18rem;">
+            <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">Account Creation</h5>
                     <p class="card-text">Create a savings or checking account with our streamlined process.</p>
                     <a class="btn btn-dark" href="<?php echo get_url('account.php'); ?>" role="button">Create Account</a>
                 </div>
             </div>
-            <div class="card" style="width: 18rem;">
+            <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">See Accounts</h5>
                     <p class="card-text">View all your accounts' balances and transaction history.</p>
                     <a class="btn btn-dark" href="<?php echo get_url('user_accounts.php'); ?>" role="button">My Accounts</a>
                 </div>
             </div>
-    
-            
-            <a class="btn btn-dark" href="<?php echo get_url('deposit.php'); ?>" role="button" role="button">Deposit</a>
-            <a class="btn btn-dark" href="<?php echo get_url('withdraw.php'); ?>" role="button">Withdraw</a>
-            <a class="btn btn-dark" href="<?php echo get_url('transfer.php'); ?>" role="button">Transfer</a>
-            <a class="btn btn-dark" href="<?php echo get_url('transferfunds.php'); ?>" role="button">Transfer Funds To Another User</a>
-            <a class="btn btn-dark" href="<?php echo get_url('loan.php'); ?>" role="button">Loan</a>
-            <a class="btn btn-dark" href="<?php echo get_url('close.php'); ?>" role="button">Close Account</a>
-            <a class="btn btn-dark" href="<?php echo get_url('profile.php'); ?>" role="button">Profile</a>
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Deposit Funds</h5>
+                    <p class="card-text">Deposit funds into any of your accounts.</p>
+                    <a class="btn btn-dark" href="<?php echo get_url('deposit.php'); ?>" role="button" role="button">Deposit</a>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Withdraw Funds</h5>
+                    <p class="card-text">Withdraw funds from any of your accounts.</p>
+                    <a class="btn btn-dark" href="<?php echo get_url('withdraw.php'); ?>" role="button">Withdraw</a>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Transfer Locally</h5>
+                    <p class="card-text">Transfer funds from one of your accounts to another.</p>
+                    <a class="btn btn-dark" href="<?php echo get_url('transfer.php'); ?>" role="button">Transfer</a>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Transfer to Others</h5>
+                    <p class="card-text">Transfer funds from one of your accounts to another user's account.</p>
+                    <a class="btn btn-dark" href="<?php echo get_url('transferfunds.php'); ?>" role="button">Transfer</a>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Loan</h5>
+                    <p class="card-text">Take advantage of our loans.</p>
+                    <a class="btn btn-dark" href="<?php echo get_url('loan.php'); ?>" role="button">Loan</a>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Close Accounts</h5>
+                    <p class="card-text">Close any of your eligible accounts.</p>
+                    <a class="btn btn-dark" href="<?php echo get_url('close.php'); ?>" role="button">Close Account</a>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Manage Profile</h5>
+                    <p class="card-text">View & Manage your profile.</p>
+                    <a class="btn btn-dark" href="<?php echo get_url('profile.php'); ?>" role="button">Profile</a>
+                </div>
+            </div>
         <?php endif; ?>
     </div>
 </div>

@@ -29,20 +29,22 @@ nav li a{
 }
 /*input{border-radius: 50%;} */
 body{
-    background-color: rgb(112, 109, 109);
-    color: rgb(255, 255, 255);
+    background-color: rgb(255, 255, 255);
+    color: rgb(58, 58, 58);
     font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     font-family: 'Zilla Slab', serif;
 }
 
 .col{
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
     flex-wrap: wrap;
     gap: 18px;
 }
 
 .card{
-    background: linear-gradient(0deg, rgb(255, 255, 255), rgb(131, 131, 131));
+    background: linear-gradient(0deg, rgb(2, 91, 107), rgb(5, 174, 247));
     color: black;
     box-shadow: 10px 5px 5px rgb(62, 62, 62);
 }
