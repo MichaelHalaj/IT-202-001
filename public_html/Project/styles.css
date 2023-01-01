@@ -29,7 +29,7 @@ nav li a{
 }
 /*input{border-radius: 50%;} */
 body{
-    background-color: rgb(255, 255, 255);
+    background: linear-gradient(180deg, purple, orange);
     color: rgb(58, 58, 58);
     font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     font-family: 'Zilla Slab', serif;
@@ -37,6 +37,10 @@ body{
 
 .col{
     display: grid;
+    background-color: rgba(0,0,0,0.3);
+    margin: 16px;
+    padding: 16px;
+    border-radius: 16px;
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(3, 1fr);
     flex-wrap: wrap;
@@ -44,7 +48,7 @@ body{
 }
 
 .card{
-    background: linear-gradient(0deg, rgb(2, 91, 107), rgb(5, 174, 247));
+    background-color: rgb(207, 207, 207);
     color: black;
     box-shadow: 10px 5px 5px rgb(62, 62, 62);
 }

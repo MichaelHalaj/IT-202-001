@@ -14,8 +14,9 @@ if (is_logged_in()) {
 <?php if (is_logged_in()) : ?>
         <h1>Welcome home, <?php echo get_username(); ?> </h1>
         <?php endif; ?>
-    <div class = "col">
+    
         <?php if (is_logged_in()) : ?>
+            <div class = "col">
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">Account Creation</h5>
@@ -74,13 +75,15 @@ if (is_logged_in()) {
             </div>
             <div class="card">
                 <div class="card-body">
+                    <img src="..." alt="...">
                     <h5 class="card-title">Manage Profile</h5>
                     <p class="card-text">View & Manage your profile.</p>
                     <a class="btn btn-dark" href="<?php echo get_url('profile.php'); ?>" role="button">Profile</a>
                 </div>
             </div>
+            </div>
         <?php endif; ?>
-    </div>
+    
 </div>
 
 <?php
