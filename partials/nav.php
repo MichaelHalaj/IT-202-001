@@ -38,9 +38,19 @@ require_once(__DIR__ . "/../lib/functions.php");
         <div class="collapse navbar-collapse" id="navContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <?php if (is_logged_in()) : ?>
+                    <li class="nav-item"><a class="nav-link" href="<?php echo get_url('account.php'); ?>">Create Account</a></li>
+                    <li class="nav-item"><a class="nav-link" href="<?php echo get_url('user_accounts.php'); ?>">My Accounts</a></li>
+                    <li class="nav-item"><a class="nav-link" href="<?php echo get_url('deposit.php'); ?>">Deposit</a></li>
+                    <li class="nav-item"><a class="nav-link" href="<?php echo get_url('withdraw.php'); ?>">Withdraw</a></li>
+                    <li class="nav-item"><a class="nav-link" href="<?php echo get_url('transfer.php'); ?>">Transfer</a></li>
+                    <li class="nav-item"><a class="nav-link" href="<?php echo get_url('transferfunds.php'); ?>">Wire Transfer</a></li>
+                    <li class="nav-item"><a class="nav-link" href="<?php echo get_url('loan.php'); ?>">Loan</a></li>
+                    <li class="nav-item"><a class="nav-link" href="<?php echo get_url('close.php'); ?>">Close Accounts</a></li>
+
 
                     <li class="nav-item"><a class="nav-link" href="<?php echo get_url('profile.php'); ?>">Profile</a></li>
-                <?php endif; ?>
+                    
+                    <?php endif; ?>
                 <?php if (!is_logged_in()) : ?>
                     <li class="nav-item"><a class="nav-link" href="<?php echo get_url('login.php'); ?>">Login</a></li>
                     <li class="nav-item"><a class="nav-link" href="<?php echo get_url('register.php'); ?>">Register</a></li>

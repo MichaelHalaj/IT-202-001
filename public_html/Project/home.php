@@ -12,7 +12,7 @@ if (is_logged_in()) {
 ?>
 <div class = "container-fluid">
 <?php if (is_logged_in()) : ?>
-        <h1>Welcome home, <?php echo get_username(); ?> </h1>
+        <h1 class="welcome">Welcome home, <?php echo get_username(); ?> </h1>
         <?php endif; ?>
     
         <?php if (is_logged_in()) : ?>

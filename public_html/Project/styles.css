@@ -48,7 +48,11 @@ body{
 }
 
 .card{
-    background-color: rgb(207, 207, 207);
+    background-color: rgb(255, 167, 167);
     color: black;
     box-shadow: 10px 5px 5px rgb(62, 62, 62);
+}
+.welcome{
+    display: flex;
+    justify-content: center;
 }
