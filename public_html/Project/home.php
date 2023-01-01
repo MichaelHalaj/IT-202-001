@@ -16,8 +16,22 @@ if (is_logged_in()) {
         <?php endif; ?>
     <div class = "col">
         <?php if (is_logged_in()) : ?>
-            <a class="btn btn-dark" href="<?php echo get_url('account.php'); ?>" role="button">Create Account</a>
-            <a class="btn btn-dark" href="<?php echo get_url('user_accounts.php'); ?>" role="button">My Accounts</a>
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title">Account Creation</h5>
+                    <p class="card-text">Create a savings or checking account with our streamlined process.</p>
+                    <a class="btn btn-dark" href="<?php echo get_url('account.php'); ?>" role="button">Create Account</a>
+                </div>
+            </div>
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title">See Accounts</h5>
+                    <p class="card-text">View all your accounts' balances and transaction history.</p>
+                    <a class="btn btn-dark" href="<?php echo get_url('user_accounts.php'); ?>" role="button">My Accounts</a>
+                </div>
+            </div>
+    
+            
             <a class="btn btn-dark" href="<?php echo get_url('deposit.php'); ?>" role="button" role="button">Deposit</a>
             <a class="btn btn-dark" href="<?php echo get_url('withdraw.php'); ?>" role="button">Withdraw</a>
             <a class="btn btn-dark" href="<?php echo get_url('transfer.php'); ?>" role="button">Transfer</a>
